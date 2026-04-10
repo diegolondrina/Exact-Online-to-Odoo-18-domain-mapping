@@ -1,5 +1,72 @@
 # Exact Online to Odoo 18 Migration Mapping
 
+> **New to the project?** Jump to [Getting Started](#getting-started) for clone, install, and first-run instructions. The numbered sections below are the workflow reference.
+
+## Contents
+
+1. [**Purpose**](#1-purpose) — what this project produces and who drives it.
+2. [**Claude Code and skills**](#2-claude-code-and-skills) — the tooling the workflow runs on and why it is structured this way.
+3. [**Pipeline at a glance**](#3-pipeline-at-a-glance) — the three artifact stages a domain batch passes through.
+4. [**Project layout**](#4-project-layout) — annotated directory tree.
+5. [**Classification system**](#5-classification-system) — the five categories every Exact field is sorted into.
+6. [**Non-negotiable rules**](#6-non-negotiable-rules) — the rules that hold for every mapping.
+7. [**Extracting metadata**](#7-extracting-metadata) — how to pull the source and target field lists from each system.
+8. [**The four skills**](#8-the-four-skills) — when each skill runs, what it expects, what it produces.
+9. [**End-to-end walkthrough**](#9-end-to-end-walkthrough) — one complete domain batch from start to finish.
+10. [**Reference material**](#10-reference-material) — the standing defaults the `/map` skill applies.
+11. [**Dependency tracking across batches**](#11-dependency-tracking-across-batches) — how cross-domain dependencies are recorded.
+12. [**Quality checklist**](#12-quality-checklist) — the full list `/quality-gate` enforces.
+13. [**Output specification**](#13-output-specification) — the shape of the final xlsx deliverable.
+
+Sections 1–8 cover what the project is and how the pieces fit together; read them if you want to understand the workflow before using it. If you already have context and just want to drive the tool, jump straight to the [walkthrough](#9-end-to-end-walkthrough) — sections 10–13 are reference material you can consult on demand.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- **Python 3.10+** with `pip` on your `PATH`.
+- **Claude Code** — Anthropic's agentic CLI. Install via the [official quickstart](https://docs.claude.com/en/docs/claude-code/quickstart).
+- **Git**.
+
+### First-time setup
+
+```bash
+git clone <this-repo-url>
+cd Exact-Online-to-Odoo-18-domain-mapping
+pip install -r requirements.txt
+```
+
+The three Python dependencies (`openpyxl`, `requests`, `beautifulsoup4`) back the two delivery scripts and the Exact metadata scraper. Nothing else needs to be installed.
+
+### Running Claude Code in this project
+
+> **Critical:** Claude Code must be started *from inside the project directory*. `CLAUDE.md`, the four skills under `.claude/skills/`, and the environment-check hook all live under this folder. If you run `claude` from anywhere else, none of the project-specific behavior loads — Claude will have no idea this project exists, and the slash commands (`/new-domain`, `/map`, `/quality-gate`, `/deliver`) will not be available.
+
+```bash
+# from inside the cloned repo:
+claude
+```
+
+On every session start, a `SessionStart` hook runs `scripts/check_env.py` and feeds the result into the conversation as context. The LLM will greet you with either a green "Environment check: OK" summary or a specific list of problems (missing package, missing directory, wrong working directory) before you touch a skill. This means you find out about setup issues on turn one, not four steps into `/deliver`.
+
+You can also run the check manually at any time:
+
+```bash
+python scripts/check_env.py
+```
+
+### Your first session
+
+Once the environment check passes, try a natural-language prompt such as:
+
+> "Let's start mapping the Subscriptions domain."
+
+Claude will match that intent to the `/new-domain` skill and begin the scoping procedure. For the full narrative of one complete domain batch, read the [end-to-end walkthrough](#9-end-to-end-walkthrough).
+
+---
+
 ## 1. Purpose
 
 This project produces field-level mapping specifications between Exact Online and Odoo 18 — the blueprint a migration engineer follows when actually moving data between the two systems. The deliverable for each batch is an Excel workbook: one sheet per Exact-to-Odoo table pair, with every source field classified, every target field identified, and every decision explained in the Notes.
@@ -24,7 +91,9 @@ Two pieces of Claude Code carry this project's structure: **`CLAUDE.md`** and **
 
 ### Skills — phase-specific procedures, loaded on demand
 
-A **skill** is a folder under `.claude/skills/` containing a `SKILL.md` file and optionally bundled reference files, examples, or scripts. The `SKILL.md` has YAML frontmatter (a `name` and a `description`) followed by the procedure the LLM should follow when the skill is invoked. You invoke a skill by typing `/skill-name` in the chat, the same way you would type a built-in slash command — for this project, that means `/new-domain`, `/map`, `/quality-gate`, and `/deliver`.
+A **skill** is a folder under `.claude/skills/` containing a `SKILL.md` file and optionally bundled reference files, examples, or scripts. The `SKILL.md` has YAML frontmatter (a `name` and a `description`) followed by the procedure the LLM should follow when the skill is invoked. For this project, the four skills are `/new-domain`, `/map`, `/quality-gate`, and `/deliver`.
+
+Skills can be invoked two ways. The direct way is to type the slash command — `/map subscriptions`. The other way, and often the more useful one in practice, is to describe what you want in natural language: *"let's map the Subscriptions domain"*. The LLM reads every skill's `description` as standing context, matches your intent against the available skills, and loads the right one. Natural-language invocation lets you front-load nuance — business context, caveats, a particular concern — before the skill's procedure kicks in, and that extra context is available to the skill as it runs. The slash command is direct; natural language is flexible. Both are first-class.
 
 Two properties of skills make them well-suited to this workflow:
 
@@ -40,10 +109,10 @@ The split between `CLAUDE.md` and skills mirrors the split between **rules that 
 | Lives in | Loaded | Holds |
 |---|---|---|
 | `CLAUDE.md` | Every turn, every session | Role, classification system, non-negotiable rules |
-| `.claude/skills/new-domain/` | When you type `/new-domain` | Domain scoping procedure |
-| `.claude/skills/map/` + reference files | When you type `/map` | Mapping procedure + standing defaults + worked example |
-| `.claude/skills/quality-gate/` | When you type `/quality-gate` | Pre-delivery checklist |
-| `.claude/skills/deliver/` | When you type `/deliver` | Workbook generation procedure |
+| `.claude/skills/new-domain/` | When `/new-domain` is invoked | Domain scoping procedure |
+| `.claude/skills/map/` + reference files | When `/map` is invoked | Mapping procedure + standing defaults + worked example |
+| `.claude/skills/quality-gate/` | When `/quality-gate` is invoked | Pre-delivery checklist |
+| `.claude/skills/deliver/` | When `/deliver` is invoked | Workbook generation procedure |
 
 The four skills are four chapters of a playbook. The LLM is not handed the whole playbook at once; it is handed the chapter that matches the phase you are in. This keeps each phase focused, makes it easy to see what the LLM is and is not supposed to be doing, and means the procedure for any phase can be revised in a single file without touching the others.
 
@@ -65,7 +134,7 @@ Mapping data flows through three artifact stages:
  (you provide)          (LLM writes)                 (scripts generate + format)
 ```
 
-1. **Metadata CSVs** — the raw field lists for each Exact table and each Odoo model in scope. You extract these once per table and drop them in `/metadata/exact/` and `/metadata/odoo/`. They are inputs: the LLM reads them but never writes them.
+1. **Metadata CSVs** — the field catalogues for each Exact table and each Odoo model in scope. More than just names and types: each Exact row carries the API description of the field (its business meaning), and each Odoo row carries the field label, the help text, the related model for relational fields, and dependency information for computed fields. This is what lets the LLM reason about semantic equivalence rather than guessing from field names alone. You extract these once per table and drop them in `/metadata/exact/` and `/metadata/odoo/`. They are inputs: the LLM reads them but never writes them.
 2. **Mapping CSVs** — the source of truth for a domain's mapping. One CSV per Exact-to-Odoo table pair, written by the LLM during `/map`. Plain text, human-editable, diffable, and the thing you review.
 3. **The formatted xlsx** — the deliverable. Generated from the mapping CSVs by two Python scripts (`generate_workbook.py` then `format_workbooks.py`). You never hand-edit the xlsx; if something needs to change, edit the CSV and regenerate.
 
@@ -76,21 +145,26 @@ Keeping the CSV as the source of truth means every change is a clean text diff, 
 ## 4. Project layout
 
 ```
-claude_project/
+Exact-Online-to-Odoo-18-domain-mapping/
 ├── CLAUDE.md                        Always-loaded project instructions: role,
 │                                    classification system, non-negotiable rules.
 ├── README.md                        This document.
-├── .claude/skills/
-│   ├── new-domain/SKILL.md          Phase 1: scope a new domain batch.
-│   ├── map/
-│   │   ├── SKILL.md                 Phase 2: field-level classification.
-│   │   ├── examples/worked-example.md
-│   │   └── reference/               Type conversions, Exact patterns,
-│   │                                Odoo skip patterns.
-│   ├── quality-gate/SKILL.md        Phase 3: pre-delivery checklist.
-│   └── deliver/
-│       ├── SKILL.md                 Phase 4: workbook generation.
-│       └── spec/output-spec.md
+├── requirements.txt                 Python dependencies for the delivery scripts
+│                                    and the Exact metadata scraper.
+├── .claude/
+│   ├── settings.json                SessionStart hook that runs the env check
+│   │                                on every new session (committed).
+│   └── skills/
+│       ├── new-domain/SKILL.md      Phase 1: scope a new domain batch.
+│       ├── map/
+│       │   ├── SKILL.md             Phase 2: field-level classification.
+│       │   ├── examples/worked-example.md
+│       │   └── reference/           Type conversions, Exact patterns,
+│       │                            Odoo skip patterns.
+│       ├── quality-gate/SKILL.md    Phase 3: pre-delivery checklist.
+│       └── deliver/
+│           ├── SKILL.md             Phase 4: workbook generation.
+│           └── spec/output-spec.md
 ├── metadata/
 │   ├── exact/                       Source metadata CSVs, one per Exact endpoint.
 │   └── odoo/                        Target metadata CSVs, one per Odoo model.
@@ -99,6 +173,9 @@ claude_project/
 │   └── {domain}_mapping.xlsx        Generated deliverable per domain.
 ├── references/
 │   └── dependency-tracker.md        Living cross-batch ledger.
+├── scripts/
+│   └── check_env.py                 Verifies Python deps + project structure.
+│                                    Run manually or via the SessionStart hook.
 ├── generate_workbook.py             CSVs → xlsx (sheets + Legend).
 ├── format_workbooks.py              Applies colors, fonts, borders,
 │                                    freeze panes, auto-filter.
@@ -274,9 +351,7 @@ Tell the LLM what you want to work on. This can be as brief or as detailed as is
 
 > "We are going to work on the Subscriptions domain. You know what to do."
 
-Or, if you want to front-load context that will shape the research:
-
-> "We are going to map the Subscriptions domain. In this company, subscriptions are recurring SaaS billing contracts — fixed monthly amounts, invoiced on the 1st of each month. There are no usage-based lines. Let's get started."
+You can also front-load context to shape the research.
 
 The LLM recognizes the intent, loads the `/new-domain` skill, and begins domain research without waiting for further prompting. It establishes how each system models the domain — in this case surfacing the core architectural asymmetry: Exact exposes subscriptions as a standalone entity (`Subscriptions`, `SubscriptionTypes`, `SubscriptionLines`), while Odoo implements them as `sale.order` rows with `is_subscription=True`, a recurring plan on `sale.subscription.plan`, and close reasons on `sale.order.close.reason`.
 
@@ -321,7 +396,7 @@ Expect the LLM to:
 - Flag references to unmapped tables and log them in `references/dependency-tracker.md` — for example, `LogisticsItems` surfacing as a dependency for the line-level `product_id`.
 - Ask you to extract metadata for any new dependency tables not in the initial scope, in which case you loop back to Step 3 for those files.
 
-Review as the mapping is produced. This is the point to push back hardest. The LLM's first guess at a classification is usually defensible, but judgment calls — such as whether a subscription configuration field maps to a native Odoo plan attribute or warrants a custom field — benefit from your context.
+Review as the mapping is produced. This is the point to push back hardest. The LLM's classifications are well-informed — the reference patterns, metadata descriptions, and domain research all feed into them — but judgment calls, such as whether a subscription configuration field maps to a native Odoo plan attribute or warrants a custom field, still benefit from your context about how the data is actually used.
 
 When you are satisfied with the content of the CSVs in `mappings/data/subscriptions/`, say so and move on.
 
@@ -361,6 +436,15 @@ If the dependency tracker has new pending entries, decide for each: **map now** 
 ### After the batch
 
 The deliverable (`mappings/subscriptions_mapping.xlsx`) is the output you hand off. The mapping CSVs (`mappings/data/subscriptions/*.csv`) remain as the source of truth — if anything needs to change later, edit the CSVs and re-run `/deliver`. Never hand-edit the xlsx.
+
+The intended consumer of this output is a migration script — the actual process that reads data from Exact, transforms and loads it into Odoo. The mapping workbook is its specification: Direct fields tell it which source column maps to which target column; Relational fields tell it which foreign key lookups are needed and which already-migrated table to resolve against; Derived fields document the constants, defaults, or conditional logic the script must apply where Exact has no source; Skip fields are explicitly accounted for so nothing is missed by accident. The Notes column carries the reasoning behind each decision, and the dependency tracker provides the batch execution order — which tables must be loaded before which.
+
+Beyond the column assignments, the workflow produces understanding — of the domain, the architectural asymmetries between the two systems, and the reasoning behind each mapping decision. The goal is for as much of that understanding as possible to be baked into the Notes column itself, so the workbook is self-explanatory to someone who was not in the room. The conversation that produced it is a fallback: if a decision is unclear or a question arises during implementation that the Notes do not fully answer, that conversation is available to revisit for the fuller context.
+
+
+---
+
+**A note on the example prompts.** The natural-language prompts shown above (*"you know what to do"*, *"Metadata is in place"*, *"Run the quality gate"*, *"Looks good, deliver it"*) are illustrative, not a fixed script. The LLM matches intent, not exact wording — any phrasing that unambiguously points at the next phase will work, and if you prefer the direct route you can always type the slash command instead. The walkthrough above is the happy path; once you know what you are doing, the order and wording are yours.
 
 ---
 
