@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 """Environment check for the Exact Online -> Odoo 18 mapping project.
 
-This runs at session start via the SessionStart hook configured in
-`.claude/settings.json`, and can also be invoked manually:
+Run manually to verify the environment before starting work:
 
-    python scripts/check_env.py
+    python check_env.py
 
 The check is purely informational: it reports problems but never blocks
-the session. Claude reads the output on the first turn and can proactively
-warn the user about missing prerequisites before they try to run a skill
-that would otherwise fail halfway through.
+any workflow.
 """
 
 from __future__ import annotations
@@ -81,7 +78,7 @@ def main() -> int:
 
     bar = "=" * 60
     print(bar)
-    print("Exact Online -> Odoo 18 mapping project")
+    print("Exact Online to Odoo 18 mapping project")
     print(f"Project root: {root}")
     print(f"Python:       {sys.version.split()[0]}")
     print(bar)

@@ -49,13 +49,13 @@ The three Python dependencies (`openpyxl`, `requests`, `beautifulsoup4`) back th
 claude
 ```
 
-On every session start, a `SessionStart` hook runs `scripts/check_env.py` and feeds the result into the conversation as context. The LLM will greet you with either a green "Environment check: OK" summary or a specific list of problems (missing package, missing directory, wrong working directory) before you touch a skill. This means you find out about setup issues on turn one, not four steps into `/deliver`.
-
-You can also run the check manually at any time:
+To verify your environment at any time, run the check script manually:
 
 ```bash
-python scripts/check_env.py
+python check_env.py
 ```
+
+It reports either a green "Environment check: OK" summary or a specific list of problems (missing package, missing directory, wrong working directory).
 
 ### Your first session
 
@@ -152,8 +152,7 @@ Exact-Online-to-Odoo-18-domain-mapping/
 ├── requirements.txt                 Python dependencies for the delivery scripts
 │                                    and the Exact metadata scraper.
 ├── .claude/
-│   ├── settings.json                SessionStart hook that runs the env check
-│   │                                on every new session (committed).
+│   ├── settings.json                Claude Code project settings (committed).
 │   └── skills/
 │       ├── new-domain/SKILL.md      Phase 1: scope a new domain batch.
 │       ├── map/
@@ -173,9 +172,8 @@ Exact-Online-to-Odoo-18-domain-mapping/
 │   └── {domain}_mapping.xlsx        Generated deliverable per domain.
 ├── references/
 │   └── dependency-tracker.md        Living cross-batch ledger.
-├── scripts/
-│   └── check_env.py                 Verifies Python deps + project structure.
-│                                    Run manually or via the SessionStart hook.
+├── check_env.py                     Verifies Python deps + project structure.
+│                                    Run manually: python check_env.py
 ├── generate_workbook.py             CSVs → xlsx (sheets + Legend).
 ├── format_workbooks.py              Applies colors, fonts, borders,
 │                                    freeze panes, auto-filter.
