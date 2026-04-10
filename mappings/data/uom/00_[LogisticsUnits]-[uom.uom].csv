@@ -1,0 +1,12 @@
+Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Notes
+ID,Edm.Guid,Custom,x_aa_exact_id,char,uom.uom,Always preserve Exact primary key. Needed for resolving Items.Unit → uom.uom during product migration.
+Active,Edm.Boolean,Direct,active,boolean,uom.uom,Direct mapping. Both control visibility/archival of the unit.
+Code,Edm.String,Custom,x_aa_code,char,uom.uom,"Short unit code (e.g. ""PC"", ""KG""). Odoo has no separate code field on uom.uom. Preserve for lookup resolution — Items.Unit references this code to resolve the UoM relationship."
+Description,Edm.String,Direct,name,char,uom.uom,"Human-readable unit name → Odoo UoM display name (e.g. ""Piece"", ""Kilogram"", ""Hour"")."
+Division,Edm.Int32,Skip,—,—,—,"Odoo UoMs are global — uom.uom has no company_id field. Division is irrelevant. If multiple divisions define the same unit code, deduplicate before import."
+Main,Edm.Byte,Custom,x_aa_main,boolean,uom.uom,Indicates the reference unit per division (Main=1). Informs uom_type derivation: Main=1 → uom_type='reference'. Stored for audit trail.
+TimeUnit,Edm.String,Custom,x_aa_time_unit,char,uom.uom,"Time frame subtype: yy=Year, mm=Month, wk=Week, dd=Day, hh=Hour, mi=Minute, ss=Second. Only meaningful when Type='T'. Odoo models each time unit as a separate uom.uom record within the Working Time category — this field aids matching."
+Type,Edm.String,Relational,category_id,many2one → uom.category,uom.uom,"Map Exact unit type to Odoo UoM category: T→Working Time, W→Weight, V→Volume, L→Length, O→Unit, A→Unit (no standard Area category in Odoo — create one or fold into Unit). Verify target categories exist before import."
+—,—,Derived,uom_type,selection,uom.uom,"Reference, bigger, or smaller relative to the category's reference unit. Derive: Main=1 → 'reference'; others → 'bigger' or 'smaller' based on factor. Each uom.category must have exactly one reference unit."
+—,—,Derived,factor,float,uom.uom,"Conversion ratio: 1 × (reference unit) = factor × (this unit). For reference units: factor=1.0. For non-reference units, must be manually determined (e.g. dozen: factor=0.08333 in Unit category). Exact does not store conversion ratios."
+—,—,Derived,rounding,float,uom.uom,Rounding precision for computed quantities. Default: 0.01. For indivisible units (pieces): 1.0. For weight/volume: 0.001. Must be configured per unit during migration.

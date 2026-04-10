@@ -1,0 +1,35 @@
+Name,Type,Description
+ID,Edm.Guid,Primary key
+AutomaticGenerateInvoiceDays,Edm.Int16,Number of days before or after generating the subscription invoice. Company settings and automatic generate invoice type need to be enabled before subscription invoice generated automatically
+AutomaticGenerateInvoiceDescription,Edm.String,Description of the automatic generated invoice
+AutomaticGenerateInvoiceType,Edm.Int16,"Type of automatic generate invoice: 1=Never, 2=Before the subscription period, 3=After the subscription period. Company settings need to be enabled before subscription invoice generated automatically"
+AutomaticSendInvoiceDays,Edm.Int16,Number of days after sending the subscription invoice. Company settings and automatic sending invoice type need to be enabled before subscription invoice sent automatically
+AutomaticSendInvoiceMethod,Edm.Int16,"Method of automatic send invoice: 1=Send based on account, 2=Send via email, 3=Create documents, 4=Send via digital postbox, 5=Send and track, 6=Send via peppol. Company settings need to be enabled before subscription invoice sent automatically"
+AutomaticSendInvoiceSender,Edm.Int16,"Sender's email of automatic send invoice: 1=Company email address, 2=Main user email address. Company settings need to be enabled before subscription invoice sent automatically"
+AutomaticSendInvoiceSenderMailbox,Edm.Guid,ID of automatic send invoice sender's mailbox. Company settings need to be enabled before subscription invoice sent automatically
+AutomaticSendInvoiceType,Edm.Int16,"Type of automatic send invoice: 1=Never, 2=When available. Company settings need to be enabled before subscription invoice sent automatically"
+CancellationPeriod,Edm.Int16,Cancellation period of subscription type
+CancellationPeriodUnit,Edm.String,"Unit of cancellation period: wk=Week, mm=Month, yy=Year, hy=Half-year, qt=Quarter"
+Code,Edm.String,Code
+Created,Edm.DateTime,Date and time when the subscription type was created
+Creator,Edm.Guid,ID of user that created the subscription type
+CreatorFullName,Edm.String,Full name of user that created the subscription type
+CustomField,Edm.String,Custom field endpoint. Provided only for the Exact Online Premium users.
+Description,Edm.String,Description of subscription type
+Division,Edm.Int32,Division code
+EnablePaymentLink,Edm.Int16,"Enable payment link: 0=Never, 1=Always, 2=Based on account"
+InvoiceCorrectionMethod,Edm.Int16,"Invoice correction method: 1=Ratio based, 2=Zero Invoice, 3=Never invoiced"
+InvoicePeriod,Edm.Int16,Invoice period of subscription type
+InvoicePeriodUnit,Edm.String,"Unit of invoice period: wk=Week, mm=Month, yy=Year, hy=Half-year, qt=Quarter"
+ManualRenewalMethod,Edm.Int16,"Manual renewal method: 1=Use item prices, 2=Use current subscription prices"
+Modified,Edm.DateTime,Last modified date of subscription type
+Modifier,Edm.Guid,ID of user that modified the subscription type
+ModifierFullName,Edm.String,Full name of user that modified the subscription type
+Notes,Edm.String,Additional information about subscription type
+ProlongationType,Edm.Byte,"Prolongation type: 0=No, 1=Manual, 2=Automatic"
+RenewalCancellationPeriod,Edm.Int16,Renewal cancellation period of subscription type
+RenewalCancellationPeriodUnit,Edm.String,"Unit of renewal cancellation period: wk=Week, mm=Month, yy=Year, hy=Half-year, qt=Quarter"
+RenewalPeriod,Edm.Int16,Renewal period of subscription type
+RenewalPeriodUnit,Edm.String,"Unit of renewal period: wk=Week, mm=Month, yy=Year, hy=Half-year, qt=Quarter"
+SubscriptionPeriod,Edm.Int16,Subscription period of subscription type
+SubscriptionPeriodUnit,Edm.String,"Unit of subscription period: wk=Week, mm=Month, yy=Year, hy=Half-year, qt=Quarter"

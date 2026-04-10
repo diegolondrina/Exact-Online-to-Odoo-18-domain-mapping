@@ -1,0 +1,23 @@
+Name,Type,Description
+ID,Edm.Guid,Primary key
+Code,Edm.String,Code of the payment condition
+Created,Edm.DateTime,Creation date
+Creator,Edm.Guid,User ID of creator
+CreatorFullName,Edm.String,Name of creator
+CreditManagementScenario,Edm.Guid,Default credit management scenario to be used for new payment terms
+CreditManagementScenarioCode,Edm.String,Code of CreditManagementScenario
+CreditManagementScenarioDescription,Edm.String,Description of CreditManagementScenario
+Description,Edm.String,Description of the payment condition
+DiscountCalculation,Edm.String,"Indicates how the discount amount is calculated. Values: E = Excluding VAT, I = Including VAT"
+DiscountPaymentDays,Edm.Int32,"Number of days to pay within, to have the right to take the discount"
+DiscountPercentage,Edm.Double,Discount percentage
+Division,Edm.Int32,Division code
+Modified,Edm.DateTime,Last modified date
+Modifier,Edm.Guid,User ID of modifier
+ModifierFullName,Edm.String,Name of modifier
+PaymentDays,Edm.Int32,Number of days to be included in the due date calculation. Example: invoice date = 17/01 PaymentEndOfMonths = 2 => 31/03 PaymentDays = 15 => 15/04
+PaymentDiscountType,Edm.String,"Type of payment discount. Values: B = Settlement discount, K = Credit surcharge"
+PaymentEndOfMonths,Edm.Int32,Number of month endings to be included in the due date calculation
+PaymentMethod,Edm.String,"Method of payment. Values: B = On credit, I = Collection, K = Cash, Q = PSP Collection"
+Percentage,Edm.Double,Percentage (stored as fraction) of total invoice amount
+VATCalculation,Edm.String,"Indicates how the VAT amount is calculated Values: E = Excluding discount, I = Including discount"

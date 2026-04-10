@@ -1,0 +1,37 @@
+Name,Type,Description
+ID,Edm.Guid,A guid that is the unique identifier of the item group
+Code,Edm.String,Code of the item group
+Created,Edm.DateTime,Creation date
+Creator,Edm.Guid,User ID of creator
+CreatorFullName,Edm.String,Name of creator
+Description,Edm.String,Description of the item group
+Division,Edm.Int32,Division code
+GLCosts,Edm.Guid,GL account on which the costs of items of this group will be booked
+GLCostsCode,Edm.String,Code of GLCosts
+GLCostsDescription,Edm.String,Description of GLCosts
+GLCostsWorkInProgress,Edm.Guid,GL account on which the work in progress project costs of items of this group will be booked
+GLCostsWorkInProgressCode,Edm.String,Code of GLCosts Work In Progress
+GLCostsWorkInProgressDescription,Edm.String,Description of GLCosts Work In Progress
+GLPurchaseAccount,Edm.Guid,GL Purchase account for purchase invoicing according to (non-) perpetual inventory method
+GLPurchaseAccountCode,Edm.String,Code of GLPurchase
+GLPurchaseAccountDescription,Edm.String,Description of GLPurchaseAccount
+GLPurchasePriceDifference,Edm.Guid,GL account that will be used for the 'Standard cost price' valuation method to balance the difference between purchase price and cost price
+GLPurchasePriceDifferenceCode,Edm.String,Code of GLPurchasePriceDifference
+GLPurchasePriceDifferenceDescr,Edm.String,Description of GLPurchasePriceDifference
+GLRevenue,Edm.Guid,GL account on which the revenue for items of this group will be booked
+GLRevenueCode,Edm.String,Code of GLRevenue
+GLRevenueDescription,Edm.String,Description of GLRevenue
+GLRevenueWorkInProgress,Edm.Guid,GL account on which the work in progress project revenue of items of this group will be booked
+GLRevenueWorkInProgressCode,Edm.String,Code of GLRevenue WorkInProgress
+GLRevenueWorkInProgressDescription,Edm.String,Description of GLRevenue WorkInProgress
+GLStock,Edm.Guid,GL account on which stock entries will be booked for items of this group
+GLStockCode,Edm.String,Code of GLStock
+GLStockDescription,Edm.String,Description of GLStock
+GLStockVariance,Edm.Guid,GL stock variance account for perpetual inventory
+GLStockVarianceCode,Edm.String,Code of GLStockVariance
+GLStockVarianceDescription,Edm.String,Description of GLStockVariance
+IsDefault,Edm.Byte,Indicates if this is the default item group that will be assigned when a new item is created
+Modified,Edm.DateTime,Last modified date
+Modifier,Edm.Guid,User ID of modifier
+ModifierFullName,Edm.String,Name of modifier
+Notes,Edm.String,Notes

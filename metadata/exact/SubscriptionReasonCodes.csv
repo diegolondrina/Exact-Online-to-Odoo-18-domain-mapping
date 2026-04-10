@@ -1,0 +1,14 @@
+Name,Type,Description
+ID,Edm.Guid,The GUID id of the record
+Active,Edm.Boolean,Boolean values to indicate if the reason code is still active
+Code,Edm.String,Code of the reason of cancellation of the subscription
+Created,Edm.DateTime,Date and time of the creation of the reason of cancellation of the subscription record
+Creator,Edm.Guid,GUID id of the user that created the reason of cancellation of the subscription
+CreatorFullName,Edm.String,Full name of the user that created the reason of cancellation of the subscription
+CustomField,Edm.String,Custom field endpoint. Provided only for the Exact Online Premium users.
+Description,Edm.String,The description written for the cancellation of the subscription
+Division,Edm.Int32,The division that the record was created in
+Modified,Edm.DateTime,The date and time the record was modified
+Modifier,Edm.Guid,Guid id of the user that modified the reason of cancellation of the subscription record
+ModifierFullName,Edm.String,Full name of the user that modified the reason of cancellation of the subscription record
+Notes,Edm.String,Remarks written link to the reason of cancellation of the subscription

@@ -1,0 +1,15 @@
+Name,Type,Description
+ID,Edm.Guid,Primary key
+Created,Edm.DateTime,Date and time when the subscription restriction was created
+Creator,Edm.Guid,ID of user that created the subscription restriction
+CreatorFullName,Edm.String,Full name of user that created the subscription restriction
+Division,Edm.Int32,Division code
+Employee,Edm.Guid,ID of employee that linked to the subscription restriction
+EmployeeFullName,Edm.String,Name of employee that linked to the subscription restriction
+EmployeeHID,Edm.Int32,Readable ID of employee that linked to the subscription restriction
+Modified,Edm.DateTime,Last modified date of subscription restriction
+Modifier,Edm.Guid,ID of last user that modified the subscription restriction
+ModifierFullName,Edm.String,Full name of last user that modified the subscription restriction
+Subscription,Edm.Guid,Subscription ID that the restriction is referenced to
+SubscriptionDescription,Edm.String,Subscription description that the restriction is referenced to
+SubscriptionNumber,Edm.Int32,Subscription number that the restriction is referenced to

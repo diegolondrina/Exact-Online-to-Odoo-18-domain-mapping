@@ -1,0 +1,67 @@
+Name,Type,Description
+PurchaseOrderID,Edm.Guid,Primary key
+AmountDC,Edm.Double,Total amount in the default currency of the company
+AmountDiscount,Edm.Double,Discount amount in the default currency of the company
+AmountDiscountExclVat,Edm.Double,Discount amount excluding VAT in the default currency of the company
+AmountFC,Edm.Double,Total amount in the currency of the transaction
+AmountFCExclVat,Edm.Double,Amount exclude VAT in the currency of the transaction.
+ApprovalStatus,Edm.Int16,"Approval status of purchase order. 0=Awaiting approval, 1=Automatically, 2=Approved."
+ApprovalStatusDescription,Edm.String,Description of ApprovalStatus
+Approved,Edm.DateTime,Approval datetime
+Approver,Edm.Guid,User who approved the purchase order
+ApproverFullName,Edm.String,Name of approver
+Created,Edm.DateTime,Creation date
+Creator,Edm.Guid,User ID of creator
+CreatorFullName,Edm.String,Name of creator
+Currency,Edm.String,Currency code
+DeliveryAccount,Edm.Guid,Reference to account for delivery
+DeliveryAccountCode,Edm.String,Delivery account code
+DeliveryAccountName,Edm.String,Account name
+DeliveryAddress,Edm.Guid,Reference to shipping address
+DeliveryContact,Edm.Guid,Reference to contact for delivery
+DeliveryContactPersonFullName,Edm.String,Name of the contact person of the customer who will receive delivered goods
+Description,Edm.String,Description of the purchase order
+Discount,Edm.Double,Discount percentage
+Division,Edm.Int32,Division code
+Document,Edm.Guid,Document that is manually linked to the purchase order
+DocumentSubject,Edm.String,Subject of the document
+DropShipment,Edm.Boolean,Shows if it is a drop shipment purchase order
+ExchangeRate,Edm.Double,The exchange rate between the invoice currency and the default currency of the division.
+IncotermAddress,Edm.String,Address of Incoterm
+IncotermCode,Edm.String,Code of Incoterm
+IncotermVersion,Edm.Int16,"Version of Incoterm Supported version for Incoterms : 2010, 2020"
+InvoiceStatus,Edm.Int32,"Invoice status of purchase order: 10-Open, 20-Partial, 30-Complete, 40-Canceled"
+Modified,Edm.DateTime,Last modified date
+Modifier,Edm.Guid,User ID of modifier
+ModifierFullName,Edm.String,Name of modifier
+OrderDate,Edm.DateTime,Order date
+OrderNumber,Edm.Int32,Human readable id of the purchase order
+OrderStatus,Edm.Int32,"Purchase order status: 10-Open, 20-Partial, 30-Complete, 40-Canceled"
+PaymentCondition,Edm.String,The payment condition code used for due date and discount calculation
+PaymentConditionDescription,Edm.String,Description of payment condition
+PurchaseAgent,Edm.Guid,Purchase agent
+PurchaseAgentFullName,Edm.String,Name of purchase agent
+PurchaseOrderLineCount,Edm.Int32,Total row count of lines
+PurchaseOrderLines,PurchaseOrderLines,Collection of lines
+ReceiptDate,Edm.DateTime,This field shows the date the goods are expected to be received.
+ReceiptStatus,Edm.Int32,"Receipt status of purchase order: 10-Open, 20-Partial, 30-Complete, 40-Canceled"
+Remarks,Edm.String,Include any relevant remarks regarding the purchase order.
+SalesOrder,Edm.Guid,Reference to sales order when purchase order generated via back to back sales order. Show NULL if more than one sales order is linked to the purchase order.
+SalesOrderNumber,Edm.Int32,Number of the sales order. Show NULL if more than one sales order is linked to the purchase order.
+SelectionCode,Edm.Guid,"ID of selection code. Only supported by the Plus, Professional and Premium for Wholesale & Distribution and Manufacturing"
+SelectionCodeCode,Edm.String,Code of selection code
+SelectionCodeDescription,Edm.String,Description of selection code
+ShippingMethod,Edm.Guid,ShippingMethod
+ShippingMethodCode,Edm.String,Code of ShippingMethod
+ShippingMethodDescription,Edm.String,Description of ShippingMethod
+Source,Edm.Int16,"This shows how the purchase order was created: 1-Manual entry, 2-Import, 3-Other, 4-Purchase order, 5-Sales order, 6-Supplier's items, 7-Subcontract, 8-Purchase order advice, 9-Shop order, 10-MRP calculation, 11-Rest API, 12-Merge purchase orders"
+Supplier,Edm.Guid,Reference to supplier account
+SupplierCode,Edm.String,Code of supplier
+SupplierContact,Edm.Guid,Contact of supplier
+SupplierContactPersonFullName,Edm.String,Contact person full name of supplier
+SupplierName,Edm.String,Name of supplier
+VATAmount,Edm.Double,Total VAT amount in the currency of the transaction
+Warehouse,Edm.Guid,Warehouse
+WarehouseCode,Edm.String,Code of Warehouse
+WarehouseDescription,Edm.String,Description of Warehouse
+YourRef,Edm.String,Shows the reference number associated with the purchase order. Enter a description and reference to make the purchase order easier to identify.

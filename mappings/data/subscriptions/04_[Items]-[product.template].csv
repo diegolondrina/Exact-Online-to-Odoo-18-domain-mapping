@@ -1,0 +1,123 @@
+Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Notes
+ID,Edm.Guid,Custom,x_aa_exact_id,char,product.template,Always preserve Exact primary key. Critical for resolving SubscriptionLines.Item → product.product (via template's product_variant_id).
+Code,Edm.String,Direct,default_code,char,product.template,Direct mapping. Exact item code → Odoo Internal Reference. Both serve as the business-facing product code.
+SearchCode,Edm.String,Custom,x_aa_search_code,char,product.template,Exact search code. Odoo has no separate search code field (search is full-text on name/default_code/barcode).
+Barcode,Edm.String,Direct,barcode,char,product.template,Direct mapping.
+Description,Edm.String,Direct,name,char,product.template,"Direct mapping. Exact item description → Odoo product name. Note: Exact Description is max 60 chars, Odoo name is unlimited."
+ExtraDescription,Edm.String,Direct,description_sale,text,product.template,"Longer description (255 chars). Maps well to Odoo 'Sales Description' which is copied to SO lines, delivery orders, and invoices."
+Notes,Edm.String,Direct,description,html,product.template,Additional notes → Odoo general description (html). Wrap plain text in <p> tags.
+StandardSalesPrice,Edm.Double,Direct,list_price,float,product.template,Direct mapping. Standard sales price → Odoo Sales Price.
+CostPriceStandard,Edm.Double,Direct,standard_price,float,product.template,Standard cost → Odoo Cost field. Used for margin calculations and inventory valuation.
+AverageCost,Edm.Double,Custom,x_aa_average_cost,float,product.template,Exact's running average cost. Odoo computes AVCO internally via stock valuation layers — not a writable field in the same way. Preserve for reconciliation.
+CostPriceNew,Edm.Double,Custom,x_aa_cost_price_new,float,product.template,Proposed new cost price. No Odoo equivalent (Odoo updates cost directly or via valuation).
+CostPriceCurrency,Edm.String,Relational,cost_currency_id,many2one → res.currency,product.template,Currency of cost prices. Resolve ISO code → res.currency.
+ItemGroup,Edm.Guid,Relational,categ_id,many2one → product.category,product.template,"Exact ItemGroup → Odoo product category. Requires ItemGroup GUID → product.category lookup. If ItemGroups are not migrated, default to Odoo's 'All' category."
+ItemGroupCode,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from ItemGroup → product.category.name.
+ItemGroupDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+Unit,Edm.String,Relational,uom_id,many2one → uom.uom,product.template,Default unit of measure. Resolve Exact unit code → Odoo uom.uom. Also sets uom_po_id if purchase UoM should match.
+UnitDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+UnitType,Edm.String,Custom,x_aa_unit_type,char,product.template,"A=Area, L=Length, O=Other, T=Time, V=Volume, W=Weight. Odoo infers UoM category from the uom.uom record itself. Stored for reference."
+SalesVatCode,Edm.String,Relational,taxes_id,many2many → account.tax,product.template,Default sales tax. Resolve Exact VAT code → Odoo account.tax.
+SalesVatCodeDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+IsTaxableItem,Edm.Byte,Custom,x_aa_is_taxable_item,boolean,product.template,"Exact taxability flag. In Odoo, taxability is determined by which taxes_id records are assigned. Stored for reference."
+IsSalesItem,Edm.Boolean,Direct,sale_ok,boolean,product.template,Direct mapping. 'Can be sold' flag.
+IsPurchaseItem,Edm.Boolean,Direct,purchase_ok,boolean,product.template,Direct mapping. 'Can be purchased' flag.
+IsStockItem,Edm.Boolean,Direct,is_storable,boolean,product.template,"Direct mapping. Exact stock item ≈ Odoo 'Track Inventory'. Note: subscription items are often services (is_storable=False), so verify per item."
+GrossWeight,Edm.Double,Custom,x_aa_gross_weight,float,product.template,Odoo has 'weight' (net weight for shipping). Gross weight has no native field.
+NetWeight,Edm.Double,Direct,weight,float,product.template,Direct mapping. Net weight → Odoo weight (used in shipping calculations).
+NetWeightUnit,Edm.String,Custom,x_aa_net_weight_unit,char,product.template,"Odoo uses weight_uom_name derived from system UoM settings, not a per-product weight unit. Stored for reference."
+Stock,Edm.Double,Skip,—,—,—,Current stock quantity. Odoo computes qty_available from stock.quant — not a writable product field. Stock migration is a separate workstream.
+StatisticalCode,Edm.String,Direct,hs_code,char,product.template,Statistical/commodity code → Odoo HS Code. Both are used for international trade declarations.
+StatisticalNetWeight,Edm.Double,Custom,x_aa_statistical_net_weight,float,product.template,Statistical net weight for trade reporting. No separate Odoo field.
+StatisticalUnits,Edm.Double,Custom,x_aa_statistical_units,float,product.template
+StatisticalValue,Edm.Double,Custom,x_aa_statistical_value,float,product.template
+GLRevenue,Edm.Guid,Relational,property_account_income_id,many2one → account.account,product.template,Revenue GL account → Odoo Income Account. Resolve Exact GL GUID → Odoo account.account. Falls back to product category setting if empty.
+GLRevenueCode,Edm.String,Skip,—,—,—,Denormalized display field.
+GLRevenueDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+GLCosts,Edm.Guid,Relational,property_account_expense_id,many2one → account.account,product.template,Cost GL account → Odoo Expense Account. Same resolution as GLRevenue.
+GLCostsCode,Edm.String,Skip,—,—,—,Denormalized display field.
+GLCostsDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+GLStock,Edm.Guid,Custom,x_aa_gl_stock,char,product.template,"Stock valuation GL account. In Odoo this is typically set at the product.category level (property_stock_valuation_account_id), not per product. Stored as custom."
+GLStockCode,Edm.String,Skip,—,—,—,Denormalized display field.
+GLStockDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+GLRevenueWorkInProgress,Edm.Guid,Custom,x_aa_gl_revenue_wip,char,product.template,WIP revenue account. No per-product Odoo equivalent (Odoo WIP accounts are on product.category for manufacturing).
+GLRevenueWorkInProgressCode,Edm.String,Skip,—,—,—,Denormalized display field.
+GLRevenueWorkInProgressDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+GLCostsWorkInProgress,Edm.Guid,Custom,x_aa_gl_costs_wip,char,product.template,WIP cost account. Same rationale as GLRevenueWorkInProgress.
+GLCostsWorkInProgressCode,Edm.String,Skip,—,—,—,Denormalized display field.
+GLCostsWorkInProgressDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+StartDate,Edm.DateTime,Custom,x_aa_start_date,date,product.template,"Item validity start. In Odoo, product lifecycle is controlled by 'active' boolean, not date range. Store for reference; use to derive 'active' flag."
+EndDate,Edm.DateTime,Custom,x_aa_end_date,date,product.template,Item validity end. Same rationale as StartDate.
+Division,Edm.Int32,Relational,company_id,many2one → res.company,product.template,Division → Company mapping.
+Created,Edm.DateTime,Direct,create_date,datetime,product.template
+Creator,Edm.Guid,Relational,create_uid,many2one → res.users,product.template
+CreatorFullName,Edm.String,Skip,—,—,—,Denormalized display field.
+Modified,Edm.DateTime,Direct,write_date,datetime,product.template
+Modifier,Edm.Guid,Relational,write_uid,many2one → res.users,product.template
+ModifierFullName,Edm.String,Skip,—,—,—,Denormalized display field.
+SecurityLevel,Edm.Int32,Custom,x_aa_security_level,integer,product.template,Exact access control level. No Odoo equivalent.
+Picture,Edm.Binary,Direct,image_1920,binary,product.template,Product image. Note: Exact's Picture field is write-only; actual image must be downloaded from PictureUrl. Odoo expects base64-encoded image in image_1920.
+PictureName,Edm.String,Custom,x_aa_picture_name,char,product.template,Original filename. No Odoo equivalent (Odoo stores images as blobs without filenames).
+PictureThumbnailUrl,Edm.String,Skip,—,—,—,"Runtime URL, not migratable."
+PictureUrl,Edm.String,Skip,—,—,—,"Runtime URL. Use during migration to download image for image_1920, but don't store the URL itself."
+IsMakeItem,Edm.Byte,Custom,x_aa_is_make_item,boolean,product.template,"Produced to inventory, not purchased. Odoo handles this via route_ids (Buy vs Manufacture). Custom for traceability."
+IsSerialItem,Edm.Boolean,Custom,x_aa_is_serial_item,boolean,product.template,"Odoo has 'tracking' selection (none/lot/serial). Could derive tracking='serial' from this, but safer as custom + derive."
+IsBatchItem,Edm.Byte,Custom,x_aa_is_batch_item,boolean,product.template,Batch tracking. Could derive tracking='lot'. Custom for traceability.
+IsSerialNumberItem,Edm.Boolean,Skip,—,—,—,Obsolete field per Exact docs. Use IsSerialItem instead.
+IsBatchNumberItem,Edm.Byte,Skip,—,—,—,Obsolete field per Exact docs. Use IsBatchItem instead.
+IsFractionAllowedItem,Edm.Boolean,Custom,x_aa_is_fraction_allowed,boolean,product.template,Whether fractional quantities are allowed. Odoo handles this via UoM rounding. Custom for reference.
+IsSubcontractedItem,Edm.Boolean,Custom,x_aa_is_subcontracted,boolean,product.template,Odoo has service_to_purchase for subcontract services and a separate subcontracting module. Custom for traceability.
+IsOnDemandItem,Edm.Byte,Custom,x_aa_is_on_demand,boolean,product.template,No Odoo equivalent.
+IsTime,Edm.Byte,Custom,x_aa_is_time,boolean,product.template,Time/labor item. In Odoo this would typically be type='service' + service_type='timesheet'. Custom for traceability.
+IsWebshopItem,Edm.Byte,Custom,x_aa_is_webshop_item,boolean,product.template,"Odoo uses is_published (boolean) + website_id for eCommerce visibility. Different mechanism, custom for reference."
+IsPackageItem,Edm.Boolean,Custom,x_aa_is_package_item,boolean,product.template,Exact hosting/package concept. No Odoo equivalent.
+IsNewContract,Edm.Byte,Custom,x_aa_is_new_contract,boolean,product.template,Package/contract type flag. No Odoo equivalent.
+IsRegistrationCodeItem,Edm.Byte,Custom,x_aa_is_registration_code_item,boolean,product.template,Voucher functionality flag. No Odoo equivalent.
+BatchQuantity,Edm.Double,Custom,x_aa_batch_quantity,float,product.template,Default batch quantity. No direct Odoo equivalent.
+AssembledLeadDays,Edm.Int32,Custom,x_aa_assembled_lead_days,integer,product.template,"Assembly lead time. Odoo has sale_delay (Customer Lead Time) for delivery promises, and produce_delay on MRP. Different semantics — custom."
+CopyRemarks,Edm.Byte,Custom,x_aa_copy_remarks,boolean,product.template,Copy sales remarks to lines. No Odoo equivalent.
+UseExplosion,Edm.Byte,Custom,x_aa_use_explosion,boolean,product.template,Assemble at delivery. No direct Odoo equivalent.
+Class_01,Edm.String,Custom,x_aa_class_01,char,product.template,Exact ItemClass code (ClassID 1). Exact supports up to 10 classification dimensions per item. Odoo has no equivalent multi-axis classification. All 10 stored as custom.
+Class_02,Edm.String,Custom,x_aa_class_02,char,product.template,ItemClass ClassID 2.
+Class_03,Edm.String,Custom,x_aa_class_03,char,product.template,ItemClass ClassID 3.
+Class_04,Edm.String,Custom,x_aa_class_04,char,product.template,ItemClass ClassID 4.
+Class_05,Edm.String,Custom,x_aa_class_05,char,product.template,ItemClass ClassID 5.
+Class_06,Edm.String,Custom,x_aa_class_06,char,product.template,ItemClass ClassID 6.
+Class_07,Edm.String,Custom,x_aa_class_07,char,product.template,ItemClass ClassID 7.
+Class_08,Edm.String,Custom,x_aa_class_08,char,product.template,ItemClass ClassID 8.
+Class_09,Edm.String,Custom,x_aa_class_09,char,product.template,ItemClass ClassID 9.
+Class_10,Edm.String,Custom,x_aa_class_10,char,product.template,ItemClass ClassID 10.
+FreeBoolField_01,Edm.Boolean,Custom,x_aa_free_bool_01,boolean,product.template,Exact generic custom boolean fields (01-05). Meaning is customer-specific. All stored as x_aa_ custom fields.
+FreeBoolField_02,Edm.Boolean,Custom,x_aa_free_bool_02,boolean,product.template
+FreeBoolField_03,Edm.Boolean,Custom,x_aa_free_bool_03,boolean,product.template
+FreeBoolField_04,Edm.Boolean,Custom,x_aa_free_bool_04,boolean,product.template
+FreeBoolField_05,Edm.Boolean,Custom,x_aa_free_bool_05,boolean,product.template
+FreeDateField_01,Edm.DateTime,Custom,x_aa_free_date_01,date,product.template,Exact generic custom date fields (01-05). Meaning is customer-specific.
+FreeDateField_02,Edm.DateTime,Custom,x_aa_free_date_02,date,product.template
+FreeDateField_03,Edm.DateTime,Custom,x_aa_free_date_03,date,product.template
+FreeDateField_04,Edm.DateTime,Custom,x_aa_free_date_04,date,product.template
+FreeDateField_05,Edm.DateTime,Custom,x_aa_free_date_05,date,product.template
+FreeNumberField_01,Edm.Double,Custom,x_aa_free_number_01,float,product.template,Exact generic custom numeric fields (01-08). Meaning is customer-specific.
+FreeNumberField_02,Edm.Double,Custom,x_aa_free_number_02,float,product.template
+FreeNumberField_03,Edm.Double,Custom,x_aa_free_number_03,float,product.template
+FreeNumberField_04,Edm.Double,Custom,x_aa_free_number_04,float,product.template
+FreeNumberField_05,Edm.Double,Custom,x_aa_free_number_05,float,product.template
+FreeNumberField_06,Edm.Double,Custom,x_aa_free_number_06,float,product.template
+FreeNumberField_07,Edm.Double,Custom,x_aa_free_number_07,float,product.template
+FreeNumberField_08,Edm.Double,Custom,x_aa_free_number_08,float,product.template
+FreeTextField_01,Edm.String,Custom,x_aa_free_text_01,char,product.template,Exact generic custom text fields (01-10). Meaning is customer-specific.
+FreeTextField_02,Edm.String,Custom,x_aa_free_text_02,char,product.template
+FreeTextField_03,Edm.String,Custom,x_aa_free_text_03,char,product.template
+FreeTextField_04,Edm.String,Custom,x_aa_free_text_04,char,product.template
+FreeTextField_05,Edm.String,Custom,x_aa_free_text_05,char,product.template
+FreeTextField_06,Edm.String,Custom,x_aa_free_text_06,char,product.template
+FreeTextField_07,Edm.String,Custom,x_aa_free_text_07,char,product.template
+FreeTextField_08,Edm.String,Custom,x_aa_free_text_08,char,product.template
+FreeTextField_09,Edm.String,Custom,x_aa_free_text_09,char,product.template
+FreeTextField_10,Edm.String,Custom,x_aa_free_text_10,char,product.template
+CustomField,Edm.String,Skip,—,—,—,Exact Premium-only custom field endpoint — skip.
+—,—,Derived,recurring_invoice,boolean,product.template,CRITICAL for subscriptions. Set to True for all items that appear on SubscriptionLines. This flag makes Odoo treat the product as a subscription product.
+—,—,Derived,type,selection,product.template,"Odoo product type. Subscription items are typically 'service'. For physical subscription products (boxes, etc.), use 'consu' or 'product'. Derive from Exact IsStockItem / IsTime / item characteristics."
+—,—,Derived,invoice_policy,selection,product.template,Should be 'order' (Ordered quantities) for subscription products per Odoo docs. 'delivery' causes issues with recurring invoice creation.
+—,—,Derived,active,boolean,product.template,Derive from Exact StartDate/EndDate: if EndDate is set and < today → False; otherwise True.
+—,—,Derived,sale_ok,boolean,product.template,Normally derived from IsSalesItem (Direct mapping above). Listed here as reminder: must be True for subscription products to appear on SO lines.

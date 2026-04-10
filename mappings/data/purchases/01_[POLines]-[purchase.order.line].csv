@@ -1,0 +1,67 @@
+Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Notes
+ID,Edm.Guid,Direct,x_aa_exact_id,char,purchase.order.line,Primary key preservation. Non-negotiable.
+LineNumber,Edm.Int32,Direct,sequence,integer,purchase.order.line,Line ordering. Maps to Odoo's sequence for display order.
+PurchaseOrderID,Edm.Guid,Relational,order_id,many2one → purchase.order,purchase.order.line,Parent PO link. Lookup: Exact PurchaseOrderID → purchase.order via x_aa_exact_id.
+Item,Edm.Guid,Relational,product_id,many2one → product.product,purchase.order.line,Product reference. Lookup: Exact Item GUID → product.product via x_aa_exact_id. Already mapped in Subscriptions/Items domain.
+Unit,Edm.String,Relational,product_uom,many2one → uom.uom,purchase.order.line,Unit of measure. Lookup: Exact Unit code → uom.uom via x_aa_code. Already mapped in UoM domain.
+VATCode,Edm.String,Relational,taxes_id,many2many → account.tax,purchase.order.line,Tax code. Lookup: Exact VAT code → account.tax. Dependency: tax mapping not yet done.
+CostCenter,Edm.String,Relational,analytic_distribution,json,purchase.order.line,Cost center → Odoo analytic distribution. Lookup: Exact cost center code → account.analytic.account. Dependency: analytic accounts not yet mapped.
+Project,Edm.Guid,Relational,analytic_distribution,json,purchase.order.line,Project → may also feed into analytic distribution or a project reference. Depends on Odoo project module config. Dependency: not yet mapped.
+Creator,Edm.Guid,Relational,create_uid,many2one → res.users,purchase.order.line,Audit field. Default to admin if unmapped.
+Modifier,Edm.Guid,Relational,write_uid,many2one → res.users,purchase.order.line,Audit field. Default to admin if unmapped.
+Division,Edm.Int32,Relational,company_id,many2one → res.company,purchase.order.line,Hardcode to target company.
+ReceiptDate,Edm.DateTime,Direct,date_planned,datetime,purchase.order.line,Expected delivery date per line. Direct match.
+Created,Edm.DateTime,Direct,create_date,datetime,purchase.order.line,Audit: creation timestamp.
+Modified,Edm.DateTime,Direct,write_date,datetime,purchase.order.line,Audit: last modification timestamp.
+Description,Edm.String,Direct,name,text,purchase.order.line,Line description. Odoo's name on PO line is the description field (not a sequence). Direct mapping.
+Quantity,Edm.Double,Direct,product_qty,float,purchase.order.line,Quantity ordered in item units. Direct mapping.
+UnitPrice,Edm.Double,Direct,price_unit,float,purchase.order.line,Price per purchase unit. Direct mapping.
+Discount,Edm.Double,Direct,discount,float,purchase.order.line,Line discount %. Odoo has native discount on PO line. Direct mapping.
+From,Edm.DateTime,Custom,x_aa_date_from,datetime,purchase.order.line,Line validity start date. No native Odoo equivalent on PO lines. Custom field.
+To,Edm.DateTime,Custom,x_aa_date_to,datetime,purchase.order.line,Line validity end date. No native Odoo equivalent on PO lines. Custom field.
+SupplierItemCode,Edm.String,Custom,x_aa_supplier_item_code,char,purchase.order.line,Vendor's own item code for this product. Stored for reference. Can be used to populate product.supplierinfo (vendor pricelists) in a future product enrichment pass.
+Rebill,Edm.Boolean,Custom,x_aa_rebill,boolean,purchase.order.line,Re-bill flag (professional service). No native Odoo equivalent. Custom field.
+Notes,Edm.String,Custom,x_aa_notes,text,purchase.order.line,Line-level notes. Odoo PO lines don't have a separate notes field. Custom field.
+CostUnit,Edm.String,Custom,x_aa_cost_unit,char,purchase.order.line,Cost unit code. May feed analytic distribution. Stored for reference until analytic mapping is complete.
+Expense,Edm.Guid,Custom,x_aa_expense_id,char,purchase.order.line,WBS expense reference (professional service). No Odoo equivalent. Stored as GUID.
+SalesOrder,Edm.Guid,Custom,x_aa_sales_order_id,char,purchase.order.line,Back-to-back SO link at line level. Stored as GUID for reference.
+SalesOrderLine,Edm.Guid,Custom,x_aa_sales_order_line_id,char,purchase.order.line,Back-to-back SO line link. Stored as GUID for reference.
+AmountDC,Edm.Double,Skip,—,—,—,Line amount in company currency. Odoo computes price_subtotal. Skip.
+AmountFC,Edm.Double,Skip,—,—,—,Line amount in transaction currency. Odoo computes price_subtotal. Skip.
+NetPrice,Edm.Double,Skip,—,—,—,Computed: unit price after discount. Odoo computes price_unit_discounted. Skip.
+VATAmount,Edm.Double,Skip,—,—,—,VAT amount. Odoo computes price_tax from taxes_id. Skip.
+VATPercentage,Edm.Double,Skip,—,—,—,VAT %. Derivable from taxes_id. Skip.
+InvoicedQuantity,Edm.Double,Skip,—,—,—,Odoo computes qty_invoiced from linked account.move.line. Skip.
+ReceivedQuantity,Edm.Double,Skip,—,—,—,Odoo computes qty_received from stock.move. Skip.
+QuantityInPurchaseUnits,Edm.Double,Skip,—,—,—,Quantity in purchase-specific units. Odoo handles UoM conversion natively. Skip — product_qty + product_uom is sufficient.
+InStock,Edm.Double,Skip,—,—,—,Current stock level. Odoo computes from quants. Skip.
+ProjectedStock,Edm.Double,Skip,—,—,—,Projected stock level. Odoo computes dynamically. Skip.
+IsBatchNumberItem,Edm.Byte,Skip,—,—,—,Item tracking config — lives on product.template.tracking in Odoo. Not a PO line concern. Skip.
+IsSerialNumberItem,Edm.Byte,Skip,—,—,—,Serial tracking config — product-level. Not a PO line concern. Skip.
+ItemDivisable,Edm.Boolean,Skip,—,—,—,Whether fractional quantities allowed. Odoo handles via UoM rounding. Skip.
+ItemBarcode,Edm.String,Skip,—,—,—,Item barcode. Lives on product.product.barcode. Not a PO line field. Skip.
+ItemBarcodeAdditional,Edm.String,Skip,—,—,—,Additional barcode. Product-level data. Skip.
+SupplierItemCopyRemarks,Edm.Byte,Skip,—,—,—,"Internal flag for copying remarks from SupplierItem. Operational setting, not migration data. Skip."
+CustomField,Edm.String,Skip,—,—,—,Premium-only custom field endpoint. Always skip per conventions.
+CreatorFullName,Edm.String,Skip,—,—,—,Denormalized display field for Creator.
+ModifierFullName,Edm.String,Skip,—,—,—,Denormalized display field for Modifier.
+ItemCode,Edm.String,Skip,—,—,—,Denormalized display copy of item code. Derivable from product_id.
+ItemDescription,Edm.String,Skip,—,—,—,Denormalized display copy of item description.
+CostCenterDescription,Edm.String,Skip,—,—,—,Denormalized display copy of cost center.
+CostUnitDescription,Edm.String,Skip,—,—,—,Denormalized display copy of cost unit.
+UnitDescription,Edm.String,Skip,—,—,—,Denormalized display copy of unit.
+VATDescription,Edm.String,Skip,—,—,—,Denormalized display copy of VAT code.
+ProjectCode,Edm.String,Skip,—,—,—,Denormalized display copy of project code.
+ProjectDescription,Edm.String,Skip,—,—,—,Denormalized display copy of project description.
+ExpenseDescription,Edm.String,Skip,—,—,—,Denormalized display copy of expense.
+SalesOrderNumber,Edm.Int32,Skip,—,—,—,Denormalized display copy of linked SO number. GUID stored in x_aa_sales_order_id.
+SalesOrderLineNumber,Edm.Int32,Skip,—,—,—,Denormalized display copy of linked SO line number.
+ShopOrder,Edm.Guid,Skip,—,—,—,Obsolete per Exact documentation. Skip.
+ShopOrderNumber,Edm.Int32,Skip,—,—,—,Obsolete. Skip.
+ShopOrderMaterialPlan,Edm.Guid,Skip,—,—,—,Obsolete. Skip.
+ShopOrderMaterialPlanLineNumber,Edm.Int32,Skip,—,—,—,Obsolete. Skip.
+ShopOrderMaterialPlans,ShopOrderMaterialPlans,Skip,—,—,—,Manufacturing sub-collection. Out of scope. Skip.
+ShopOrderRoutingStepPlan,Edm.Guid,Skip,—,—,—,Obsolete. Skip.
+ShopOrderRoutingStepPlanLineNumber,Edm.Int32,Skip,—,—,—,Obsolete. Skip.
+ShopOrderRoutingStepPlans,ShopOrderRoutingStepPlans,Skip,—,—,—,Manufacturing sub-collection. Out of scope. Skip.
+—,—,Derived,state,selection,purchase.order.line,Inherited from parent purchase.order.state via related field. Odoo sets automatically.

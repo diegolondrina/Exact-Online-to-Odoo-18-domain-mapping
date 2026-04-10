@@ -1,0 +1,118 @@
+Name,Type,Description
+ID,Edm.Guid,A guid that is the unique identifier of the item
+AssembledLeadDays,Edm.Int32,Assembly lead days
+AverageCost,Edm.Double,The current average cost price
+Barcode,Edm.String,Barcode of the item (numeric string)
+BatchQuantity,Edm.Double,Batch quantity
+Class_01,Edm.String,Item class code referring to ItemClasses with ClassID 1
+Class_02,Edm.String,Item class code referring to ItemClasses with ClassID 2
+Class_03,Edm.String,Item class code referring to ItemClasses with ClassID 3
+Class_04,Edm.String,Item class code referring to ItemClasses with ClassID 4
+Class_05,Edm.String,Item class code referring to ItemClasses with ClassID 5
+Class_06,Edm.String,Item class code referring to ItemClasses with ClassID 6
+Class_07,Edm.String,Item class code referring to ItemClasses with ClassID 7
+Class_08,Edm.String,Item class code referring to ItemClasses with ClassID 8
+Class_09,Edm.String,Item class code referring to ItemClasses with ClassID 9
+Class_10,Edm.String,Item class code referring to ItemClasses with ClassID 10
+Code,Edm.String,Item code
+CopyRemarks,Edm.Byte,Copy sales remarks to sales lines
+CostPriceCurrency,Edm.String,The currency of the current and proposed cost price
+CostPriceNew,Edm.Double,Proposed cost price
+CostPriceStandard,Edm.Double,The current standard cost price
+Created,Edm.DateTime,Creation date
+Creator,Edm.Guid,User ID of creator
+CreatorFullName,Edm.String,Name of creator
+CustomField,Edm.String,Custom field endpoint. Provided only for the Exact Online Premium users.
+Description,Edm.String,Description of the item
+Division,Edm.Int32,Division code
+EndDate,Edm.DateTime,Together with StartDate this determines if the item is active
+ExtraDescription,Edm.String,"Extra description text, slightly longer than the regular description (255 instead of 60)"
+FreeBoolField_01,Edm.Boolean,Free boolean field 1
+FreeBoolField_02,Edm.Boolean,Free boolean field 2
+FreeBoolField_03,Edm.Boolean,Free boolean field 3
+FreeBoolField_04,Edm.Boolean,Free boolean field 4
+FreeBoolField_05,Edm.Boolean,Free boolean field 5
+FreeDateField_01,Edm.DateTime,Free date field 1
+FreeDateField_02,Edm.DateTime,Free date field 2
+FreeDateField_03,Edm.DateTime,Free date field 3
+FreeDateField_04,Edm.DateTime,Free date field 4
+FreeDateField_05,Edm.DateTime,Free date field 5
+FreeNumberField_01,Edm.Double,Free numeric field 1
+FreeNumberField_02,Edm.Double,Free numeric field 2
+FreeNumberField_03,Edm.Double,Free numeric field 3
+FreeNumberField_04,Edm.Double,Free numeric field 4
+FreeNumberField_05,Edm.Double,Free numeric field 5
+FreeNumberField_06,Edm.Double,Free numeric field 6
+FreeNumberField_07,Edm.Double,Free numeric field 7
+FreeNumberField_08,Edm.Double,Free numeric field 8
+FreeTextField_01,Edm.String,Free text field 1
+FreeTextField_02,Edm.String,Free text field 2
+FreeTextField_03,Edm.String,Free text field 3
+FreeTextField_04,Edm.String,Free text field 4
+FreeTextField_05,Edm.String,Free text field 5
+FreeTextField_06,Edm.String,Free text field 6
+FreeTextField_07,Edm.String,Free text field 7
+FreeTextField_08,Edm.String,Free text field 8
+FreeTextField_09,Edm.String,Free text field 9
+FreeTextField_10,Edm.String,Free text field 10
+GLCosts,Edm.Guid,"GL account the cost entries will be booked on. This overrules the GL account from the item group. If the license contains 'Intuit integration' this property overrides the value in Settings, not the item group."
+GLCostsCode,Edm.String,Code of GL account for costs
+GLCostsDescription,Edm.String,Description of GLCosts
+GLCostsWorkInProgress,Edm.Guid,GL account the work in progress project cost entries will be booked on. This overrules the GL account from the item group.
+GLCostsWorkInProgressCode,Edm.String,Code of GL account for costs Work In Progress
+GLCostsWorkInProgressDescription,Edm.String,Description of GLCosts Work In Progress
+GLRevenue,Edm.Guid,"GL account the revenue will be booked on. This overrules the GL account from the item group. If the license contains 'Intuit integration' this property overrides the value in Settings, not the item group."
+GLRevenueCode,Edm.String,Code of GLRevenue
+GLRevenueDescription,Edm.String,Description of GLRevenue
+GLRevenueWorkInProgress,Edm.Guid,GL account the work in progress project revenue entries will be booked on. This overrules the GL account from the item group.
+GLRevenueWorkInProgressCode,Edm.String,Code of GLRevenue Work In Progress
+GLRevenueWorkInProgressDescription,Edm.String,Description of GLRevenue Work In Progress
+GLStock,Edm.Guid,"GL account the stock entries will be booked on. This overrules the GL account from the item group. If the license contains 'Intuit integration' this property overrides the value in Settings, not the item group."
+GLStockCode,Edm.String,Code of GL account for stock
+GLStockDescription,Edm.String,Description of GLStock
+GrossWeight,Edm.Double,Gross weight for international goods shipments
+IsBatchItem,Edm.Byte,Indicates if batches are used for this item
+IsBatchNumberItem,Edm.Byte,This property is obsolete. Use property 'IsBatchItem' instead.
+IsFractionAllowedItem,Edm.Boolean,Indicates if fractions (for example 0.35) are allowed for quantities of this item
+IsMakeItem,Edm.Byte,"Indicates that an Item is produced to Inventory, not purchased"
+IsNewContract,Edm.Byte,Only used for packages (IsPackageItem=1). To indicate if this package is a new contract type package
+IsOnDemandItem,Edm.Byte,Is On demand Item
+IsPackageItem,Edm.Boolean,Indicates if the item is a package item. Can only be created in the hosting administration
+IsPurchaseItem,Edm.Boolean,Indicates if the item can be purchased
+IsRegistrationCodeItem,Edm.Byte,Indicated if the item is used in voucher functionality
+IsSalesItem,Edm.Boolean,Indicates if the item can be sold
+IsSerialItem,Edm.Boolean,Indicates that serial numbers are used for this item
+IsSerialNumberItem,Edm.Boolean,This property is obsolete. Use property 'IsSerialItem' instead.
+IsStockItem,Edm.Boolean,"If you have the Trade or Manufacturing license and you check this property the item will be shown in the stock positions overview, stock counts and transaction lists. If you have the Invoice module and you check this property you will get a general journal entry based on the Stock and Costs G/L accounts of the item group. If you don’t want the general journal entry to be created you should change the Stock/Costs G/L account on the Item group page to the type Costs instead of Inventory. If you have the CRM Standalone license, the item will not be available."
+IsSubcontractedItem,Edm.Boolean,Indicates if the item is provided by an outside supplier
+IsTaxableItem,Edm.Byte,Indicates if tax needs to be calculated for this item
+IsTime,Edm.Byte,Indicates if the item is a time unit item (for example a labor hour item)
+IsWebshopItem,Edm.Byte,"Indicates if the item can be exported to a web shop. If you have the CRM Standalone license, the item will not be available."
+ItemGroup,Edm.Guid,GUID of Item group of the item
+ItemGroupCode,Edm.String,Code of ItemGroup
+ItemGroupDescription,Edm.String,Description of ItemGroup
+Modified,Edm.DateTime,Last modified date
+Modifier,Edm.Guid,User ID of modifier
+ModifierFullName,Edm.String,Name of modifier
+NetWeight,Edm.Double,Net weight for international goods shipments
+NetWeightUnit,Edm.String,"Net Weight unit for international goods shipment, only available in manufacturing packages"
+Notes,Edm.String,Notes
+Picture,Edm.Binary,This field is write-only. The picture can be downloaded through PictureUrl and PictureThumbnailUrl.
+PictureName,Edm.String,File name of picture
+PictureThumbnailUrl,Edm.String,Url where thumbnail picture can be retrieved
+PictureUrl,Edm.String,Url where picture can be retrieved
+SalesVatCode,Edm.String,Code of SalesVat
+SalesVatCodeDescription,Edm.String,Description of SalesVatCode
+SearchCode,Edm.String,Search code of the item
+SecurityLevel,Edm.Int32,Security level (0 - 100)
+StandardSalesPrice,Edm.Double,Standard sales price
+StartDate,Edm.DateTime,Together with EndDate this determines if the item is active
+StatisticalCode,Edm.String,Statistical code
+StatisticalNetWeight,Edm.Double,Statistical net weight
+StatisticalUnits,Edm.Double,Statistical units
+StatisticalValue,Edm.Double,Statistical value
+Stock,Edm.Double,Quantity that is in stock
+Unit,Edm.String,The standard unit of this item
+UnitDescription,Edm.String,Description of Unit
+UnitType,Edm.String,"Type of unit: A=Area, L=Length, O=Other, T=Time, V=Volume, W=Weight"
+UseExplosion,Edm.Byte,Assemble at delivery

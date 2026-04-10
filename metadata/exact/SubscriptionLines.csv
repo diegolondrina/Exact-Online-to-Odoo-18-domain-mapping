@@ -1,0 +1,29 @@
+Name,Type,Description
+ID,Edm.Guid,Primary key
+AmountDC,Edm.Double,Amount in the default currency of the company
+AmountFC,Edm.Double,Amount in the currency of the transaction
+Costcenter,Edm.String,Cost center linked to the subscription line
+Costunit,Edm.String,Cost unit linked to the subscription line
+CustomField,Edm.String,Custom field endpoint. Provided only for the Exact Online Premium users.
+Description,Edm.String,Description of the subscription line
+Discount,Edm.Double,Discount percentage of the subscription line
+Division,Edm.Int32,Code of division the subscription line is made
+EntryID,Edm.Guid,Entry ID referencing to the subscription
+FromDate,Edm.DateTime,The date which the subscription line starts
+Item,Edm.Guid,The item that is used by the subscription line for sales details. Reference to Item
+ItemDescription,Edm.String,Description of Item used by the subscription line
+LineNumber,Edm.Int32,Line number of the subscription line per subscription
+LineType,Edm.Int16,Reference to LineType endpoint
+LineTypeDescription,Edm.String,Description of LineType
+Modified,Edm.DateTime,Date and time when the subscription line has been modified
+NetPrice,Edm.Double,Net price in the currency of the transaction
+Notes,Edm.String,To add or retrieve additional information in the subscription line
+Quantity,Edm.Double,Quantity of item used in the subscription line
+SubscriptionNumber,Edm.Int32,Subscription number of the subscription line per subscription
+ToDate,Edm.DateTime,The date the subscription line ends
+UnitCode,Edm.String,"The code of the unit used in the subscription line. E.g: kg, meter"
+UnitDescription,Edm.String,Description of Unit used in the subscription line
+UnitPrice,Edm.Double,Unit price in the currency of the transaction (price * unit factor)
+VATAmountFC,Edm.Double,Vat Amount in the currency of the transaction
+VATCode,Edm.String,VAT code that is used in the subscription line
+VATCodeDescription,Edm.String,Description of VAT code that is used in the subscription line

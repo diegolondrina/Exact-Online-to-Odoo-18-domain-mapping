@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"C:\\\\Users\\\\Diego\\\\Documents\\\\UT\\\\Module_11\\\\Project\\\\project_files\\\\claude_project\\\\.claude\" -name \"SKILL.md\" -type f -exec wc -l {} +)",
+      "Bash(python3 -c ':*)",
+      "Bash(where python:*)",
+      "Bash(where python3:*)",
+      "Bash(python -c ':*)",
+      "Bash(PYTHONIOENCODING=utf-8 python format_workbooks.py)",
+      "Bash(python:*)",
+      "WebFetch(domain:docs.claude.com)"
+    ]
+  }
+}

@@ -1,0 +1,172 @@
+Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Notes
+ID,Edm.Guid,Direct,x_aa_exact_account_id,char,res.partner,"Primary key. Named x_aa_exact_account_id to distinguish from x_aa_exact_contact_id (Contacts sheet). A company partner has this field populated; a person partner does not. Used for reconciliation, deduplication, and relationship resolution across all migrated tables."
+Code,Edm.String,Direct,ref,char,res.partner,Exact account code (fixed-length numeric string with leading spaces). Maps to Odoo's external reference field. Strip leading spaces during migration. Only Accounts set ref — Contacts do not.
+Name,Edm.String,Direct,name,char,res.partner,Account name. Direct mapping. (Contacts derive name from FirstName + MiddleName + LastName instead.)
+SearchCode,Edm.String,Custom,x_aa_search_code,char,res.partner,Exact search/short code. No Odoo equivalent.
+TradeName,Edm.String,Custom,x_aa_trade_name,char,res.partner,Registered trade name. Odoo has no dedicated trade name field.
+Status,Edm.String,Custom,x_aa_status,char,res.partner,"Exact customer status: A=None, S=Suspect, P=Prospect, C=Customer. Preserved for full fidelity. Also drives Derived customer_rank."
+Type,Edm.String,Custom,x_aa_account_type,char,res.partner,"A=Relation, D=Division. Preserve for reference."
+IsSupplier,Edm.Boolean,Custom,x_aa_is_supplier,boolean,res.partner,Preserved as custom. Also drives Derived supplier_rank.
+IsReseller,Edm.Boolean,Custom,x_aa_is_reseller,boolean,res.partner,No Odoo equivalent for reseller classification.
+IsAccountant,Edm.Byte,Custom,x_aa_is_accountant,integer,res.partner,"Values: 0=No, 1=Yes (unpublished), 2=Yes (published). No Odoo equivalent."
+IsCompetitor,Edm.Byte,Custom,x_aa_is_competitor,boolean,res.partner,No Odoo equivalent.
+IsAgency,Edm.Byte,Custom,x_aa_is_agency,boolean,res.partner,No Odoo equivalent.
+IsSales,Edm.Boolean,Custom,x_aa_is_sales,boolean,res.partner,"Whether account is allowed for sales. Odoo uses customer_rank > 0 to filter customers, but that is semantic, not a permission flag."
+IsMailing,Edm.Byte,Custom,x_aa_is_mailing,boolean,res.partner,Excluded from marketing mailings. Odoo has is_blacklisted but semantics differ. Preserve as custom.
+IsPilot,Edm.Boolean,Custom,x_aa_is_pilot,boolean,res.partner,Pilot account flag. No Odoo equivalent.
+IsExtraDuty,Edm.Boolean,Custom,x_aa_is_extra_duty,boolean,res.partner,Eligibility for extra duty. No Odoo equivalent.
+IsAnonymised,Edm.Byte,Custom,x_aa_is_anonymised,boolean,res.partner,"Whether account data has been anonymised. Shared field name with Contacts sheet — same field on res.partner, one per record."
+AddressLine1,Edm.String,Direct,street,char,res.partner,First address line → Odoo street. (Contacts use concatenated AddressStreet + Number + Suffix instead.)
+AddressLine2,Edm.String,Direct,street2,char,res.partner,Second address line → Odoo street2.
+AddressLine3,Edm.String,Custom,x_aa_address_line_3,char,res.partner,Odoo has only street + street2. Third line preserved as custom.
+City,Edm.String,Direct,city,char,res.partner,Direct mapping.
+Postcode,Edm.String,Direct,zip,char,res.partner,Direct mapping.
+Country,Edm.String,Relational,country_id,many2one → res.country,res.partner,Exact stores ISO country code (2-char). Resolve via res.country.code lookup.
+CountryName,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from country_id.name.
+State,Edm.String,Relational,state_id,many2one → res.country.state,res.partner,State/Province code. Resolve via res.country.state.code + country_id lookup.
+StateName,Edm.String,Skip,—,—,—,Denormalized display field.
+AddressSource,Edm.Byte,Custom,x_aa_address_source,integer,res.partner,CRM creation source for the address. No Odoo equivalent.
+Email,Edm.String,Direct,email,char,res.partner,Direct mapping.
+Phone,Edm.String,Direct,phone,char,res.partner,Direct mapping.
+PhoneExtension,Edm.String,Custom,x_aa_phone_extension,char,res.partner,Odoo has no phone extension field. Shared field name with Contacts sheet.
+Fax,Edm.String,Custom,x_aa_fax,char,res.partner,Odoo 18 has no fax field. Shared field name with Contacts sheet.
+Website,Edm.String,Direct,website,char,res.partner,Direct mapping.
+Latitude,Edm.Double,Direct,partner_latitude,float,res.partner,Direct mapping.
+Longitude,Edm.Double,Direct,partner_longitude,float,res.partner,Direct mapping.
+CreditLineSales,Edm.Double,Direct,credit_limit,float,res.partner,Sales credit limit. Also set use_partner_credit_limit=True if value > 0 (see Derived).
+CreditLinePurchase,Edm.Double,Custom,x_aa_credit_line_purchase,float,res.partner,Purchase credit limit. Odoo only has a single credit_limit (sales/receivables).
+PaymentConditionSales,Edm.String,Relational,property_payment_term_id,many2one → account.payment.term,res.partner,Default sales payment term code. Resolve via x_aa_code lookup on account.payment.term (Payment Terms mapping). Exact stores a code string.
+PaymentConditionSalesDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+PaymentConditionPurchase,Edm.String,Relational,property_supplier_payment_term_id,many2one → account.payment.term,res.partner,Default purchase payment term code. Same resolution as PaymentConditionSales.
+PaymentConditionPurchaseDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+PriceList,Edm.Guid,Relational,property_product_pricelist,many2one → product.pricelist,res.partner,Default sales price list. Requires product.pricelist migration/mapping.
+SalesCurrency,Edm.String,Relational,currency_id,many2one → res.currency,res.partner,Sales currency code. Resolve via res.currency.name lookup.
+SalesCurrencyDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+PurchaseCurrency,Edm.String,Relational,property_purchase_currency_id,many2one → res.currency,res.partner,Purchase currency code. Resolve via res.currency.name lookup.
+PurchaseCurrencyDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+DiscountSales,Edm.Double,Custom,x_aa_discount_sales,float,res.partner,"Default sales discount (fraction, e.g., 0.055 = 5.5%). Odoo handles discounts via pricelists."
+DiscountPurchase,Edm.Double,Custom,x_aa_discount_purchase,float,res.partner,Default purchase discount (fraction). No Odoo equivalent on partner.
+SalesVATCode,Edm.String,Custom,x_aa_sales_vat_code,char,res.partner,Default sales VAT code. Odoo uses fiscal positions instead.
+SalesVATCodeDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+PurchaseVATCode,Edm.String,Custom,x_aa_purchase_vat_code,char,res.partner,Default purchase VAT code. Odoo uses fiscal positions instead.
+PurchaseVATCodeDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+InvoiceAccount,Edm.Guid,Custom,x_aa_invoice_account_id,char,res.partner,"ID of alternate account to invoice. Odoo uses child contacts with type=""invoice"". Preserve GUID."
+InvoiceAccountCode,Edm.String,Skip,—,—,—,Denormalized display field.
+InvoiceAccountName,Edm.String,Skip,—,—,—,Denormalized display field.
+InvoicingMethod,Edm.Int32,Custom,x_aa_invoicing_method,integer,res.partner,"Method of sending invoices (1=Paper, 2=Email, 4=Mailbox, 8=Send/track, 32=Peppol). Odoo has invoice_sending_method but value sets don't align."
+InvoiceAttachmentType,Edm.Int32,Custom,x_aa_invoice_attachment_type,integer,res.partner,Which attachment types to send with invoices. No Odoo equivalent.
+EnableSalesPaymentLink,Edm.Boolean,Custom,x_aa_enable_sales_payment_link,boolean,res.partner,Payment link active for sales. No direct Odoo partner-level equivalent.
+SeparateInvPerSubscription,Edm.Byte,Custom,x_aa_separate_inv_per_subscription,boolean,res.partner,"0=combined, 1=separate invoices per subscription. No Odoo equivalent on partner."
+SeparateInvPerProject,Edm.Byte,Custom,x_aa_separate_inv_per_project,boolean,res.partner,Separate invoice per project. No Odoo equivalent on partner.
+ConsolidationScenario,Edm.Byte,Custom,x_aa_consolidation_scenario,integer,res.partner,T&B consolidation scenario (0-6). No Odoo equivalent.
+ShowRemarkForSales,Edm.Boolean,Custom,x_aa_show_remark_for_sales,boolean,res.partner,Display remarks on sales orders. Odoo has sale_warn but works differently.
+DeliveryAdvice,Edm.Byte,Custom,x_aa_delivery_advice,integer,res.partner,"Delivery handling (0=Partial, 1=Complete, 2=Partial without backorder). Odoo handles at picking/route level."
+ShippingLeadDays,Edm.Int32,Custom,x_aa_shipping_lead_days,integer,res.partner,Default days to ship. Odoo manages on products/routes.
+ShippingMethod,Edm.Guid,Relational,property_delivery_carrier_id,many2one → delivery.carrier,res.partner,Default shipping method. Requires delivery carriers to be configured.
+PurchaseLeadDays,Edm.Int32,Custom,x_aa_purchase_lead_days,integer,res.partner,Default days to receive purchases. Odoo uses product supplierinfo.
+CanDropShip,Edm.Boolean,Custom,x_aa_can_drop_ship,boolean,res.partner,Drop-ship capability. Odoo handles via routes.
+GLAccountPurchase,Edm.Guid,Custom,x_aa_gl_account_purchase,char,res.partner,Default GL for purchase costs. Odoo has no per-partner purchase GL offset.
+GLAccountSales,Edm.Guid,Custom,x_aa_gl_account_sales,char,res.partner,Default GL for sales revenue. Odoo has no per-partner sales GL offset.
+GLAP,Edm.Guid,Relational,property_account_payable_id,many2one → account.account,res.partner,Default Accounts Payable GL. Resolve via account.account lookup.
+GLAR,Edm.Guid,Relational,property_account_receivable_id,many2one → account.account,res.partner,Default Accounts Receivable GL. Resolve via account.account lookup.
+VATNumber,Edm.String,Direct,vat,char,res.partner,Tax identification number. Odoo validates per country.
+ChamberOfCommerce,Edm.String,Direct,company_registry,char,res.partner,Chamber of commerce / company registration number.
+BSN,Edm.String,Custom,x_aa_bsn,char,res.partner,Dutch Citizen Service Number. Sensitive PII.
+RSIN,Edm.String,Custom,x_aa_rsin,char,res.partner,Dutch fiscal number.
+OINNumber,Edm.String,Custom,x_aa_oin_number,char,res.partner,Dutch government ID number.
+GlnNumber,Edm.String,Custom,x_aa_gln_number,char,res.partner,Global Location Number.
+EORINumber,Edm.String,Custom,x_aa_eori_number,char,res.partner,EU customs EORI number.
+VATLiability,Edm.String,Custom,x_aa_vat_liability,char,res.partner,VAT status for Belgian listing.
+HasWithholdingTaxSales,Edm.Boolean,Custom,x_aa_has_withholding_tax_sales,boolean,res.partner,Withholding tax on sales.
+RecepientOfCommissions,Edm.Boolean,Custom,x_aa_recipient_of_commissions,boolean,res.partner,Belgian Belcotax relation.
+PayAsYouEarn,Edm.String,Custom,x_aa_pay_as_you_earn,char,res.partner,UK loan repayment plan.
+UniqueTaxpayerReference,Edm.String,Custom,x_aa_unique_taxpayer_reference,char,res.partner,UK unique taxpayer reference.
+DatevCreditorCode,Edm.String,Custom,x_aa_datev_creditor_code,char,res.partner,DATEV creditor code (German).
+DatevDebtorCode,Edm.String,Custom,x_aa_datev_debtor_code,char,res.partner,DATEV debtor code (German).
+IgnoreDatevWarningMessage,Edm.Boolean,Custom,x_aa_ignore_datev_warning,boolean,res.partner,Suppress DATEV duplicate warnings.
+PeppolIdentifier,Edm.String,Direct,peppol_endpoint,char,res.partner,Peppol endpoint identifier. Direct semantic match.
+PeppolIdentifierType,Edm.Int32,Custom,x_aa_peppol_identifier_type,integer,res.partner,Peppol identifier type (numeric). Odoo has peppol_eas (selection with EAS codes). Value sets may not align.
+IncotermCodePurchase,Edm.String,Custom,x_aa_incoterm_code_purchase,char,res.partner,Incoterm code for purchases. Odoo manages at order level.
+IncotermCodeSales,Edm.String,Custom,x_aa_incoterm_code_sales,char,res.partner,Incoterm code for sales.
+IncotermAddressPurchase,Edm.String,Custom,x_aa_incoterm_address_purchase,char,res.partner,Incoterm location for purchases.
+IncotermAddressSales,Edm.String,Custom,x_aa_incoterm_address_sales,char,res.partner,Incoterm location for sales.
+IncotermVersionPurchase,Edm.Int16,Custom,x_aa_incoterm_version_purchase,integer,res.partner,Incoterm version for purchases (2010/2020).
+IncotermVersionSales,Edm.Int16,Custom,x_aa_incoterm_version_sales,integer,res.partner,Incoterm version for sales (2010/2020).
+IntraStatArea,Edm.String,Custom,x_aa_intrastat_area,char,res.partner,Intrastat area. Odoo manages at invoice line level.
+IntraStatDeliveryTerm,Edm.String,Custom,x_aa_intrastat_delivery_term,char,res.partner,Intrastat delivery method.
+IntraStatSystem,Edm.String,Custom,x_aa_intrastat_system,char,res.partner,Intrastat system code.
+IntraStatTransactionA,Edm.String,Custom,x_aa_intrastat_transaction_a,char,res.partner,Intrastat transaction type A.
+IntraStatTransactionB,Edm.String,Custom,x_aa_intrastat_transaction_b,char,res.partner,Intrastat transaction type B.
+IntraStatTransportMethod,Edm.String,Custom,x_aa_intrastat_transport_method,char,res.partner,Intrastat transport method.
+AccountManager,Edm.Guid,Relational,user_id,many2one → res.users,res.partner,Account manager → Odoo salesperson.
+AccountManagerFullName,Edm.String,Skip,—,—,—,Denormalized display field.
+AccountManagerHID,Edm.Int32,Skip,—,—,—,Redundant numeric ID.
+Accountant,Edm.Guid,Custom,x_aa_accountant_id,char,res.partner,Reference to accountant (another Account). Store GUID.
+Parent,Edm.Guid,Relational,parent_id,many2one → res.partner,res.partner,Parent account (self-referential hierarchy). Resolve via x_aa_exact_account_id lookup. Ensure parent accounts migrated before children.
+MainContact,Edm.Guid,Custom,x_aa_main_contact_id,char,res.partner,"Main contact person GUID. After Contact migration, can be cross-referenced via x_aa_exact_contact_id on the child partner."
+Reseller,Edm.Guid,Custom,x_aa_reseller_id,char,res.partner,Reference to reseller account. Store GUID.
+ResellerCode,Edm.String,Skip,—,—,—,Denormalized display field.
+ResellerName,Edm.String,Skip,—,—,—,Denormalized display field.
+ActivitySector,Edm.Guid,Relational,industry_id,many2one → res.partner.industry,res.partner,Activity sector → Odoo industry. Not core to subscriptions — resolve later if needed.
+ActivitySubSector,Edm.Guid,Custom,x_aa_activity_sub_sector,char,res.partner,Sub-sector. No Odoo sub-industry. Store GUID.
+LeadPurpose,Edm.Guid,Custom,x_aa_lead_purpose,char,res.partner,Lead purpose GUID. Shared field name with Contacts sheet.
+LeadSource,Edm.Guid,Custom,x_aa_lead_source,char,res.partner,Lead source GUID. Shared field name with Contacts sheet.
+BusinessType,Edm.Guid,Custom,x_aa_business_type,char,res.partner,Business type GUID.
+CompanySize,Edm.Guid,Custom,x_aa_company_size,char,res.partner,Company size GUID.
+CodeAtSupplier,Edm.String,Custom,x_aa_code_at_supplier,char,res.partner,Code under which your company is known at this account.
+Classification1,Edm.Guid,Custom,x_aa_classification_1,char,res.partner,Account classification 1 (of 8). Store GUID.
+Classification2,Edm.Guid,Custom,x_aa_classification_2,char,res.partner,Account classification 2. Store GUID.
+Classification3,Edm.Guid,Custom,x_aa_classification_3,char,res.partner,Account classification 3. Store GUID.
+Classification4,Edm.Guid,Custom,x_aa_classification_4,char,res.partner,Account classification 4. Store GUID.
+Classification5,Edm.Guid,Custom,x_aa_classification_5,char,res.partner,Account classification 5. Store GUID.
+Classification6,Edm.Guid,Custom,x_aa_classification_6,char,res.partner,Account classification 6. Store GUID.
+Classification7,Edm.Guid,Custom,x_aa_classification_7,char,res.partner,Account classification 7. Store GUID.
+Classification8,Edm.Guid,Custom,x_aa_classification_8,char,res.partner,Account classification 8. Store GUID.
+StartDate,Edm.DateTime,Custom,x_aa_start_date,date,res.partner,Account start date. Shared field name with Contacts sheet. Strip time.
+EndDate,Edm.DateTime,Custom,x_aa_end_date,date,res.partner,Account end date. Used in Derived: active. Shared field name with Contacts sheet.
+EstablishedDate,Edm.DateTime,Custom,x_aa_established_date,date,res.partner,Company registration date. Strip time.
+ControlledDate,Edm.DateTime,Custom,x_aa_controlled_date,date,res.partner,Date of latest external data verification.
+Logo,Edm.Binary,Direct,image_1920,binary,res.partner,Company logo. Odoo auto-generates smaller sizes.
+LogoFileName,Edm.String,Custom,x_aa_logo_filename,char,res.partner,Original filename. Odoo does not store filenames.
+LogoThumbnailUrl,Edm.String,Skip,—,—,—,Exact-hosted URL. Not meaningful post-migration.
+LogoUrl,Edm.String,Skip,—,—,—,Exact-hosted URL. Not meaningful post-migration.
+Language,Edm.String,Relational,lang,selection,res.partner,"Language code. Exact ISO → Odoo locale (e.g., ""NL"" → ""nl_NL""). Same logic as Contacts sheet."
+LanguageDescription,Edm.String,Skip,—,—,—,Denormalized display field.
+Remarks,Edm.String,Direct,comment,html,res.partner,Account remarks. Wrap in <p> tags. Same target as Contacts (Notes → comment).
+BankAccounts,Collection,Skip,—,—,—,Bank accounts collection. Deferred to later batch → res.partner.bank.
+Blocked,Edm.Boolean,Custom,x_aa_blocked,boolean,res.partner,Blocked flag. May feed into Derived: active logic.
+SecurityLevel,Edm.Int32,Custom,x_aa_security_level,integer,res.partner,Security level (0-100).
+Source,Edm.Byte,Custom,x_aa_source,integer,res.partner,CRM creation source.
+AutomaticProcessProposedEntry,Edm.Byte,Custom,x_aa_auto_process_proposed_entry,integer,res.partner,Auto-create entries for complete proposals.
+Created,Edm.DateTime,Direct,create_date,datetime,res.partner,Creation timestamp.
+Creator,Edm.Guid,Relational,create_uid,many2one → res.users,res.partner,Creator. Resolve via res.users. Default to admin.
+CreatorFullName,Edm.String,Skip,—,—,—,Denormalized display field.
+Modified,Edm.DateTime,Direct,write_date,datetime,res.partner,Last modification timestamp.
+Modifier,Edm.Guid,Relational,write_uid,many2one → res.users,res.partner,Modifier. Resolve via res.users. Default to admin.
+ModifierFullName,Edm.String,Skip,—,—,—,Denormalized display field.
+Division,Edm.Int32,Relational,company_id,many2one → res.company,res.partner,Exact division → res.company.
+Classification,Edm.String,Skip,—,—,—,Obsolete.
+ClassificationDescription,Edm.String,Skip,—,—,—,Obsolete.
+BRIN,Edm.Guid,Skip,—,—,—,Obsolete.
+Currency,Edm.String,Skip,—,—,—,Obsolete. Use SalesCurrency / PurchaseCurrency.
+CustomerSince,Edm.DateTime,Skip,—,—,—,Obsolete.
+StatusSince,Edm.DateTime,Skip,—,—,—,Obsolete.
+Document,Edm.Guid,Skip,—,—,—,Obsolete.
+DunsNumber,Edm.String,Skip,—,—,—,Obsolete.
+IsBank,Edm.Boolean,Skip,—,—,—,Obsolete.
+IsMember,Edm.Boolean,Skip,—,—,—,Obsolete.
+IsPurchase,Edm.Boolean,Skip,—,—,—,Obsolete.
+Costcenter,Edm.String,Skip,—,—,—,Obsolete.
+CostcenterDescription,Edm.String,Skip,—,—,—,Obsolete.
+CostPaid,Edm.Byte,Skip,—,—,—,Obsolete.
+SalesTaxSchedule,Edm.Guid,Skip,—,—,—,Obsolete.
+SalesTaxScheduleCode,Edm.String,Skip,—,—,—,Obsolete.
+SalesTaxScheduleDescription,Edm.String,Skip,—,—,—,Obsolete.
+CustomField,Edm.String,Skip,—,—,—,Premium endpoint reference. Always skip.
+—,—,Derived,is_company,boolean,res.partner,Always True for Accounts. (Contacts sheet sets False.)
+—,—,Derived,company_type,selection,res.partner,"Always ""company"". (Contacts sheet sets ""person"".)"
+—,—,Derived,customer_rank,integer,res.partner,"Set to 1 if Status=""C"", else 0. Contacts inherit from parent — do not set on person records."
+—,—,Derived,supplier_rank,integer,res.partner,"Set to 1 if IsSupplier=True, else 0. Contacts inherit from parent."
+—,—,Derived,active,boolean,res.partner,"False if EndDate < migration date, else True. Optionally also False if Blocked=True."
+—,—,Derived,use_partner_credit_limit,boolean,res.partner,True if CreditLineSales > 0. Required for Odoo to enforce credit_limit.
+—,—,Derived,type,selection,res.partner,"Set to ""contact"" (default address type for company-level partners)."

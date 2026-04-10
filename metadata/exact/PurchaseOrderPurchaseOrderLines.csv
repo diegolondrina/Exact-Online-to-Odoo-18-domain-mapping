@@ -1,0 +1,66 @@
+Name,Type,Description
+ID,Edm.Guid,Primary key
+AmountDC,Edm.Double,Amount in the default currency of the company
+AmountFC,Edm.Double,Amount in the currency of the transaction
+CostCenter,Edm.String,Reference to Cost center
+CostCenterDescription,Edm.String,Description of CostCenter
+CostUnit,Edm.String,Reference to Cost unit
+CostUnitDescription,Edm.String,Description of CostUnit
+Created,Edm.DateTime,Creation date
+Creator,Edm.Guid,User ID of creator
+CreatorFullName,Edm.String,Name of creator
+CustomField,Edm.String,Custom field endpoint. Provided only for the Exact Online Premium users.
+Description,Edm.String,Description of the purchase order line
+Discount,Edm.Double,Discount in percentage for item
+Division,Edm.Int32,Division code
+Expense,Edm.Guid,Expense related to the Work Breakdown Structure of the selected project. Only available with a professional service license
+ExpenseDescription,Edm.String,Description of expense. Only available with a professional service license
+From,Edm.DateTime,The date which the purchase order line starts
+InStock,Edm.Double,The current stock level of items shown in stock unit. The information is displayed only for items with the stock property selected.
+InvoicedQuantity,Edm.Double,Quantity of item that has been invoiced
+IsBatchNumberItem,Edm.Byte,Indicates that an Item is an batch item
+IsSerialNumberItem,Edm.Byte,Indicates that an Item is an serial item
+Item,Edm.Guid,Reference to the item for purchase order
+ItemBarcode,Edm.String,Barcode of the item (numeric string)
+ItemBarcodeAdditional,Edm.String,This is the barcode for the unit other than standard unit of the item. Only supported by the Premium for Wholesale & Distribution and Manufacturing
+ItemCode,Edm.String,Item code
+ItemDescription,Edm.String,Description of item
+ItemDivisable,Edm.Boolean,"Indicates if fractional quantities of the item can be used, for example quantity = 0.4"
+LineNumber,Edm.Int32,Line number
+Modified,Edm.DateTime,Last modified date
+Modifier,Edm.Guid,User ID of modifier
+ModifierFullName,Edm.String,Name of modifier
+NetPrice,Edm.Double,The net price is the unit price (VAT code taken into account) with any discount applied
+Notes,Edm.String,Notes
+Project,Edm.Guid,Reference to project. Only available with a professional service license
+ProjectCode,Edm.String,Project code. Only available with a professional service license
+ProjectDescription,Edm.String,Description of the project. Only available with a professional service license
+ProjectedStock,Edm.Double,The current stock level + the planned quantity to be received - the planned quantity to deliver shown in stock unit.
+PurchaseOrderID,Edm.Guid,Identifies the purchase order. All the lines of a purchase order have the same PurchaseOrderID
+Quantity,Edm.Double,Quantity in item units
+QuantityInPurchaseUnits,Edm.Double,Quantity in purchase units. Use this field when creating a purchase order
+Rebill,Edm.Boolean,Indicates whether the purchase order line needs to be rebilled. Only available with a professional service license
+ReceiptDate,Edm.DateTime,Date the goods are expected to be received
+ReceivedQuantity,Edm.Double,Quantity of goods received
+SalesOrder,Edm.Guid,Sales order that is linked to a back to back sales order in purchase order. Show NULL if more than one sales order is linked to the purchase order line.
+SalesOrderLine,Edm.Guid,Sales order line of the sales order that Is linked to a back to back sales order in purchase order. Show NULL if more than one sales order is linked to the purchase order line.
+SalesOrderLineNumber,Edm.Int32,Number of the sales order line. Show NULL if more than one sales order is linked to the purchase order line.
+SalesOrderNumber,Edm.Int32,Number of the sales order. Show NULL if more than one sales order is linked to the purchase order line.
+ShopOrder,Edm.Guid,"Obsolete. Please use ""ShopOrderMaterialPlans"" or ""ShopOrderRoutingStepPlans"" property."
+ShopOrderMaterialPlan,Edm.Guid,"Obsolete. Please use ""ShopOrderMaterialPlans"" property."
+ShopOrderMaterialPlanLineNumber,Edm.Int32,"Obsolete. Please use ""ShopOrderMaterialPlans"" property."
+ShopOrderMaterialPlans,ShopOrderMaterialPlans,Collection of Shop order Material plans
+ShopOrderNumber,Edm.Int32,"Obsolete. Please use ""ShopOrderMaterialPlans"" or ""ShopOrderRoutingStepPlans"" property."
+ShopOrderRoutingStepPlan,Edm.Guid,"Obsolete. Please use ""ShopOrderRoutingStepPlans"" property."
+ShopOrderRoutingStepPlanLineNumber,Edm.Int32,"Obsolete. Please use ""ShopOrderRoutingStepPlans"" property."
+ShopOrderRoutingStepPlans,ShopOrderRoutingStepPlans,Collection of Shop order Routing step plans
+SupplierItemCode,Edm.String,Code the supplier uses for this item
+SupplierItemCopyRemarks,Edm.Byte,"Indicate if the notes content should be copied from SupplierItem's remarks. The default follows the CopyRemarks value from SupplierItem. Values: 0 = Do not copy remark, 1 = Copy remark"
+To,Edm.DateTime,The date which the purchase order line ends
+Unit,Edm.String,Code of item unit
+UnitDescription,Edm.String,Description of unit
+UnitPrice,Edm.Double,Item price per purchase unit
+VATAmount,Edm.Double,Amount of VAT charges calculated from total amount and vat percentage
+VATCode,Edm.String,The VAT code used when the invoice was registered
+VATDescription,Edm.String,Description of vat code
+VATPercentage,Edm.Double,The VAT percentage of the VAT code. This is the percentage at the moment the invoice is created. It's also used by the default calculation of VAT amounts and VAT base amounts

@@ -1,0 +1,9 @@
+Name,Type,Description
+ID,Edm.Guid,Primary key
+Active,Edm.Boolean,Indicates whether a unit is in use
+Code,Edm.String,Unique code for the unit
+Description,Edm.String,Description
+Division,Edm.Int32,Division code
+Main,Edm.Byte,Indicates the main unit per division. Will be used when creating new item
+TimeUnit,Edm.String,"If Type = 'T' (time) then this fields indicates the type of time frame. yy = Year, mm = Month, wk = Week, dd = Day, hh = Hour, mi = Minute, ss = Second"
+Type,Edm.String,Type of unit. Type 'Time' is especially important for contracts.

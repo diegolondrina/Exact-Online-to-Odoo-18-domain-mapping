@@ -1,0 +1,45 @@
+Name,Type,Description
+EntryID,Edm.Guid,Primary key
+BlockEntry,Edm.Boolean,Indicates if subscription is blocked for time cost entry
+CancellationDate,Edm.DateTime,Date of cancellation
+Classification,Edm.Guid,"Guid ID of classification, to filter the report based on the classification of a subscription"
+ClassificationCode,Edm.String,"Code of classification, to filter the report based on the classification of a subscription"
+ClassificationDescription,Edm.String,"Description of classification, to filter the report based on the classification of a subscription"
+Created,Edm.DateTime,Date when the subscription was created
+Creator,Edm.Guid,The Guid ID of the user that created the subscription
+CreatorFullName,Edm.String,The full name of the user that created the subscription
+Currency,Edm.String,Currency code used in the transactions
+CustomerPONumber,Edm.String,Purchase order number of that is linked to customer
+Description,Edm.String,Description of the subscription
+Division,Edm.Int32,Division number of the company that the subscription is linked to
+EndDate,Edm.DateTime,The date and time when the subscription ends
+InvoiceDay,Edm.Byte,"For monthly, quaterly, half-year and yearly invoice period, the day number of the month when the invoice of the subscription is sent. While for weekly invoice period, the weekday number of the week when the invoice of the subscription is sent: 0=Monday 1=Tuesday 2=Wednesday 3=Thursday 4=Friday 5=Saturday 6=Sunday"
+InvoicedTo,Edm.DateTime,The date when the invoice of the subscription is sent
+InvoiceTo,Edm.Guid,The account which the subsciption is invoiced to
+InvoiceToContactPerson,Edm.Guid,The ID of the contact person that is linked to the account the subscription is invoice to
+InvoiceToContactPersonFullName,Edm.String,The name of the contact person that is linked to the account the subscription is invoice to
+InvoiceToName,Edm.String,Name of the account to invoice to
+InvoicingStartDate,Edm.DateTime,Date to start invoicing the account
+Modified,Edm.DateTime,Date and time when the subscription has been modified
+Modifier,Edm.Guid,The ID of the user that modified the subscription
+ModifierFullName,Edm.String,The name of the user that modified the subscription
+Notes,Edm.String,For additional information regarding the subscription
+Number,Edm.Int32,Subscription number of the company
+OrderedBy,Edm.Guid,"Reference to order account, GUID ID of the subscriber"
+OrderedByContactPerson,Edm.Guid,"Reference of contact person of order account, displays the contact name of the subscriber"
+OrderedByContactPersonFullName,Edm.String,"Name of contact person of order account, displays the full contact name of the subscriber"
+OrderedByName,Edm.String,"Name of order account, displays the name of the subscriber"
+PaymentCondition,Edm.String,Code of subscriptions payment condition
+PaymentConditionDescription,Edm.String,Description of subscriptions payment condition
+Printed,Edm.Boolean,Indicates if subscription has been printed
+Project,Edm.Guid,"The Guid ID of the project, reference to Project endpoint"
+ReasonCancelled,Edm.Guid,Guid ID of the reason of cancellation record linked to the subscription
+ReasonCancelledCode,Edm.String,Code of the reason of cancellation record linked to the subscription
+ReasonCancelledDescription,Edm.String,Description of the reason of cancellation record linked to the subscription
+StartDate,Edm.DateTime,Start date of the subscription
+SubscriptionLines,SubscriptionLines,"Collection of subscription lines linked to the subscription link, can be referenced to SubscriptionLines endpoint"
+SubscriptionRestrictionEmployees,SubscriptionRestrictionEmployees,"Collection of employee's restriction, can be referenced to SubscriptionRestrictionEmployees endpoint"
+SubscriptionRestrictionItems,SubscriptionRestrictionItems,"Collection of restriction items linked to the subscription, can be referenced to SubscriptionRestrictionItems endpoint"
+SubscriptionType,Edm.Guid,"The GUID ID of the subscription condition, reference to SubscriptionType endpoint"
+SubscriptionTypeCode,Edm.String,The code of the subscription condition record
+SubscriptionTypeDescription,Edm.String,The code of the subscription condition description
