@@ -11,7 +11,7 @@ CostPriceStandard,Edm.Double,Direct,standard_price,float,product.template,Standa
 AverageCost,Edm.Double,Custom,x_aa_average_cost,float,product.template,Exact's running average cost. Odoo computes AVCO internally via stock valuation layers — not a writable field in the same way. Preserve for reconciliation.
 CostPriceNew,Edm.Double,Custom,x_aa_cost_price_new,float,product.template,Proposed new cost price. No Odoo equivalent (Odoo updates cost directly or via valuation).
 CostPriceCurrency,Edm.String,Relational,cost_currency_id,many2one → res.currency,product.template,Currency of cost prices. Resolve ISO code → res.currency.
-ItemGroup,Edm.Guid,Relational,categ_id,many2one → product.category,product.template,"Exact ItemGroup → Odoo product category. Requires ItemGroup GUID → product.category lookup. If ItemGroups are not migrated, default to Odoo's 'All' category."
+ItemGroup,Edm.Guid,Relational,categ_id,many2one → product.category,product.template,"Exact ItemGroup → Odoo product category. ItemGroups are not being migrated as a separate domain; defer resolution and default all products to Odoo's built-in 'All' category (id=1)."
 ItemGroupCode,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from ItemGroup → product.category.name.
 ItemGroupDescription,Edm.String,Skip,—,—,—,Denormalized display field.
 Unit,Edm.String,Relational,uom_id,many2one → uom.uom,product.template,Default unit of measure. Resolve Exact unit code → Odoo uom.uom. Also sets uom_po_id if purchase UoM should match.

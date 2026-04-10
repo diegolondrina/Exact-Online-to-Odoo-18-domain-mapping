@@ -225,7 +225,6 @@ The general principle: **reference/master data before transactional data, parent
    - `account.payment.term` (payment conditions)
 
 2. **Domain-specific master data:**
-   - `product.category` (from Exact ItemGroups)
    - `product.template` → auto-creates `product.product` (from Exact Items)
    - `res.partner` (from Exact Accounts/Contacts)
    - Domain-specific configurations (e.g., `sale.subscription.plan`, `sale.order.close.reason`)

@@ -8,7 +8,7 @@ Usage:
 CSV convention:
     mappings/data/<domain>/[ExactEntity]-[OdooModel].csv
     Filename becomes the sheet title with " → " replacing "-":
-        [ItemGroups]-[product.category].csv  →  sheet "ItemGroups → product.category"
+        [Items]-[product.template].csv  →  sheet "Items → product.template"
 
     An optional numeric prefix controls sheet order:
         01_[Subscriptions]-[sale.order].csv  (prefix stripped from title)
