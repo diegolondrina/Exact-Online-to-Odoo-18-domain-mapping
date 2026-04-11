@@ -8,10 +8,9 @@ Usage:
 CSV convention:
     mappings/data/<domain>/ExactEntity-OdooModel.csv
     Filename becomes the sheet title with " → " replacing the first "-":
-        Items-product.template.csv  →  sheet "Items → product.template"
+        CRMAccounts-res.partner.csv  →  sheet "CRMAccounts → res.partner"
 
-    An optional numeric prefix controls sheet order:
-        01_Subscriptions-sale.order.csv  (prefix stripped from title)
+    Sheet order is alphabetical by filename.
 
 Each CSV must have the standard 8-column header:
     Exact Field, Exact Type, Category, Odoo Field, Odoo Type, Odoo Model, Related Model, Notes
@@ -32,6 +31,7 @@ import openpyxl
 
 MAPPINGS_DIR = "mappings"
 DATA_DIR = os.path.join(MAPPINGS_DIR, "data")
+METADATA_DIR = os.path.join(os.path.dirname(__file__), "metadata")
 
 HEADERS = [
     "Exact Field", "Exact Type", "Category",
@@ -46,20 +46,56 @@ LEGEND_ROWS = [
     ("Skip",       "Not migrated (denormalized, obsolete, or system-managed)."),
 ]
 
-# Pattern: optional "01_" prefix, then ExactEntity-OdooModel.csv.
+# Pattern: ExactEntity-OdooModel.csv (no numeric prefix required).
 # ExactEntity is matched non-greedily up to the first hyphen; the rest
 # (which may contain dots, e.g. "purchase.order.line") is the Odoo model.
 SHEET_NAME_RE = re.compile(
-    r"^(?:\d+_)?([^-]+)-(.+)\.csv$"
+    r"^([^-]+)-(.+)\.csv$"
 )
 
 
-def csv_to_sheet_name(filename):
-    """Convert CSV filename to sheet title.  e.g. Items-product.template.csv → Items → product.template"""
+def validate_mapping_filename(filename, domain):
+    """Validate that mapping filename follows correct naming convention."""
     m = SHEET_NAME_RE.match(filename)
     if not m:
         sys.exit(f"ERROR: filename '{filename}' does not match ExactEntity-OdooModel.csv convention.")
-    return f"{m.group(1)} \u2192 {m.group(2)}"
+    
+    exact_entity = m.group(1)
+    odoo_model = m.group(2)
+    
+    # Check if Exact entity metadata exists
+    exact_metadata_path = os.path.join(METADATA_DIR, "exact", f"{exact_entity}.csv")
+    if not os.path.isfile(exact_metadata_path):
+        print(f"WARNING: Exact entity metadata file not found: {exact_metadata_path}")
+        print("This mapping may be using an entity that hasn't been scraped yet.")
+    
+    # Check if Odoo model metadata exists
+    odoo_metadata_path = os.path.join(METADATA_DIR, "odoo", f"{odoo_model}.csv")
+    if not os.path.isfile(odoo_metadata_path):
+        sys.exit(f"ERROR: Odoo model metadata file not found: {odoo_metadata_path}")
+    
+    return exact_entity, odoo_model
+
+
+def csv_to_sheet_name(filename):
+    """Convert CSV filename to sheet title.  e.g. CRMAccounts-res.partner.csv → CRMAccounts → res.partner"""
+    m = SHEET_NAME_RE.match(filename)
+    if not m:
+        sys.exit(f"ERROR: filename '{filename}' does not match ExactEntity-OdooModel.csv convention.")
+    exact_entity = m.group(1)
+    odoo_model = m.group(2)
+    # Truncate long names to fit Excel's 31-character limit
+    full_title = f"{exact_entity} → {odoo_model}"
+    if len(full_title) > 31:
+        # Try to abbreviate the Exact entity name first
+        if len(exact_entity) > 15:
+            exact_entity = exact_entity[:12] + "..."
+        # Then abbreviate the Odoo model if still too long
+        full_title = f"{exact_entity} → {odoo_model}"
+        if len(full_title) > 31 and len(odoo_model) > 10:
+            odoo_model = odoo_model[:7] + "..."
+        full_title = f"{exact_entity} → {odoo_model}"
+    return full_title
 
 
 def discover_csvs(domain_dir):
@@ -91,6 +127,9 @@ def generate_workbook(domain):
     first_sheet = True
 
     for csv_file in csv_files:
+        # Validate filename follows correct naming convention
+        exact_entity, odoo_model = validate_mapping_filename(csv_file, domain)
+        
         sheet_name = csv_to_sheet_name(csv_file)
         csv_path = os.path.join(domain_dir, csv_file)
         headers, rows = read_csv(csv_path)

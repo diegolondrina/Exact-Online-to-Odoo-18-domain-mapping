@@ -12,7 +12,7 @@ Generate the Excel workbook from the CSV source files in
 ## Delivery Steps
 
 1. **Verify CSVs exist** in `mappings/data/{domain}/`. Each CSV
-   represents one sheet, named `NN_ExactEntity-OdooModel.csv`.
+   represents one sheet, named `ExactEntity-OdooModel.csv`.
    If CSVs are missing, the mapping step was not completed — run
    /map first.
 

@@ -36,9 +36,10 @@ Consult @reference/odoo-skip-patterns.md when filtering Odoo fields.
 ## Output Format
 Write each table-pair mapping as a CSV in `mappings/data/{domain}/`.
 
-**Filename convention:** `NN_ExactEntity-OdooModel.csv`
-- `NN` = two-digit sequence number controlling sheet order (00, 01, ...)
-- Example: `00_Subscriptions-sale.order.csv`
+**Filename convention:** `ExactEntity-OdooModel.csv`
+- `ExactEntity` = Exact metadata filename without `.csv` extension
+- `OdooModel` = Odoo metadata filename without `.csv` extension  
+- Example: `CRMAccounts-res.partner.csv`
 
 **CSV columns** (standard 8-column header, must match exactly):
 ```
