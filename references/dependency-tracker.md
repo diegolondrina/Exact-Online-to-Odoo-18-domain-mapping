@@ -11,6 +11,7 @@
 - Subscriptions: /mappings/subscriptions_mapping.xlsx
 - Contacts & Accounts: /mappings/contacts_mapping.xlsx
 - Purchases: /mappings/purchases_mapping.xlsx
+- Warehouses: /mappings/warehouses_mapping.xlsx
 
 ## Dependency Chain
 ```
@@ -36,7 +37,7 @@ uom.uom (UoM), account.payment.term (Contacts) — all already mapped.
 
 ## Pending Dependencies
 - account.account: GL fields on product.template (GLRevenue → property_account_income_id, GLCosts → property_account_expense_id). GL resolution blocked until account.account is mapped.
-- res.users: PurchaseAgent → user_id, Creator/Modifier → create_uid/write_uid (Purchases, Subscriptions)
+- res.users: PurchaseAgent → user_id, Creator/Modifier → create_uid/write_uid (Purchases, Subscriptions, Warehouses). ManagerUser on Warehouses stored as char (x_aa_manager_user_id) pending user mapping.
 - account.tax: VATCode → taxes_id on purchase.order.line (Purchases)
 - account.analytic.account: CostCenter → analytic_distribution (Purchases)
-- stock.picking.type: Warehouse → picking_type_id on purchase.order (Purchases)
+- stock.picking.type: Warehouse → picking_type_id on purchase.order (Purchases). UNBLOCKED by Warehouses mapping — picking types are auto-created by Odoo on warehouse creation. Resolution path: Exact Warehouse GUID → stock.warehouse.x_aa_exact_id → stock.warehouse.in_type_id.

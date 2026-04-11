@@ -1,0 +1,16 @@
+Name,Type,Description
+ID,Edm.Guid,A guid that is the unique identifier of the storage location
+Code,Edm.String,Code of the storage location
+Created,Edm.DateTime,Creation date
+Creator,Edm.Guid,User ID of creator
+CreatorFullName,Edm.String,Name of creator
+Description,Edm.String,Description of the storage location
+Division,Edm.Int32,Division code
+Main,Edm.Byte,Indicates if this is the main storage location. There's always exactly one main storage location per warehouse
+Modified,Edm.DateTime,Last modified date
+Modifier,Edm.Guid,User ID of modifier
+ModifierFullName,Edm.String,Name of modifier
+PickSequence,Edm.Int32,Sequence for locations
+Warehouse,Edm.Guid,Warehouse ID
+WarehouseCode,Edm.String,Warehouse Code
+WarehouseDescription,Edm.String,Description of warehouse

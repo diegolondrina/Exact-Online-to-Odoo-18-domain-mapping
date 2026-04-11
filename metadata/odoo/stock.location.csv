@@ -1,0 +1,51 @@
+"Field Name","Field Label","Field Type","Field Help","Model","Related Model","Required"
+"active","Active","boolean","By unchecking the active field, you may hide a location without deleting it.","Inventory Locations","",""
+"barcode","Barcode","char","","Inventory Locations","",""
+"child_ids","Contains","one2many","","Inventory Locations","stock.location",""
+"child_internal_location_ids","Internal locations among descendants","many2many","This location (if it's internal) and all its descendants filtered by type=Internal.","Inventory Locations","stock.location",""
+"comment","Additional Information","html","","Inventory Locations","",""
+"company_id","Company","many2one","Let this field empty if this location is shared between companies","Inventory Locations","res.company",""
+"complete_name","Full Location Name","char","","Inventory Locations","",""
+"create_date","Created on","datetime","","Inventory Locations","",""
+"create_uid","Created by","many2one","","Inventory Locations","res.users",""
+"cyclic_inventory_frequency","Inventory Frequency","integer"," When different than 0, inventory count date for products stored at this location will be automatically set at the defined frequency.","Inventory Locations","",""
+"display_name","Display Name","char","","Inventory Locations","",""
+"forecast_weight","Forecasted Weight","float","","Inventory Locations","",""
+"id","ID","integer","","Inventory Locations","",""
+"incoming_move_line_ids","Incoming Move Line","one2many","","Inventory Locations","stock.move.line",""
+"is_empty","Is Empty","boolean","","Inventory Locations","",""
+"is_pallet","Is Pallet","boolean","","Inventory Locations","",""
+"last_inventory_date","Last Inventory","date","Date of the last inventory at this location.","Inventory Locations","",""
+"location_id","Parent Location","many2one","The parent location that includes this location. Example : The 'Dispatch Zone' is the 'Gate 1' parent location.","Inventory Locations","stock.location",""
+"name","Location Name","char","","Inventory Locations","","True"
+"net_weight","Net Weight","float","","Inventory Locations","",""
+"next_inventory_date","Next Expected","date","Date for next planned inventory based on cyclic schedule.","Inventory Locations","",""
+"outgoing_move_line_ids","Outgoing Move Line","one2many","","Inventory Locations","stock.move.line",""
+"parent_path","Parent Path","char","","Inventory Locations","",""
+"posx","Corridor (X)","integer","Optional localization details, for information purpose only","Inventory Locations","",""
+"posy","Shelves (Y)","integer","Optional localization details, for information purpose only","Inventory Locations","",""
+"posz","Height (Z)","integer","Optional localization details, for information purpose only","Inventory Locations","",""
+"putaway_rule_ids","Putaway Rules","one2many","","Inventory Locations","stock.putaway.rule",""
+"quant_ids","Quant","one2many","","Inventory Locations","stock.quant",""
+"removal_strategy_id","Removal Strategy","many2one","Defines the default method used for suggesting the exact location (shelf) where to take the products from, which lot etc. for this location. This method can be enforced at the product category level, and a fallback is made on the parent locations if none is set here.
+
+FIFO: products/lots that were stocked first will be moved out first.
+LIFO: products/lots that were stocked last will be moved out first.
+Closet location: products/lots closest to the target location will be moved out first.
+FEFO: products/lots with the closest removal date will be moved out first (the availability of this method depends on the ""Expiration Dates"" setting).","Inventory Locations","product.removal",""
+"replenish_location","Replenish Location","boolean","Activate this function to get all quantities to replenish at this particular location","Inventory Locations","",""
+"scrap_location","Is a Scrap Location?","boolean","Check this box to allow using this location to put scrapped/damaged goods.","Inventory Locations","",""
+"storage_category_id","Storage Category","many2one","","Inventory Locations","stock.storage.category",""
+"usage","Location Type","selection","* Vendor Location: Virtual location representing the source location for products coming from your vendors
+* View: Virtual location used to create a hierarchical structures for your warehouse, aggregating its child locations ; can't directly contain products
+* Internal Location: Physical locations inside your own warehouses,
+* Customer Location: Virtual location representing the destination location for products sent to your customers
+* Inventory Loss: Virtual location serving as counterpart for inventory operations used to correct stock levels (Physical inventories)
+* Production: Virtual counterpart location for production operations: this location consumes the components and produces finished products
+* Transit Location: Counterpart location that should be used in inter-company or inter-warehouses operations","Inventory Locations","","True"
+"valuation_in_account_id","Stock Valuation Account (Incoming)","many2one","Used for real-time inventory valuation. When set on a virtual location (non internal type), this account will be used to hold the value of products being moved from an internal location into this location, instead of the generic Stock Output Account set on the product. This has no effect for internal locations.","Inventory Locations","account.account",""
+"valuation_out_account_id","Stock Valuation Account (Outgoing)","many2one","Used for real-time inventory valuation. When set on a virtual location (non internal type), this account will be used to hold the value of products being moved out of this location and into an internal location, instead of the generic Stock Output Account set on the product. This has no effect for internal locations.","Inventory Locations","account.account",""
+"warehouse_id","Warehouse","many2one","","Inventory Locations","stock.warehouse",""
+"warehouse_view_ids","Warehouse View","one2many","","Inventory Locations","stock.warehouse",""
+"write_date","Last Updated on","datetime","","Inventory Locations","",""
+"write_uid","Last Updated by","many2one","","Inventory Locations","res.users",""

@@ -1,0 +1,18 @@
+Name,Type,Description
+ID,Edm.Guid,A guid that is the unique identifier of the warehouse
+Code,Edm.String,Code of the warehouse
+Created,Edm.DateTime,Creation date
+Creator,Edm.Guid,User ID of creator
+CreatorFullName,Edm.String,Name of creator
+DefaultStorageLocation,Edm.Guid,The default storage location of this warehouse. Warehouses can have a default storage location in packages Manufacturing Professional & Premium or Wholesale Professional & Premium
+DefaultStorageLocationCode,Edm.String,Default storage location's code
+DefaultStorageLocationDescription,Edm.String,Default storage location's description
+Description,Edm.String,The description of the warehouse
+Division,Edm.Int32,Division code
+EMail,Edm.String,Email address
+Main,Edm.Byte,Indicates if this is the main warehouse. There's always exactly one main warehouse per administration
+ManagerUser,Edm.Guid,User reponsible for the warehouse
+Modified,Edm.DateTime,Last modified date
+Modifier,Edm.Guid,User ID of modifier
+ModifierFullName,Edm.String,Name of modifier
+UseStorageLocations,Edm.Byte,Indicates if this warehouse is using storage locations. The storage locations will not be removed when when this is deactivated
