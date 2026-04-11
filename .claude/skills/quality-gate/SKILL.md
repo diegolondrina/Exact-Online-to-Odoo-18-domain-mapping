@@ -12,14 +12,14 @@ against all criteria:
 
 ## Structural checks
 - [ ] CSVs exist in `mappings/data/{domain}/` with correct naming
-      (`NN_[ExactEntity]-[OdooModel].csv`)
-- [ ] Each CSV has the standard 7-column header:
-      Exact Field, Exact Type, Category, Odoo Field, Odoo Type, Odoo Model, Notes
+      (`NN_ExactEntity-OdooModel.csv`)
+- [ ] Each CSV has the standard 8-column header:
+      Exact Field, Exact Type, Category, Odoo Field, Odoo Type, Odoo Model, Related Model, Notes
 - [ ] Every Exact field in every in-scope metadata table has a row
 
 ## Classification checks
 - [ ] Every row has a Category assigned (Direct/Relational/Custom/Derived/Skip)
-- [ ] Every Relational row identifies target model + resolution path
+- [ ] Every Relational row has Related Model populated and identifies resolution path in Notes
 - [ ] Every Custom row uses x_aa_ prefix + snake_case
 - [ ] Every Derived row documents derivation logic in Notes
 - [ ] Every Skip row has justification in Notes

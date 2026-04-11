@@ -36,14 +36,18 @@ Consult @reference/odoo-skip-patterns.md when filtering Odoo fields.
 ## Output Format
 Write each table-pair mapping as a CSV in `mappings/data/{domain}/`.
 
-**Filename convention:** `NN_[ExactEntity]-[OdooModel].csv`
+**Filename convention:** `NN_ExactEntity-OdooModel.csv`
 - `NN` = two-digit sequence number controlling sheet order (00, 01, ...)
-- Example: `00_[Subscriptions]-[sale.order].csv`
+- Example: `00_Subscriptions-sale.order.csv`
 
-**CSV columns** (standard 7-column header, must match exactly):
+**CSV columns** (standard 8-column header, must match exactly):
 ```
-Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Notes
+Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Related Model,Notes
 ```
+
+`Odoo Type` is the raw Odoo field type (e.g., `many2one`, `char`, `selection`).
+`Related Model` is the target model for relational fields (e.g., `res.partner`) —
+left empty for non-relational rows, `—` for Skip rows.
 
 These CSVs are the **source of truth** — the xlsx workbooks are generated
 from them. This keeps the mapping data human-readable, diffable, and

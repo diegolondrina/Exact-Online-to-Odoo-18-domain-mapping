@@ -1,30 +1,30 @@
-Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Notes
-ID,Edm.Guid,Custom,x_aa_exact_id,char,sale.order.line,Always preserve Exact primary key.
-EntryID,Edm.Guid,Relational,order_id,many2one → sale.order,sale.order.line,Link to parent subscription → sale.order. Resolve via x_aa_exact_id on sale.order.
-LineNumber,Edm.Int32,Direct,sequence,integer,sale.order.line,Line ordering. Odoo uses 'sequence' for display order.
-Description,Edm.String,Direct,name,text,sale.order.line,Line description → Odoo 'name' (Description field on order line).
-Item,Edm.Guid,Relational,product_id,many2one → product.product,sale.order.line,Exact Item → Odoo product. Resolve: Item GUID → product.template (via x_aa_exact_id) → product_variant_id → product.product. See Items sheet.
-ItemDescription,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from Item → product.product.name.
-Quantity,Edm.Double,Direct,product_uom_qty,float,sale.order.line,Direct mapping.
-UnitPrice,Edm.Double,Direct,price_unit,float,sale.order.line,Unit price → Odoo price_unit. Note: Exact says 'price * unit factor' — verify whether this is the raw price or already factored.
-NetPrice,Edm.Double,Custom,x_aa_net_price,float,sale.order.line,Net price in transaction currency. Odoo computes price_subtotal. Store for reconciliation.
-Discount,Edm.Double,Direct,discount,float,sale.order.line,Discount percentage. Direct mapping. Verify Exact uses percentage (0-100) same as Odoo.
-AmountDC,Edm.Double,Custom,x_aa_amount_dc,float,sale.order.line,Amount in default (company) currency. Useful for reconciliation.
-AmountFC,Edm.Double,Custom,x_aa_amount_fc,float,sale.order.line,Amount in foreign (transaction) currency. Store for reconciliation.
-FromDate,Edm.DateTime,Custom,x_aa_from_date,date,sale.order.line,Line-level start date. Odoo subscription lines do not have per-line start/end dates.
-ToDate,Edm.DateTime,Custom,x_aa_to_date,date,sale.order.line,Line-level end date.
-LineType,Edm.Int16,Custom,x_aa_line_type,integer,sale.order.line,Exact line type integer code. No clean Odoo equivalent. Stored as-is; description denormalized alongside.
-LineTypeDescription,Edm.String,Custom,x_aa_line_type_description,char,sale.order.line,Denormalized from SubscriptionLineTypes table. Stored alongside x_aa_line_type so the code is human-readable.
-Costcenter,Edm.String,Custom,x_aa_cost_center,char,sale.order.line,Exact cost center. Odoo uses analytic accounts (different paradigm). Custom for safety.
-Costunit,Edm.String,Custom,x_aa_cost_unit,char,sale.order.line,Exact cost unit. Same rationale as Costcenter.
-UnitCode,Edm.String,Relational,product_uom,many2one → uom.uom,sale.order.line,Unit of measure code → Odoo UoM. Requires code → uom.uom lookup.
-UnitDescription,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from UnitCode → uom.uom.name.
-VATCode,Edm.String,Relational,tax_id,many2many → account.tax,sale.order.line,VAT code → Odoo tax. Requires tax code mapping from Exact → Odoo account.tax.
-VATCodeDescription,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from VATCode → account.tax.name.
-VATAmountFC,Edm.Double,Custom,x_aa_vat_amount_fc,float,sale.order.line,VAT amount in transaction currency. Odoo computes tax amounts. Store for reconciliation.
-Division,Edm.Int32,Relational,company_id,many2one → res.company,sale.order.line,Division → Company mapping.
-SubscriptionNumber,Edm.Int32,Skip,—,—,—,Redundant with parent subscription number. Derivable from order_id → sale.order.x_aa_subscription_number.
-Modified,Edm.DateTime,Direct,write_date,datetime,sale.order.line
-Notes,Edm.String,Custom,x_aa_notes,text,sale.order.line,Additional line notes. Odoo has no per-line notes field separate from 'name'.
-CustomField,Edm.String,Skip,—,—,—,Exact Premium-only custom field endpoint. Not a data field — skip.
-—,—,Derived,product_template_id,many2one → product.template,sale.order.line,Auto-resolved by Odoo from product_id. No migration action needed.
+Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Related Model,Notes
+ID,Edm.Guid,Custom,x_aa_exact_id,char,sale.order.line,,Always preserve Exact primary key.
+EntryID,Edm.Guid,Relational,order_id,many2one,sale.order.line,sale.order,Link to parent subscription → sale.order. Resolve via x_aa_exact_id on sale.order.
+LineNumber,Edm.Int32,Direct,sequence,integer,sale.order.line,,Line ordering. Odoo uses 'sequence' for display order.
+Description,Edm.String,Direct,name,text,sale.order.line,,Line description → Odoo 'name' (Description field on order line).
+Item,Edm.Guid,Relational,product_id,many2one,sale.order.line,product.product,Exact Item → Odoo product. Resolve: Item GUID → product.template (via x_aa_exact_id) → product_variant_id → product.product. See Items sheet.
+ItemDescription,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from Item → product.product.name.
+Quantity,Edm.Double,Direct,product_uom_qty,float,sale.order.line,,Direct mapping.
+UnitPrice,Edm.Double,Direct,price_unit,float,sale.order.line,,Unit price → Odoo price_unit. Note: Exact says 'price * unit factor' — verify whether this is the raw price or already factored.
+NetPrice,Edm.Double,Custom,x_aa_net_price,float,sale.order.line,,Net price in transaction currency. Odoo computes price_subtotal. Store for reconciliation.
+Discount,Edm.Double,Direct,discount,float,sale.order.line,,Discount percentage. Direct mapping. Verify Exact uses percentage (0-100) same as Odoo.
+AmountDC,Edm.Double,Custom,x_aa_amount_dc,float,sale.order.line,,Amount in default (company) currency. Useful for reconciliation.
+AmountFC,Edm.Double,Custom,x_aa_amount_fc,float,sale.order.line,,Amount in foreign (transaction) currency. Store for reconciliation.
+FromDate,Edm.DateTime,Custom,x_aa_from_date,date,sale.order.line,,Line-level start date. Odoo subscription lines do not have per-line start/end dates.
+ToDate,Edm.DateTime,Custom,x_aa_to_date,date,sale.order.line,,Line-level end date.
+LineType,Edm.Int16,Custom,x_aa_line_type,integer,sale.order.line,,Exact line type integer code. No clean Odoo equivalent. Stored as-is; description denormalized alongside.
+LineTypeDescription,Edm.String,Custom,x_aa_line_type_description,char,sale.order.line,,Denormalized from SubscriptionLineTypes table. Stored alongside x_aa_line_type so the code is human-readable.
+Costcenter,Edm.String,Custom,x_aa_cost_center,char,sale.order.line,,Exact cost center. Odoo uses analytic accounts (different paradigm). Custom for safety.
+Costunit,Edm.String,Custom,x_aa_cost_unit,char,sale.order.line,,Exact cost unit. Same rationale as Costcenter.
+UnitCode,Edm.String,Relational,product_uom,many2one,sale.order.line,uom.uom,Unit of measure code → Odoo UoM. Requires code → uom.uom lookup.
+UnitDescription,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from UnitCode → uom.uom.name.
+VATCode,Edm.String,Relational,tax_id,many2many,sale.order.line,account.tax,VAT code → Odoo tax. Requires tax code mapping from Exact → Odoo account.tax.
+VATCodeDescription,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from VATCode → account.tax.name.
+VATAmountFC,Edm.Double,Custom,x_aa_vat_amount_fc,float,sale.order.line,,VAT amount in transaction currency. Odoo computes tax amounts. Store for reconciliation.
+Division,Edm.Int32,Relational,company_id,many2one,sale.order.line,res.company,Division → Company mapping.
+SubscriptionNumber,Edm.Int32,Skip,—,—,—,—,Redundant with parent subscription number. Derivable from order_id → sale.order.x_aa_subscription_number.
+Modified,Edm.DateTime,Direct,write_date,datetime,sale.order.line,,
+Notes,Edm.String,Custom,x_aa_notes,text,sale.order.line,,Additional line notes. Odoo has no per-line notes field separate from 'name'.
+CustomField,Edm.String,Skip,—,—,—,—,Exact Premium-only custom field endpoint. Not a data field — skip.
+—,—,Derived,product_template_id,many2one,sale.order.line,product.template,Auto-resolved by Odoo from product_id. No migration action needed.

@@ -1,61 +1,61 @@
-"Field Name","Field Label","Field Type","Field Help","Model","Related Model","Dependencies"
-"analytic_distribution","Analytic Distribution","json","","Purchase Order Line","",""
-"analytic_precision","Analytic Precision","integer","","Purchase Order Line","",""
-"company_id","Company","many2one","","Purchase Order Line","res.company",""
-"create_date","Created on","datetime","","Purchase Order Line","",""
-"create_uid","Created by","many2one","","Purchase Order Line","res.users",""
-"currency_id","Currency","many2one","","Purchase Order Line","res.currency",""
-"date_approve","Confirmation Date","datetime","","Purchase Order Line","",""
-"date_order","Order Date","datetime","Depicts the date within which the Quotation should be confirmed and converted into a purchase order.","Purchase Order Line","",""
-"date_planned","Expected Arrival","datetime","Delivery date expected from vendor. This date respectively defaults to vendor pricelist lead time then today's date.","Purchase Order Line","",""
-"discount","Discount (%)","float","","Purchase Order Line","",""
-"display_name","Display Name","char","","Purchase Order Line","",""
-"display_type","Display Type","selection","Technical field for UX purpose.","Purchase Order Line","",""
-"distribution_analytic_account_ids","Distribution Analytic Account","many2many","","Purchase Order Line","account.analytic.account",""
-"forecasted_issue","Forecasted Issue","boolean","","Purchase Order Line","",""
-"group_id","Procurement group that generated this line","many2one","","Purchase Order Line","procurement.group",""
-"id","ID","integer","","Purchase Order Line","",""
-"invoice_lines","Bill Lines","one2many","","Purchase Order Line","account.move.line",""
-"is_downpayment","Is Downpayment","boolean","","Purchase Order Line","",""
-"is_storable","Track Inventory","boolean","A storable product is a product for which you manage stock.","Purchase Order Line","",""
-"location_final_id","Location from procurement","many2one","","Purchase Order Line","stock.location",""
-"move_dest_ids","Downstream moves alt","many2many","","Purchase Order Line","stock.move",""
-"move_ids","Reservation","one2many","","Purchase Order Line","stock.move",""
-"name","Description","text","","Purchase Order Line","",""
-"order_id","Order Reference","many2one","","Purchase Order Line","purchase.order",""
-"orderpoint_id","Orderpoint","many2one","","Purchase Order Line","stock.warehouse.orderpoint",""
-"partner_id","Partner","many2one","You can find a vendor by its Name, TIN, Email or Internal Reference.","Purchase Order Line","res.partner",""
-"price_subtotal","Subtotal","monetary","","Purchase Order Line","",""
-"price_tax","Tax","float","","Purchase Order Line","",""
-"price_total","Total","monetary","","Purchase Order Line","",""
-"price_unit","Unit Price","float","","Purchase Order Line","",""
-"price_unit_discounted","Unit Price (Discounted)","float","","Purchase Order Line","",""
-"product_description_variants","Custom Description","char","","Purchase Order Line","",""
-"product_id","Product","many2one","","Purchase Order Line","product.product",""
-"product_no_variant_attribute_value_ids","Product attribute values that do not create variants","many2many","","Purchase Order Line","product.template.attribute.value",""
-"product_packaging_id","Packaging","many2one","","Purchase Order Line","product.packaging",""
-"product_packaging_qty","Packaging Quantity","float","","Purchase Order Line","",""
-"product_qty","Quantity","float","","Purchase Order Line","",""
-"product_template_attribute_value_ids","Attribute Values","many2many","","Purchase Order Line","product.template.attribute.value",""
-"product_type","Product Type","selection","Goods are tangible materials and merchandise you provide.
-A service is a non-material product you provide.","Purchase Order Line","",""
-"product_uom","Unit of Measure","many2one","","Purchase Order Line","uom.uom",""
-"product_uom_category_id","Category","many2one","Conversion between Units of Measure can only occur if they belong to the same category. The conversion will be made based on the ratios.","Purchase Order Line","uom.category",""
-"product_uom_qty","Total Quantity","float","","Purchase Order Line","",""
-"propagate_cancel","Propagate cancellation","boolean","","Purchase Order Line","",""
-"qty_invoiced","Billed Qty","float","","Purchase Order Line","",""
-"qty_received","Received Qty","float","","Purchase Order Line","",""
-"qty_received_manual","Manual Received Qty","float","","Purchase Order Line","",""
-"qty_received_method","Received Qty Method","selection","According to product configuration, the received quantity can be automatically computed by mechanism:
+Field Name,Field Label,Field Type,Field Help,Model,Related Model,Required
+analytic_distribution,Analytic Distribution,json,,Purchase Order Line,,
+analytic_precision,Analytic Precision,integer,,Purchase Order Line,,
+company_id,Company,many2one,,Purchase Order Line,res.company,
+create_date,Created on,datetime,,Purchase Order Line,,
+create_uid,Created by,many2one,,Purchase Order Line,res.users,
+currency_id,Currency,many2one,,Purchase Order Line,res.currency,
+date_approve,Confirmation Date,datetime,,Purchase Order Line,,
+date_order,Order Date,datetime,Depicts the date within which the Quotation should be confirmed and converted into a purchase order.,Purchase Order Line,,
+date_planned,Expected Arrival,datetime,Delivery date expected from vendor. This date respectively defaults to vendor pricelist lead time then today's date.,Purchase Order Line,,
+discount,Discount (%),float,,Purchase Order Line,,
+display_name,Display Name,char,,Purchase Order Line,,
+display_type,Display Type,selection,Technical field for UX purpose.,Purchase Order Line,,
+distribution_analytic_account_ids,Distribution Analytic Account,many2many,,Purchase Order Line,account.analytic.account,
+forecasted_issue,Forecasted Issue,boolean,,Purchase Order Line,,
+group_id,Procurement group that generated this line,many2one,,Purchase Order Line,procurement.group,
+id,ID,integer,,Purchase Order Line,,
+invoice_lines,Bill Lines,one2many,,Purchase Order Line,account.move.line,
+is_downpayment,Is Downpayment,boolean,,Purchase Order Line,,
+is_storable,Track Inventory,boolean,A storable product is a product for which you manage stock.,Purchase Order Line,,
+location_final_id,Location from procurement,many2one,,Purchase Order Line,stock.location,
+move_dest_ids,Downstream moves alt,many2many,,Purchase Order Line,stock.move,
+move_ids,Reservation,one2many,,Purchase Order Line,stock.move,
+name,Description,text,,Purchase Order Line,,True
+order_id,Order Reference,many2one,,Purchase Order Line,purchase.order,True
+orderpoint_id,Orderpoint,many2one,,Purchase Order Line,stock.warehouse.orderpoint,
+partner_id,Partner,many2one,"You can find a vendor by its Name, TIN, Email or Internal Reference.",Purchase Order Line,res.partner,
+price_subtotal,Subtotal,monetary,,Purchase Order Line,,
+price_tax,Tax,float,,Purchase Order Line,,
+price_total,Total,monetary,,Purchase Order Line,,
+price_unit,Unit Price,float,,Purchase Order Line,,True
+price_unit_discounted,Unit Price (Discounted),float,,Purchase Order Line,,
+product_description_variants,Custom Description,char,,Purchase Order Line,,
+product_id,Product,many2one,,Purchase Order Line,product.product,
+product_no_variant_attribute_value_ids,Product attribute values that do not create variants,many2many,,Purchase Order Line,product.template.attribute.value,
+product_packaging_id,Packaging,many2one,,Purchase Order Line,product.packaging,
+product_packaging_qty,Packaging Quantity,float,,Purchase Order Line,,
+product_qty,Quantity,float,,Purchase Order Line,,True
+product_template_attribute_value_ids,Attribute Values,many2many,,Purchase Order Line,product.template.attribute.value,
+product_type,Product Type,selection,"Goods are tangible materials and merchandise you provide.
+A service is a non-material product you provide.",Purchase Order Line,,
+product_uom,Unit of Measure,many2one,,Purchase Order Line,uom.uom,
+product_uom_category_id,Category,many2one,Conversion between Units of Measure can only occur if they belong to the same category. The conversion will be made based on the ratios.,Purchase Order Line,uom.category,
+product_uom_qty,Total Quantity,float,,Purchase Order Line,,
+propagate_cancel,Propagate cancellation,boolean,,Purchase Order Line,,
+qty_invoiced,Billed Qty,float,,Purchase Order Line,,
+qty_received,Received Qty,float,,Purchase Order Line,,
+qty_received_manual,Manual Received Qty,float,,Purchase Order Line,,
+qty_received_method,Received Qty Method,selection,"According to product configuration, the received quantity can be automatically computed by mechanism:
   - Manual: the quantity is set manually on the line
   - Stock Moves: the quantity comes from confirmed pickings
-","Purchase Order Line","",""
-"qty_to_invoice","To Invoice Quantity","float","","Purchase Order Line","",""
-"sale_line_id","Origin Sale Item","many2one","","Purchase Order Line","sale.order.line",""
-"sale_order_id","Sale Order","many2one","","Purchase Order Line","sale.order",""
-"sequence","Sequence","integer","","Purchase Order Line","",""
-"state","Status","selection","","Purchase Order Line","",""
-"tax_calculation_rounding_method","Tax calculation rounding method","selection","","Purchase Order Line","",""
-"taxes_id","Taxes","many2many","","Purchase Order Line","account.tax",""
-"write_date","Last Updated on","datetime","","Purchase Order Line","",""
-"write_uid","Last Updated by","many2one","","Purchase Order Line","res.users",""
+",Purchase Order Line,,
+qty_to_invoice,To Invoice Quantity,float,,Purchase Order Line,,
+sale_line_id,Origin Sale Item,many2one,,Purchase Order Line,sale.order.line,
+sale_order_id,Sale Order,many2one,,Purchase Order Line,sale.order,
+sequence,Sequence,integer,,Purchase Order Line,,
+state,Status,selection,,Purchase Order Line,,
+tax_calculation_rounding_method,Tax calculation rounding method,selection,,Purchase Order Line,,
+taxes_id,Taxes,many2many,,Purchase Order Line,account.tax,
+write_date,Last Updated on,datetime,,Purchase Order Line,,
+write_uid,Last Updated by,many2one,,Purchase Order Line,res.users,

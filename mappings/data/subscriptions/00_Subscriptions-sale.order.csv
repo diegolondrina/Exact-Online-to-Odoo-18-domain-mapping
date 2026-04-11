@@ -1,49 +1,49 @@
-Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Notes
-EntryID,Edm.Guid,Custom,x_aa_exact_id,char,sale.order,Always preserve Exact primary key for reconciliation and re-run safety.
-Number,Edm.Int32,Custom,x_aa_subscription_number,integer,sale.order,"Exact's business-facing subscription number. Odoo auto-generates 'name' (Order Reference), so this goes to a custom field."
-Description,Edm.String,Custom,x_aa_description,char,sale.order,"Subscription description. Odoo sale.order has no 'description' field — 'name' is the auto-generated order reference, 'note' is terms & conditions, 'internal_note' is internal. Safest as custom."
-OrderedBy,Edm.Guid,Relational,partner_id,many2one → res.partner,sale.order,Subscriber account. Requires lookup: Exact Account GUID → Odoo res.partner.
-OrderedByContactPerson,Edm.Guid,Custom,x_aa_ordered_by_contact_person,char,sale.order,Contact person GUID on subscriber side. Odoo has no direct contact-person field on sale.order. Consider resolving to a child res.partner if contact data is migrated.
-OrderedByContactPersonFullName,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from OrderedByContactPerson relation.
-OrderedByName,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from OrderedBy → res.partner.name.
-InvoiceTo,Edm.Guid,Relational,partner_invoice_id,many2one → res.partner,sale.order,Invoice-to account. Requires same Account → res.partner lookup.
-InvoiceToContactPerson,Edm.Guid,Custom,x_aa_invoice_to_contact_person,char,sale.order,Contact person on invoice-to side. No native sale.order equivalent for contact-level granularity.
-InvoiceToContactPersonFullName,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from InvoiceToContactPerson relation.
-InvoiceToName,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from InvoiceTo → res.partner.name.
-StartDate,Edm.DateTime,Direct,start_date,date,sale.order,Direct mapping. Exact DateTime → Odoo date (strip time component).
-EndDate,Edm.DateTime,Direct,end_date,date,sale.order,"Direct mapping. Odoo: 'If set in advance, the subscription will be set to renew 1 month before the date and will be closed on the date set in this field.'"
-CancellationDate,Edm.DateTime,Custom,x_aa_cancellation_date,date,sale.order,No native cancellation-date field in Odoo. Odoo tracks closure via subscription_state and close_reason_id but not the cancellation date itself.
-InvoicingStartDate,Edm.DateTime,Custom,x_aa_invoicing_start_date,date,sale.order,"Date invoicing begins. Odoo's next_invoice_date is the rolling next date, not the original start. Safest as custom."
-InvoicedTo,Edm.DateTime,Custom,x_aa_invoiced_to,date,sale.order,"Date up to which invoicing has been completed. Odoo has last_invoice_date (date of last invoice), which is close but semantically different — Exact means 'period covered', Odoo means 'date generated'. Custom avoids ambiguity."
-Created,Edm.DateTime,Direct,create_date,datetime,sale.order,Direct mapping.
-Modified,Edm.DateTime,Direct,write_date,datetime,sale.order,Direct mapping.
-SubscriptionType,Edm.Guid,Relational,plan_id,many2one → sale.subscription.plan,sale.order,Map via SubscriptionTypes → sale.subscription.plan migration. Requires that SubscriptionTypes are migrated first.
-SubscriptionTypeCode,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from SubscriptionType → sale.subscription.plan.
-SubscriptionTypeDescription,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from SubscriptionType → sale.subscription.plan.name.
-InvoiceDay,Edm.Byte,Custom,x_aa_invoice_day,integer,sale.order,"Day-of-month (or weekday) for invoice generation. Odoo's sale.subscription.plan has billing_first_day (boolean: align to 1st), which is much simpler. No equivalent for arbitrary day selection."
-Currency,Edm.String,Relational,currency_id,many2one → res.currency,sale.order,Exact stores currency as ISO code string. Resolve to res.currency record by name/code.
-CustomerPONumber,Edm.String,Direct,client_order_ref,char,sale.order,Direct mapping. Both are customer-side purchase order references.
-PaymentCondition,Edm.String,Relational,payment_term_id,many2one → account.payment.term,sale.order,Requires mapping Exact payment condition codes → Odoo payment terms.
-PaymentConditionDescription,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from PaymentCondition → account.payment.term.name.
-ReasonCancelled,Edm.Guid,Relational,close_reason_id,many2one → sale.order.close.reason,sale.order,Map via SubscriptionReasonCodes → sale.order.close.reason migration (see ReasonCodes sheet).
-ReasonCancelledCode,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from ReasonCancelled → sale.order.close.reason.
-ReasonCancelledDescription,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from ReasonCancelled → sale.order.close.reason.name.
-Classification,Edm.Guid,Custom,x_aa_classification_id,char,sale.order,"Exact classification concept. No Odoo equivalent. Odoo has tag_ids (many2many → crm.tag) which could be used alternatively, but a custom field preserves the original GUID for traceability."
-ClassificationCode,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from Classification relation.
-ClassificationDescription,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from Classification relation.
-Creator,Edm.Guid,Relational,create_uid,many2one → res.users,sale.order,Requires user mapping: Exact user GUID → Odoo res.users. May default to admin if user mapping is not in scope.
-CreatorFullName,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from Creator → res.users.name.
-Modifier,Edm.Guid,Relational,write_uid,many2one → res.users,sale.order,Same user mapping requirement as Creator.
-ModifierFullName,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from Modifier → res.users.name.
-Division,Edm.Int32,Relational,company_id,many2one → res.company,sale.order,Exact Division ≈ Odoo Company. Requires division-to-company mapping.
-Notes,Edm.String,Direct,internal_note,html,sale.order,Best fit for additional subscription info. Odoo 'internal_note' is internal-facing free text. Wrap plain text in <p> tags if needed.
-BlockEntry,Edm.Boolean,Custom,x_aa_block_entry,boolean,sale.order,Exact-specific: blocks time cost entry. No Odoo equivalent.
-Printed,Edm.Boolean,Custom,x_aa_printed,boolean,sale.order,Exact-specific: indicates if subscription was printed. No Odoo equivalent.
-Project,Edm.Guid,Custom,x_aa_project_id,char,sale.order,"Reference to Exact Project. Odoo sale.order does not have a native project link in the subscription context. If project module is installed, a custom many2one → project.project could be used instead."
-SubscriptionLines,Collection,Relational,order_line,one2many → sale.order.line,sale.order,Structural: lines are migrated separately per the SubLines sheet.
-SubscriptionRestrictionEmployees,Collection,Custom,x_aa_restriction_employees,text/json,sale.order,Structural reference. No Odoo equivalent. Could become a separate custom model or JSON blob if needed.
-SubscriptionRestrictionItems,Collection,Custom,x_aa_restriction_items,text/json,sale.order,Structural reference. No Odoo equivalent. Same approach as above.
-—,—,Derived,is_subscription,boolean,sale.order,Always set to True for migrated subscription records.
-—,—,Derived,subscription_state,selection,sale.order,Derive from Exact lifecycle: if CancellationDate is set → '6_churn' or '5_renewed'; if EndDate < today → '6_churn'; if StartDate ≤ today ≤ EndDate → '3_progress'; etc. Requires mapping logic.
-—,—,Derived,name,char,sale.order,Auto-generated by Odoo on creation (e.g. 'S00001'). Could optionally embed Exact Number via origin field or let Odoo sequence handle it.
-—,—,Derived,state,selection,sale.order,Odoo sales order state (draft/sale/cancel). Migrated subscriptions should typically be set to 'sale'.
+Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Related Model,Notes
+EntryID,Edm.Guid,Custom,x_aa_exact_id,char,sale.order,,Always preserve Exact primary key for reconciliation and re-run safety.
+Number,Edm.Int32,Custom,x_aa_subscription_number,integer,sale.order,,"Exact's business-facing subscription number. Odoo auto-generates 'name' (Order Reference), so this goes to a custom field."
+Description,Edm.String,Custom,x_aa_description,char,sale.order,,"Subscription description. Odoo sale.order has no 'description' field — 'name' is the auto-generated order reference, 'note' is terms & conditions, 'internal_note' is internal. Safest as custom."
+OrderedBy,Edm.Guid,Relational,partner_id,many2one,sale.order,res.partner,Subscriber account. Requires lookup: Exact Account GUID → Odoo res.partner.
+OrderedByContactPerson,Edm.Guid,Custom,x_aa_ordered_by_contact_person,char,sale.order,,Contact person GUID on subscriber side. Odoo has no direct contact-person field on sale.order. Consider resolving to a child res.partner if contact data is migrated.
+OrderedByContactPersonFullName,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from OrderedByContactPerson relation.
+OrderedByName,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from OrderedBy → res.partner.name.
+InvoiceTo,Edm.Guid,Relational,partner_invoice_id,many2one,sale.order,res.partner,Invoice-to account. Requires same Account → res.partner lookup.
+InvoiceToContactPerson,Edm.Guid,Custom,x_aa_invoice_to_contact_person,char,sale.order,,Contact person on invoice-to side. No native sale.order equivalent for contact-level granularity.
+InvoiceToContactPersonFullName,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from InvoiceToContactPerson relation.
+InvoiceToName,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from InvoiceTo → res.partner.name.
+StartDate,Edm.DateTime,Direct,start_date,date,sale.order,,Direct mapping. Exact DateTime → Odoo date (strip time component).
+EndDate,Edm.DateTime,Direct,end_date,date,sale.order,,"Direct mapping. Odoo: 'If set in advance, the subscription will be set to renew 1 month before the date and will be closed on the date set in this field.'"
+CancellationDate,Edm.DateTime,Custom,x_aa_cancellation_date,date,sale.order,,No native cancellation-date field in Odoo. Odoo tracks closure via subscription_state and close_reason_id but not the cancellation date itself.
+InvoicingStartDate,Edm.DateTime,Custom,x_aa_invoicing_start_date,date,sale.order,,"Date invoicing begins. Odoo's next_invoice_date is the rolling next date, not the original start. Safest as custom."
+InvoicedTo,Edm.DateTime,Custom,x_aa_invoiced_to,date,sale.order,,"Date up to which invoicing has been completed. Odoo has last_invoice_date (date of last invoice), which is close but semantically different — Exact means 'period covered', Odoo means 'date generated'. Custom avoids ambiguity."
+Created,Edm.DateTime,Direct,create_date,datetime,sale.order,,Direct mapping.
+Modified,Edm.DateTime,Direct,write_date,datetime,sale.order,,Direct mapping.
+SubscriptionType,Edm.Guid,Relational,plan_id,many2one,sale.order,sale.subscription.plan,Map via SubscriptionTypes → sale.subscription.plan migration. Requires that SubscriptionTypes are migrated first.
+SubscriptionTypeCode,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from SubscriptionType → sale.subscription.plan.
+SubscriptionTypeDescription,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from SubscriptionType → sale.subscription.plan.name.
+InvoiceDay,Edm.Byte,Custom,x_aa_invoice_day,integer,sale.order,,"Day-of-month (or weekday) for invoice generation. Odoo's sale.subscription.plan has billing_first_day (boolean: align to 1st), which is much simpler. No equivalent for arbitrary day selection."
+Currency,Edm.String,Relational,currency_id,many2one,sale.order,res.currency,Exact stores currency as ISO code string. Resolve to res.currency record by name/code.
+CustomerPONumber,Edm.String,Direct,client_order_ref,char,sale.order,,Direct mapping. Both are customer-side purchase order references.
+PaymentCondition,Edm.String,Relational,payment_term_id,many2one,sale.order,account.payment.term,Requires mapping Exact payment condition codes → Odoo payment terms.
+PaymentConditionDescription,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from PaymentCondition → account.payment.term.name.
+ReasonCancelled,Edm.Guid,Relational,close_reason_id,many2one,sale.order,sale.order.close.reason,Map via SubscriptionReasonCodes → sale.order.close.reason migration (see ReasonCodes sheet).
+ReasonCancelledCode,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from ReasonCancelled → sale.order.close.reason.
+ReasonCancelledDescription,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from ReasonCancelled → sale.order.close.reason.name.
+Classification,Edm.Guid,Custom,x_aa_classification_id,char,sale.order,,"Exact classification concept. No Odoo equivalent. Odoo has tag_ids (many2many → crm.tag) which could be used alternatively, but a custom field preserves the original GUID for traceability."
+ClassificationCode,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from Classification relation.
+ClassificationDescription,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from Classification relation.
+Creator,Edm.Guid,Relational,create_uid,many2one,sale.order,res.users,Requires user mapping: Exact user GUID → Odoo res.users. May default to admin if user mapping is not in scope.
+CreatorFullName,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from Creator → res.users.name.
+Modifier,Edm.Guid,Relational,write_uid,many2one,sale.order,res.users,Same user mapping requirement as Creator.
+ModifierFullName,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from Modifier → res.users.name.
+Division,Edm.Int32,Relational,company_id,many2one,sale.order,res.company,Exact Division ≈ Odoo Company. Requires division-to-company mapping.
+Notes,Edm.String,Direct,internal_note,html,sale.order,,Best fit for additional subscription info. Odoo 'internal_note' is internal-facing free text. Wrap plain text in <p> tags if needed.
+BlockEntry,Edm.Boolean,Custom,x_aa_block_entry,boolean,sale.order,,Exact-specific: blocks time cost entry. No Odoo equivalent.
+Printed,Edm.Boolean,Custom,x_aa_printed,boolean,sale.order,,Exact-specific: indicates if subscription was printed. No Odoo equivalent.
+Project,Edm.Guid,Custom,x_aa_project_id,char,sale.order,,"Reference to Exact Project. Odoo sale.order does not have a native project link in the subscription context. If project module is installed, a custom many2one → project.project could be used instead."
+SubscriptionLines,Collection,Relational,order_line,one2many,sale.order,sale.order.line,Structural: lines are migrated separately per the SubLines sheet.
+SubscriptionRestrictionEmployees,Collection,Custom,x_aa_restriction_employees,text/json,sale.order,,Structural reference. No Odoo equivalent. Could become a separate custom model or JSON blob if needed.
+SubscriptionRestrictionItems,Collection,Custom,x_aa_restriction_items,text/json,sale.order,,Structural reference. No Odoo equivalent. Same approach as above.
+—,—,Derived,is_subscription,boolean,sale.order,,Always set to True for migrated subscription records.
+—,—,Derived,subscription_state,selection,sale.order,,Derive from Exact lifecycle: if CancellationDate is set → '6_churn' or '5_renewed'; if EndDate < today → '6_churn'; if StartDate ≤ today ≤ EndDate → '3_progress'; etc. Requires mapping logic.
+—,—,Derived,name,char,sale.order,,Auto-generated by Odoo on creation (e.g. 'S00001'). Could optionally embed Exact Number via origin field or let Odoo sequence handle it.
+—,—,Derived,state,selection,sale.order,,Odoo sales order state (draft/sale/cancel). Migrated subscriptions should typically be set to 'sale'.

@@ -43,7 +43,7 @@ DATA_ALIGN = Alignment(wrap_text=True, vertical="top")
 NO_FILL = PatternFill(fill_type=None)
 THIN_BOTTOM = Border(bottom=Side(style="thin", color="FF000000"))
 
-# --- Column widths (A–G) ---
+# --- Column widths (A–H) ---
 COL_WIDTHS = {
     "A": 25,    # Exact Field
     "B": 14,    # Exact Type
@@ -51,7 +51,8 @@ COL_WIDTHS = {
     "D": 30,    # Odoo Field
     "E": 12.5,  # Odoo Type
     "F": 26,    # Odoo Model
-    "G": 55,    # Notes
+    "G": 22,    # Related Model
+    "H": 55,    # Notes
 }
 
 MAPPINGS_DIR = "mappings"

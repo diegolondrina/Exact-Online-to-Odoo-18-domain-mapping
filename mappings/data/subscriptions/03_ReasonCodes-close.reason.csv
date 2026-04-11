@@ -1,21 +1,21 @@
-Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Notes
-ID,Edm.Guid,Custom,x_aa_exact_id,char,sale.order.close.reason,Always preserve Exact primary key.
-Code,Edm.String,Custom,x_aa_code,char,sale.order.close.reason,Exact reason code. Odoo close reason has no code field.
-Description,Edm.String,Direct,name,char,sale.order.close.reason,Direct mapping. Description → Odoo 'Reason' field.
-Active,Edm.Boolean,Custom,x_aa_active,boolean,sale.order.close.reason,Exact active flag. Odoo close reason has no 'active' field (no archive toggle).
-Notes,Edm.String,Custom,x_aa_notes,text,sale.order.close.reason,"Odoo has retention_message (html) which is customer-facing portal copy, not internal notes. Different purpose."
-Division,Edm.Int32,Custom,x_aa_division,integer,sale.order.close.reason,Odoo close reasons appear to be global/cross-company. Stored as custom for traceability.
-Created,Edm.DateTime,Direct,create_date,datetime,sale.order.close.reason
-Creator,Edm.Guid,Relational,create_uid,many2one → res.users,sale.order.close.reason
-CreatorFullName,Edm.String,Skip,—,—,—,Denormalized display field.
-Modified,Edm.DateTime,Direct,write_date,datetime,sale.order.close.reason
-Modifier,Edm.Guid,Relational,write_uid,many2one → res.users,sale.order.close.reason
-ModifierFullName,Edm.String,Skip,—,—,—,Denormalized display field.
-CustomField,Edm.String,Skip,—,—,—,Exact Premium-only custom field endpoint — skip.
-—,—,Derived,sequence,integer,sale.order.close.reason,Odoo ordering field. Default to 10 or assign sequentially.
-—,—,Derived,visible_in_portal,boolean,sale.order.close.reason,Default to True or False based on business preference.
-—,—,Derived,is_protected,boolean,sale.order.close.reason,Set to False for all migrated records.
-—,—,Derived,retention_message,html,sale.order.close.reason,Customer-facing retention copy. No Exact equivalent. Leave empty.
-—,—,Derived,retention_button_text,char,sale.order.close.reason,Leave empty.
-—,—,Derived,retention_button_link,char,sale.order.close.reason,Leave empty.
-—,—,Derived,empty_retention_message,boolean,sale.order.close.reason,Set to True if retention_message is left empty.
+Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Related Model,Notes
+ID,Edm.Guid,Custom,x_aa_exact_id,char,sale.order.close.reason,,Always preserve Exact primary key.
+Code,Edm.String,Custom,x_aa_code,char,sale.order.close.reason,,Exact reason code. Odoo close reason has no code field.
+Description,Edm.String,Direct,name,char,sale.order.close.reason,,Direct mapping. Description → Odoo 'Reason' field.
+Active,Edm.Boolean,Custom,x_aa_active,boolean,sale.order.close.reason,,Exact active flag. Odoo close reason has no 'active' field (no archive toggle).
+Notes,Edm.String,Custom,x_aa_notes,text,sale.order.close.reason,,"Odoo has retention_message (html) which is customer-facing portal copy, not internal notes. Different purpose."
+Division,Edm.Int32,Custom,x_aa_division,integer,sale.order.close.reason,,Odoo close reasons appear to be global/cross-company. Stored as custom for traceability.
+Created,Edm.DateTime,Direct,create_date,datetime,sale.order.close.reason,,
+Creator,Edm.Guid,Relational,create_uid,many2one,sale.order.close.reason,res.users,
+CreatorFullName,Edm.String,Skip,—,—,—,—,Denormalized display field.
+Modified,Edm.DateTime,Direct,write_date,datetime,sale.order.close.reason,,
+Modifier,Edm.Guid,Relational,write_uid,many2one,sale.order.close.reason,res.users,
+ModifierFullName,Edm.String,Skip,—,—,—,—,Denormalized display field.
+CustomField,Edm.String,Skip,—,—,—,—,Exact Premium-only custom field endpoint — skip.
+—,—,Derived,sequence,integer,sale.order.close.reason,,Odoo ordering field. Default to 10 or assign sequentially.
+—,—,Derived,visible_in_portal,boolean,sale.order.close.reason,,Default to True or False based on business preference.
+—,—,Derived,is_protected,boolean,sale.order.close.reason,,Set to False for all migrated records.
+—,—,Derived,retention_message,html,sale.order.close.reason,,Customer-facing retention copy. No Exact equivalent. Leave empty.
+—,—,Derived,retention_button_text,char,sale.order.close.reason,,Leave empty.
+—,—,Derived,retention_button_link,char,sale.order.close.reason,,Leave empty.
+—,—,Derived,empty_retention_message,boolean,sale.order.close.reason,,Set to True if retention_message is left empty.

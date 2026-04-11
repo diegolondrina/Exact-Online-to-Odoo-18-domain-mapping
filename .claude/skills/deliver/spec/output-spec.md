@@ -18,11 +18,12 @@ general pipeline.
 Each table-pair mapping is one CSV file:
 
 - **Location:** `mappings/data/{domain}/`
-- **Filename:** `NN_[ExactEntity]-[OdooModel].csv`
+- **Filename:** `NN_ExactEntity-OdooModel.csv`
   - `NN` = two-digit sequence controlling sheet order (00, 01, ...)
-  - Brackets and hyphen are literal filename characters
+  - The first hyphen separates the Exact entity from the Odoo model
+    (Odoo model names may contain dots, e.g. `purchase.order.line`)
   - `generate_workbook.py` converts this to sheet title `ExactEntity → OdooModel`
-- **Example:** `00_[Subscriptions]-[sale.order].csv` → sheet "Subscriptions → sale.order"
+- **Example:** `00_Subscriptions-sale.order.csv` → sheet "Subscriptions → sale.order"
 
 ## Workbook Structure
 
@@ -31,7 +32,7 @@ The deliverable for each mapping batch is an Excel workbook (.xlsx) with:
 1. **One sheet per Exact-to-Odoo table mapping**, named
    `ExactEntity → OdooModel` (derived from CSV filename).
 
-2. **Seven columns per sheet:**
+2. **Eight columns per sheet:**
 
    | Column | Content |
    |---|---|
@@ -39,8 +40,9 @@ The deliverable for each mapping batch is an Excel workbook (.xlsx) with:
    | Exact Type | The Exact EDM type (or "—" for Derived rows) |
    | Category | One of: Direct, Relational, Custom, Derived, Skip |
    | Odoo Field | Target Odoo field name, `x_aa_...` for Custom, or "—" for Skip |
-   | Odoo Type | The Odoo field type |
+   | Odoo Type | The raw Odoo field type (e.g. `many2one`, `char`, `selection`) |
    | Odoo Model | The target Odoo model |
+   | Related Model | For relational fields, the target model (e.g. `res.partner`); empty for non-relational rows; `—` for Skip rows |
    | Notes | Rationale, conversion rules, caveats, cross-references |
 
 3. **Formatting applied by `format_workbooks.py`:**

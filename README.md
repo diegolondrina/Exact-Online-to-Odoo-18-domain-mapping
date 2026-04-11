@@ -130,7 +130,7 @@ Mapping data flows through three artifact stages:
  Metadata CSVs          Mapping CSVs                 Mapping workbook
  ─────────────          ────────────                 ────────────────
  /metadata/exact/   ►   /mappings/data/{domain}/ ►   /mappings/{domain}_mapping.xlsx
- /metadata/odoo/        NN_[Exact]-[Odoo].csv
+ /metadata/odoo/        NN_Exact-Odoo.csv
  (you provide)          (LLM writes)                 (scripts generate + format)
 ```
 
@@ -190,7 +190,7 @@ Every Exact field gets exactly one category:
 | Category | Rule | Example |
 |---|---|---|
 | **Direct** | Clear semantic equivalence. Map 1:1 with at most a type conversion. | `StartDate` → `start_date` |
-| **Relational** | Maps to an Odoo relational field (`many2one`, `many2many`). Requires a lookup/resolution step against another migrated or pre-existing table. | `OrderedBy` (Account GUID) → `partner_id` (many2one → res.partner) |
+| **Relational** | Maps to an Odoo relational field (`many2one`, `many2many`). Requires a lookup/resolution step against another migrated or pre-existing table. | `OrderedBy` (Account GUID) → `partner_id` (`many2one`, Related Model: `res.partner`) |
 | **Custom** | No native Odoo equivalent. Create a custom field prefixed `x_aa_` on the target Odoo model. | `InvoiceDay` → `x_aa_invoice_day` |
 | **Derived** | No Exact source. The Odoo field must be computed, defaulted, or inferred by migration logic. | `is_subscription` ← always `True` |
 | **Skip** | Denormalized display copy, obsolete field, or system metadata. Not migrated, but noted. | `OrderedByName` (derivable from `OrderedBy`) |
@@ -304,7 +304,7 @@ Each skill is a phase-specific procedure the LLM follows when invoked. You can i
    - Adds Derived rows for Odoo fields that have no Exact source but must be set for the target model to function.
    - Flags cross-domain dependencies (references to unmapped tables).
 3. Applies the standing patterns in the skill's `reference/` folder (audit fields, denormalized display fields, free fields, type conversion defaults, Odoo skip patterns).
-4. Writes one CSV per table pair to `mappings/data/{domain}/` using the naming convention `NN_[ExactEntity]-[OdooModel].csv`. The `NN_` prefix controls sheet order in the final workbook.
+4. Writes one CSV per table pair to `mappings/data/{domain}/` using the naming convention `NN_ExactEntity-OdooModel.csv`. The `NN_` prefix controls sheet order in the final workbook.
 5. Updates `references/dependency-tracker.md` with new pending dependencies or newly resolved ones.
 
 **You provide:** review and feedback as mappings are produced. This is the single most important point to challenge individual decisions, ask about alternatives, or redirect the approach.
@@ -503,13 +503,13 @@ The general principles for handling pending dependencies across batches:
 `/quality-gate` automates this, but the full list is worth knowing:
 
 **Structural**
-- [ ] CSVs exist in `mappings/data/{domain}/` with correct naming (`NN_[ExactEntity]-[OdooModel].csv`).
-- [ ] Each CSV has the standard 7-column header: Exact Field, Exact Type, Category, Odoo Field, Odoo Type, Odoo Model, Notes.
+- [ ] CSVs exist in `mappings/data/{domain}/` with correct naming (`NN_ExactEntity-OdooModel.csv`).
+- [ ] Each CSV has the standard 8-column header: Exact Field, Exact Type, Category, Odoo Field, Odoo Type, Odoo Model, Related Model, Notes.
 - [ ] Every Exact field in every in-scope metadata table has a row.
 
 **Classification**
 - [ ] Every row has a Category.
-- [ ] Every Relational row identifies the target model and resolution path.
+- [ ] Every Relational row has Related Model populated and a resolution path in Notes.
 - [ ] Every Custom row uses `x_aa_` prefix + snake_case.
 - [ ] Every Derived row documents its derivation logic.
 - [ ] Every Skip row has a justification.
@@ -527,7 +527,7 @@ The general principles for handling pending dependencies across batches:
 The deliverable for each domain is an Excel workbook at `mappings/{domain}_mapping.xlsx` with:
 
 1. **One sheet per Exact-to-Odoo table mapping**, titled `ExactEntity → OdooModel` (derived from the CSV filename; the `NN_` prefix controls sheet order and is stripped from the title).
-2. **Seven columns per sheet:**
+2. **Eight columns per sheet:**
 
    | Column | Content |
    |---|---|
@@ -535,8 +535,9 @@ The deliverable for each domain is an Excel workbook at `mappings/{domain}_mappi
    | Exact Type | Exact EDM type (or `—` for Derived rows) |
    | Category | One of: Direct, Relational, Custom, Derived, Skip |
    | Odoo Field | Target Odoo field, `x_aa_...` for Custom, `—` for Skip |
-   | Odoo Type | Odoo field type |
+   | Odoo Type | Raw Odoo field type (e.g. `many2one`, `char`, `selection`) |
    | Odoo Model | Target Odoo model |
+   | Related Model | For relational fields, the target model (e.g. `res.partner`); empty for non-relational rows; `—` for Skip rows |
    | Notes | Rationale, conversion rules, caveats, cross-references |
 
 3. **Color-coded Category column**: Direct = light blue, Relational = light green, Custom = light yellow, Derived = light red/pink, Skip = grey.

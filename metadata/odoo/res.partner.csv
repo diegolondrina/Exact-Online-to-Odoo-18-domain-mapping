@@ -1,282 +1,236 @@
-"Field Name","Field Label","Field Type","Field Help","Model","Related Model","Dependencies"
-"account_represented_company_ids","Account Represented Company","one2many","","Contact","res.company",""
-"active","Active","boolean","","Contact","",""
-"active_lang_count","Active Lang Count","integer","","Contact","",""
-"activity_calendar_event_id","Next Activity Calendar Event","many2one","","Contact","calendar.event",""
-"activity_date_deadline","Next Activity Deadline","date","","Contact","",""
-"activity_exception_decoration","Activity Exception Decoration","selection","Type of the exception activity on record.","Contact","",""
-"activity_exception_icon","Icon","char","Icon to indicate an exception activity.","Contact","",""
-"activity_ids","Activities","one2many","","Contact","mail.activity",""
-"activity_state","Activity State","selection","Status based on activities
+Field Name,Field Label,Field Type,Field Help,Model,Related Model,Required
+account_represented_company_ids,Account Represented Company,one2many,,Contact,res.company,
+active,Active,boolean,,Contact,,
+active_lang_count,Active Lang Count,integer,,Contact,,
+activity_calendar_event_id,Next Activity Calendar Event,many2one,,Contact,calendar.event,
+activity_date_deadline,Next Activity Deadline,date,,Contact,,
+activity_exception_decoration,Activity Exception Decoration,selection,Type of the exception activity on record.,Contact,,
+activity_exception_icon,Icon,char,Icon to indicate an exception activity.,Contact,,
+activity_ids,Activities,one2many,,Contact,mail.activity,
+activity_state,Activity State,selection,"Status based on activities
 Overdue: Due date is already passed
 Today: Activity date is today
-Planned: Future activities.","Contact","",""
-"activity_summary","Next Activity Summary","char","","Contact","",""
-"activity_type_icon","Activity Type Icon","char","Font awesome icon e.g. fa-tasks","Contact","",""
-"activity_type_id","Next Activity Type","many2one","","Contact","mail.activity.type",""
-"activity_user_id","Responsible User","many2one","","Contact","res.users",""
-"additional_info","Additional info","char","","Contact","",""
-"autopost_bills","Auto-post bills","selection","Automatically post bills for this trusted partner","Contact","",""
-"available_peppol_eas","Available Peppol Eas","json","","Contact","",""
-"avatar_1024","Avatar 1024","binary","","Contact","",""
-"avatar_128","Avatar 128","binary","","Contact","",""
-"avatar_1920","Avatar","binary","","Contact","",""
-"avatar_256","Avatar 256","binary","","Contact","",""
-"avatar_512","Avatar 512","binary","","Contact","",""
-"bank_account_count","Bank","integer","","Contact","",""
-"bank_ids","Banks","one2many","","Contact","res.partner.bank",""
-"barcode","Barcode","char","Use a barcode to identify this contact.","Contact","",""
-"buyer_id","Buyer","many2one","","Contact","res.users",""
-"calendar_last_notif_ack","Last notification marked as read from base Calendar","datetime","","Contact","",""
-"can_publish","Can Publish","boolean","","Contact","",""
-"category_id","Tags","many2many","","Contact","res.partner.category",""
-"channel_ids","Channels","many2many","","Contact","discuss.channel",""
-"child_ids","Contact","one2many","","Contact","res.partner",""
-"city","City","char","","Contact","",""
-"color","Color Index","integer","","Contact","",""
-"comment","Notes","html","","Contact","",""
-"commercial_company_name","Company Name Entity","char","","Contact","",""
-"commercial_partner_id","Commercial Entity","many2one","","Contact","res.partner",""
-"company_id","Company","many2one","","Contact","res.company",""
-"company_name","Company Name","char","","Contact","",""
-"company_registry","Company ID","char","The registry number of the company. Use it if it is different from the Tax ID. It must be unique across all partners of a same country","Contact","",""
-"company_registry_label","Company ID Label","char","","Contact","",""
-"company_type","Company Type","selection","","Contact","",""
-"complete_name","Complete Name","char","","Contact","",""
-"contact_address","Complete Address","char","","Contact","",""
-"contact_address_complete","Contact Address Complete","char","","Contact","",""
-"contact_address_inline","Inlined Complete Address","char","","Contact","",""
-"contract_ids","Partner Contracts","one2many","","Contact","account.analytic.account",""
-"country_code","Country Code","char","The ISO country code in two chars. 
-You can use this field for quick search.","Contact","",""
-"country_id","Country","many2one","","Contact","res.country",""
-"create_date","Created on","datetime","","Contact","",""
-"create_uid","Created by","many2one","","Contact","res.users",""
-"credit","Total Receivable","monetary","Total amount this customer owes you.","Contact","",""
-"credit_limit","Credit Limit","float","Credit limit specific to this partner.","Contact","",""
-"credit_to_invoice","Credit To Invoice","monetary","","Contact","",""
-"currency_id","Currency","many2one","","Contact","res.currency",""
-"customer_rank","Customer Rank","integer","","Contact","",""
-"days_sales_outstanding","Days Sales Outstanding (DSO)","float","[(Total Receivable/Total Revenue) * number of days since the first invoice] for this customer","Contact","",""
-"debit","Total Payable","monetary","Total amount you have to pay to this vendor.","Contact","",""
-"debit_limit","Payable Limit","monetary","","Contact","",""
-"display_invoice_edi_format","Display Invoice Edi Format","boolean","","Contact","",""
-"display_invoice_template_pdf_report_id","Display Invoice Template Pdf Report","boolean","","Contact","",""
-"display_name","Display Name","char","","Contact","",""
-"duplicate_bank_partner_ids","Duplicate Bank Partner","many2many","","Contact","res.partner",""
-"duplicated_bank_account_partners_count","Duplicated Bank Account Partners Count","integer","","Contact","",""
-"email","Email","char","","Contact","",""
-"email_formatted","Formatted Email","char","Format email address ""Name <email@domain>""","Contact","",""
-"email_normalized","Normalized Email","char","This field is used to search on email address as the primary email field can contain more than strictly an email address.","Contact","",""
-"employee","Employee","boolean","Check this box if this contact is an Employee.","Contact","",""
-"employee_ids","Employees","one2many","Related employees based on their private address","Contact","hr.employee",""
-"employees_count","Employees Count","integer","","Contact","",""
-"event_count","# Events","integer","","Contact","",""
-"fiscal_country_codes","Fiscal Country Codes","char","","Contact","",""
-"followup_line_id","Follow-up Level","many2one","","Contact","account_followup.followup.line",""
-"followup_next_action_date","Next reminder","date","No follow-up action will be taken before this date.
-                Sending a reminder will set this date depending on the levels configuration, and you can change it manually.","Contact","",""
-"followup_reminder_type","Reminders","selection","","Contact","",""
-"followup_responsible_id","Responsible","many2one","The responsible assigned to manual followup activities, if defined in the level.","Contact","res.users",""
-"followup_status","Follow-up Status","selection","","Contact","",""
-"function","Job Position","char","","Contact","",""
-"has_message","Has Message","boolean","","Contact","",""
-"has_moves","Has Moves","boolean","","Contact","",""
-"iap_enrich_info","IAP Enrich Info","text","IAP response stored as a JSON string","Contact","",""
-"iap_search_domain","Search Domain / Email","char","","Contact","",""
-"id","ID","integer","","Contact","",""
-"ignore_abnormal_invoice_amount","Ignore Abnormal Invoice Amount","boolean","","Contact","",""
-"ignore_abnormal_invoice_date","Ignore Abnormal Invoice Date","boolean","","Contact","",""
-"im_status","IM Status","char","","Contact","",""
-"image_1024","Image 1024","binary","","Contact","",""
-"image_128","Image 128","binary","","Contact","",""
-"image_1920","Image","binary","","Contact","",""
-"image_256","Image 256","binary","","Contact","",""
-"image_512","Image 512","binary","","Contact","",""
-"image_medium","Medium-sized image","binary","","Contact","",""
-"industry_id","Industry","many2one","","Contact","res.partner.industry",""
-"invoice_edi_format","eInvoice format","selection","","Contact","",""
-"invoice_edi_format_store","Invoice Edi Format Store","char","","Contact","",""
-"invoice_ids","Invoices","one2many","","Contact","account.move",""
-"invoice_sending_method","Invoice sending","selection","","Contact","",""
-"invoice_template_pdf_report_id","Invoice template","many2one","","Contact","ir.actions.report",""
-"invoice_warn","Invoice","selection","Selecting the ""Warning"" option will notify user with the message, Selecting ""Blocking Message"" will throw an exception with the message and block the flow. The Message has to be written in the next field.","Contact","",""
-"invoice_warn_msg","Message for Invoice","text","","Contact","",""
-"is_blacklisted","Blacklist","boolean","If the email address is on the blacklist, the contact won't receive mass mailing anymore, from any list","Contact","",""
-"is_coa_installed","Is Coa Installed","boolean","","Contact","",""
-"is_company","Is a Company","boolean","Check if the contact is a company, otherwise it is a person","Contact","",""
-"is_peppol_edi_format","Is Peppol Edi Format","boolean","","Contact","",""
-"is_public","Is Public","boolean","","Contact","",""
-"is_published","Is Published","boolean","","Contact","",""
-"is_seo_optimized","SEO optimized","boolean","","Contact","",""
-"is_ubl_format","Is Ubl Format","boolean","","Contact","",""
-"journal_item_count","Journal Items","integer","","Contact","",""
-"lang","Language","selection","All the emails and documents sent to this contact will be translated in this language.","Contact","",""
-"last_website_so_id","Last Online Sales Order","many2one","","Contact","sale.order",""
-"meeting_count","# Meetings","integer","","Contact","",""
-"meeting_ids","Meetings","many2many","","Contact","calendar.event",""
-"message_attachment_count","Attachment Count","integer","","Contact","",""
-"message_bounce","Bounce","integer","Counter of the number of bounced emails for this contact","Contact","",""
-"message_follower_ids","Followers","one2many","","Contact","mail.followers",""
-"message_has_error","Message Delivery error","boolean","If checked, some messages have a delivery error.","Contact","",""
-"message_has_error_counter","Number of errors","integer","Number of messages with delivery error","Contact","",""
-"message_has_sms_error","SMS Delivery error","boolean","If checked, some messages have a delivery error.","Contact","",""
-"message_ids","Messages","one2many","","Contact","mail.message",""
-"message_is_follower","Is Follower","boolean","","Contact","",""
-"message_needaction","Action Needed","boolean","If checked, new messages require your attention.","Contact","",""
-"message_needaction_counter","Number of Actions","integer","Number of messages requiring action","Contact","",""
-"message_partner_ids","Followers (Partners)","many2many","","Contact","res.partner",""
-"mobile","Mobile","char","","Contact","",""
-"mobile_blacklisted","Blacklisted Phone Is Mobile","boolean","Indicates if a blacklisted sanitized phone number is a mobile number. Helps distinguish which number is blacklisted             when there is both a mobile and phone field in a model.","Contact","",""
-"my_activity_date_deadline","My Activity Deadline","date","","Contact","",""
-"name","Name","char","","Contact","",""
-"ocn_token","OCN Token","char","Used for sending notification to registered devices","Contact","",""
-"on_time_rate","On-Time Delivery Rate","float","Over the past x days; the number of products received on time divided by the number of ordered products.x is either the System Parameter purchase_stock.on_time_delivery_days or the default 365","Contact","",""
-"online_partner_information","Online Partner Information","char","","Contact","",""
-"opportunity_count","Opportunity Count","integer","","Contact","",""
-"opportunity_ids","Opportunities","one2many","","Contact","crm.lead",""
-"parent_id","Related Company","many2one","","Contact","res.partner",""
-"parent_name","Parent name","char","","Contact","",""
-"partner_company_registry_placeholder","Partner Company Registry Placeholder","char","","Contact","",""
-"partner_gid","Company database ID","integer","","Contact","",""
-"partner_latitude","Geo Latitude","float","","Contact","",""
-"partner_longitude","Geo Longitude","float","","Contact","",""
-"partner_share","Share Partner","boolean","Either customer (not a user), either shared user. Indicated the current partner is a customer without access or with a limited access created for sharing data.","Contact","",""
-"partner_vat_placeholder","Partner Vat Placeholder","char","","Contact","",""
-"payment_token_count","Payment Token Count","integer","","Contact","",""
-"payment_token_ids","Payment Tokens","one2many","","Contact","payment.token",""
-"peppol_eas","Peppol e-address (EAS)","selection","Code used to identify the Endpoint for BIS Billing 3.0 and its derivatives.
-             List available at https://docs.peppol.eu/poacc/billing/3.0/codelist/eas/","Contact","",""
-"peppol_endpoint","Peppol Endpoint","char","Unique identifier used by the BIS Billing 3.0 and its derivatives, also known as 'Endpoint ID'.","Contact","",""
-"perform_vies_validation","Perform Vies Validation","boolean","","Contact","",""
-"phone","Phone","char","","Contact","",""
-"phone_blacklisted","Blacklisted Phone is Phone","boolean","Indicates if a blacklisted sanitized phone number is a phone number. Helps distinguish which number is blacklisted             when there is both a mobile and phone field in a model.","Contact","",""
-"phone_mobile_search","Phone/Mobile","char","","Contact","",""
-"phone_sanitized","Sanitized Number","char","Field used to store sanitized phone number. Helps speeding up searches and comparisons.","Contact","",""
-"phone_sanitized_blacklisted","Phone Blacklisted","boolean","If the sanitized phone number is on the blacklist, the contact won't receive mass mailing sms anymore, from any list","Contact","",""
-"picking_warn","Stock Picking","selection","Selecting the ""Warning"" option will notify user with the message, Selecting ""Blocking Message"" will throw an exception with the message and block the flow. The Message has to be written in the next field.","Contact","",""
-"picking_warn_msg","Message for Stock Picking","text","","Contact","",""
-"property_account_payable_id","Account Payable","many2one","This account will be used instead of the default one as the payable account for the current partner","Contact","account.account",""
-"property_account_position_id","Fiscal Position","many2one","The fiscal position determines the taxes/accounts used for this contact.","Contact","account.fiscal.position",""
-"property_account_receivable_id","Account Receivable","many2one","This account will be used instead of the default one as the receivable account for the current partner","Contact","account.account",""
-"property_delivery_carrier_id","Delivery Method","many2one","Default delivery method used in sales orders.","Contact","delivery.carrier",""
-"property_inbound_payment_method_line_id","Property Inbound Payment Method Line","many2one","Preferred payment method when selling to this customer. This will be set by default on all incoming payments created for this customer","Contact","account.payment.method.line",""
-"property_outbound_payment_method_line_id","Property Outbound Payment Method Line","many2one","Preferred payment method when buying from this vendor. This will be set by default on all outgoing payments created for this vendor","Contact","account.payment.method.line",""
-"property_payment_term_id","Customer Payment Terms","many2one","This payment term will be used instead of the default one for sales orders and customer invoices","Contact","account.payment.term",""
-"property_product_pricelist","Pricelist","many2one","This pricelist will be used, instead of the default one, for sales to the current partner","Contact","product.pricelist",""
-"property_purchase_currency_id","Supplier Currency","many2one","This currency will be used, instead of the default one, for purchases from the current partner","Contact","res.currency",""
-"property_stock_customer","Customer Location","many2one","The stock location used as destination when sending goods to this contact.","Contact","stock.location",""
-"property_stock_supplier","Vendor Location","many2one","The stock location used as source when receiving goods from this contact.","Contact","stock.location",""
-"property_supplier_payment_term_id","Vendor Payment Terms","many2one","This payment term will be used instead of the default one for purchase orders and vendor bills","Contact","account.payment.term",""
-"purchase_line_ids","Purchase Lines","one2many","","Contact","purchase.order.line",""
-"purchase_order_count","Purchase Order Count","integer","","Contact","",""
-"purchase_warn","Purchase Order Warning","selection","Selecting the ""Warning"" option will notify user with the message, Selecting ""Blocking Message"" will throw an exception with the message and block the flow. The Message has to be written in the next field.","Contact","",""
-"purchase_warn_msg","Message for Purchase Order","text","","Contact","",""
-"rating_ids","Ratings","one2many","","Contact","rating.rating",""
-"receipt_reminder_email","Receipt Reminder","boolean","Automatically send a confirmation email to the vendor X days before the expected receipt date, asking him to confirm the exact date.","Contact","",""
-"ref","Reference","char","","Contact","",""
-"ref_company_ids","Companies that refers to partner","one2many","","Contact","res.company",""
-"reminder_date_before_receipt","Days Before Receipt","integer","Number of days to send reminder email before the promised receipt date","Contact","",""
-"sale_order_count","Sale Order Count","integer","","Contact","",""
-"sale_order_ids","Sales Order","one2many","","Contact","sale.order",""
-"sale_warn","Sales Warnings","selection","Selecting the ""Warning"" option will notify user with the message, Selecting ""Blocking Message"" will throw an exception with the message and block the flow. The Message has to be written in the next field.","Contact","",""
-"sale_warn_msg","Message for Sales Order","text","","Contact","",""
-"same_company_registry_partner_id","Partner with same Company Registry","many2one","","Contact","res.partner",""
-"same_vat_partner_id","Partner with same Tax ID","many2one","","Contact","res.partner",""
-"self","Self","many2one","","Contact","res.partner",""
-"seo_name","Seo name","char","","Contact","",""
-"show_credit_limit","Show Credit Limit","boolean","","Contact","",""
-"signup_type","Signup Token Type","char","","Contact","",""
-"specific_property_product_pricelist","Specific Property Product Pricelist","many2one","","Contact","product.pricelist",""
-"starred_message_ids","Starred Message","many2many","","Contact","mail.message",""
-"state_id","State","many2one","","Contact","res.country.state",""
-"static_map_url","Static Map Url","char","","Contact","",""
-"static_map_url_is_valid","Static Map Url Is Valid","boolean","","Contact","",""
-"street","Street","char","","Contact","",""
-"street2","Street2","char","","Contact","",""
-"subscription_count","Subscriptions","integer","","Contact","",""
-"supplier_invoice_count","# Vendor Bills","integer","","Contact","",""
-"supplier_rank","Supplier Rank","integer","","Contact","",""
-"title","Title","many2one","","Contact","res.partner.title",""
-"total_all_due","Total All Due","monetary","","Contact","",""
-"total_all_overdue","Total All Overdue","monetary","","Contact","",""
-"total_due","Total Due","monetary","","Contact","",""
-"total_invoiced","Total Invoiced","monetary","","Contact","",""
-"total_overdue","Total Overdue","monetary","","Contact","",""
-"trust","Degree of trust you have in this debtor","selection","","Contact","",""
-"type","Address Type","selection","","Contact","",""
-"tz","Timezone","selection","When printing documents and exporting/importing data, time values are computed according to this timezone.
+Planned: Future activities.",Contact,,
+activity_summary,Next Activity Summary,char,,Contact,,
+activity_type_icon,Activity Type Icon,char,Font awesome icon e.g. fa-tasks,Contact,,
+activity_type_id,Next Activity Type,many2one,,Contact,mail.activity.type,
+activity_user_id,Responsible User,many2one,,Contact,res.users,
+additional_info,Additional info,char,,Contact,,
+autopost_bills,Auto-post bills,selection,Automatically post bills for this trusted partner,Contact,,True
+available_peppol_eas,Available Peppol Eas,json,,Contact,,
+avatar_1024,Avatar 1024,binary,,Contact,,
+avatar_128,Avatar 128,binary,,Contact,,
+avatar_1920,Avatar,binary,,Contact,,
+avatar_256,Avatar 256,binary,,Contact,,
+avatar_512,Avatar 512,binary,,Contact,,
+bank_account_count,Bank,integer,,Contact,,
+bank_ids,Banks,one2many,,Contact,res.partner.bank,
+barcode,Barcode,char,Use a barcode to identify this contact.,Contact,,
+buyer_id,Buyer,many2one,,Contact,res.users,
+calendar_last_notif_ack,Last notification marked as read from base Calendar,datetime,,Contact,,
+can_publish,Can Publish,boolean,,Contact,,
+category_id,Tags,many2many,,Contact,res.partner.category,
+channel_ids,Channels,many2many,,Contact,discuss.channel,
+child_ids,Contact,one2many,,Contact,res.partner,
+city,City,char,,Contact,,
+color,Color Index,integer,,Contact,,
+comment,Notes,html,,Contact,,
+commercial_company_name,Company Name Entity,char,,Contact,,
+commercial_partner_id,Commercial Entity,many2one,,Contact,res.partner,
+company_id,Company,many2one,,Contact,res.company,
+company_name,Company Name,char,,Contact,,
+company_registry,Company ID,char,The registry number of the company. Use it if it is different from the Tax ID. It must be unique across all partners of a same country,Contact,,
+company_registry_label,Company ID Label,char,,Contact,,
+company_type,Company Type,selection,,Contact,,
+complete_name,Complete Name,char,,Contact,,
+contact_address,Complete Address,char,,Contact,,
+contact_address_complete,Contact Address Complete,char,,Contact,,
+contact_address_inline,Inlined Complete Address,char,,Contact,,
+contract_ids,Partner Contracts,one2many,,Contact,account.analytic.account,
+country_code,Country Code,char,"The ISO country code in two chars. 
+You can use this field for quick search.",Contact,,
+country_id,Country,many2one,,Contact,res.country,
+create_date,Created on,datetime,,Contact,,
+create_uid,Created by,many2one,,Contact,res.users,
+credit,Total Receivable,monetary,Total amount this customer owes you.,Contact,,
+credit_limit,Credit Limit,float,Credit limit specific to this partner.,Contact,,
+credit_to_invoice,Credit To Invoice,monetary,,Contact,,
+currency_id,Currency,many2one,,Contact,res.currency,
+customer_rank,Customer Rank,integer,,Contact,,
+days_sales_outstanding,Days Sales Outstanding (DSO),float,[(Total Receivable/Total Revenue) * number of days since the first invoice] for this customer,Contact,,
+debit,Total Payable,monetary,Total amount you have to pay to this vendor.,Contact,,
+debit_limit,Payable Limit,monetary,,Contact,,
+display_invoice_edi_format,Display Invoice Edi Format,boolean,,Contact,,
+display_invoice_template_pdf_report_id,Display Invoice Template Pdf Report,boolean,,Contact,,
+display_name,Display Name,char,,Contact,,
+duplicate_bank_partner_ids,Duplicate Bank Partner,many2many,,Contact,res.partner,
+duplicated_bank_account_partners_count,Duplicated Bank Account Partners Count,integer,,Contact,,
+email,Email,char,,Contact,,
+email_formatted,Formatted Email,char,"Format email address ""Name <email@domain>""",Contact,,
+email_normalized,Normalized Email,char,This field is used to search on email address as the primary email field can contain more than strictly an email address.,Contact,,
+employee,Employee,boolean,Check this box if this contact is an Employee.,Contact,,
+employee_ids,Employees,one2many,Related employees based on their private address,Contact,hr.employee,
+employees_count,Employees Count,integer,,Contact,,
+event_count,# Events,integer,,Contact,,
+fiscal_country_codes,Fiscal Country Codes,char,,Contact,,
+followup_line_id,Follow-up Level,many2one,,Contact,account_followup.followup.line,
+followup_next_action_date,Next reminder,date,"No follow-up action will be taken before this date.
+                Sending a reminder will set this date depending on the levels configuration, and you can change it manually.",Contact,,
+followup_reminder_type,Reminders,selection,,Contact,,
+followup_responsible_id,Responsible,many2one,"The responsible assigned to manual followup activities, if defined in the level.",Contact,res.users,
+followup_status,Follow-up Status,selection,,Contact,,
+function,Job Position,char,,Contact,,
+has_message,Has Message,boolean,,Contact,,
+has_moves,Has Moves,boolean,,Contact,,
+iap_enrich_info,IAP Enrich Info,text,IAP response stored as a JSON string,Contact,,
+iap_search_domain,Search Domain / Email,char,,Contact,,
+id,ID,integer,,Contact,,
+ignore_abnormal_invoice_amount,Ignore Abnormal Invoice Amount,boolean,,Contact,,
+ignore_abnormal_invoice_date,Ignore Abnormal Invoice Date,boolean,,Contact,,
+im_status,IM Status,char,,Contact,,
+image_1024,Image 1024,binary,,Contact,,
+image_128,Image 128,binary,,Contact,,
+image_1920,Image,binary,,Contact,,
+image_256,Image 256,binary,,Contact,,
+image_512,Image 512,binary,,Contact,,
+image_medium,Medium-sized image,binary,,Contact,,
+industry_id,Industry,many2one,,Contact,res.partner.industry,
+invoice_edi_format,eInvoice format,selection,,Contact,,
+invoice_edi_format_store,Invoice Edi Format Store,char,,Contact,,
+invoice_ids,Invoices,one2many,,Contact,account.move,
+invoice_sending_method,Invoice sending,selection,,Contact,,
+invoice_template_pdf_report_id,Invoice template,many2one,,Contact,ir.actions.report,
+invoice_warn,Invoice,selection,"Selecting the ""Warning"" option will notify user with the message, Selecting ""Blocking Message"" will throw an exception with the message and block the flow. The Message has to be written in the next field.",Contact,,
+invoice_warn_msg,Message for Invoice,text,,Contact,,
+is_blacklisted,Blacklist,boolean,"If the email address is on the blacklist, the contact won't receive mass mailing anymore, from any list",Contact,,
+is_coa_installed,Is Coa Installed,boolean,,Contact,,
+is_company,Is a Company,boolean,"Check if the contact is a company, otherwise it is a person",Contact,,
+is_peppol_edi_format,Is Peppol Edi Format,boolean,,Contact,,
+is_public,Is Public,boolean,,Contact,,
+is_published,Is Published,boolean,,Contact,,
+is_seo_optimized,SEO optimized,boolean,,Contact,,
+is_ubl_format,Is Ubl Format,boolean,,Contact,,
+journal_item_count,Journal Items,integer,,Contact,,
+lang,Language,selection,All the emails and documents sent to this contact will be translated in this language.,Contact,,
+last_website_so_id,Last Online Sales Order,many2one,,Contact,sale.order,
+meeting_count,# Meetings,integer,,Contact,,
+meeting_ids,Meetings,many2many,,Contact,calendar.event,
+message_attachment_count,Attachment Count,integer,,Contact,,
+message_bounce,Bounce,integer,Counter of the number of bounced emails for this contact,Contact,,
+message_follower_ids,Followers,one2many,,Contact,mail.followers,
+message_has_error,Message Delivery error,boolean,"If checked, some messages have a delivery error.",Contact,,
+message_has_error_counter,Number of errors,integer,Number of messages with delivery error,Contact,,
+message_has_sms_error,SMS Delivery error,boolean,"If checked, some messages have a delivery error.",Contact,,
+message_ids,Messages,one2many,,Contact,mail.message,
+message_is_follower,Is Follower,boolean,,Contact,,
+message_needaction,Action Needed,boolean,"If checked, new messages require your attention.",Contact,,
+message_needaction_counter,Number of Actions,integer,Number of messages requiring action,Contact,,
+message_partner_ids,Followers (Partners),many2many,,Contact,res.partner,
+mobile,Mobile,char,,Contact,,
+mobile_blacklisted,Blacklisted Phone Is Mobile,boolean,Indicates if a blacklisted sanitized phone number is a mobile number. Helps distinguish which number is blacklisted             when there is both a mobile and phone field in a model.,Contact,,
+my_activity_date_deadline,My Activity Deadline,date,,Contact,,
+name,Name,char,,Contact,,
+ocn_token,OCN Token,char,Used for sending notification to registered devices,Contact,,
+on_time_rate,On-Time Delivery Rate,float,Over the past x days; the number of products received on time divided by the number of ordered products.x is either the System Parameter purchase_stock.on_time_delivery_days or the default 365,Contact,,
+online_partner_information,Online Partner Information,char,,Contact,,
+opportunity_count,Opportunity Count,integer,,Contact,,
+opportunity_ids,Opportunities,one2many,,Contact,crm.lead,
+parent_id,Related Company,many2one,,Contact,res.partner,
+parent_name,Parent name,char,,Contact,,
+partner_company_registry_placeholder,Partner Company Registry Placeholder,char,,Contact,,
+partner_gid,Company database ID,integer,,Contact,,
+partner_latitude,Geo Latitude,float,,Contact,,
+partner_longitude,Geo Longitude,float,,Contact,,
+partner_share,Share Partner,boolean,"Either customer (not a user), either shared user. Indicated the current partner is a customer without access or with a limited access created for sharing data.",Contact,,
+partner_vat_placeholder,Partner Vat Placeholder,char,,Contact,,
+payment_token_count,Payment Token Count,integer,,Contact,,
+payment_token_ids,Payment Tokens,one2many,,Contact,payment.token,
+peppol_eas,Peppol e-address (EAS),selection,"Code used to identify the Endpoint for BIS Billing 3.0 and its derivatives.
+             List available at https://docs.peppol.eu/poacc/billing/3.0/codelist/eas/",Contact,,
+peppol_endpoint,Peppol Endpoint,char,"Unique identifier used by the BIS Billing 3.0 and its derivatives, also known as 'Endpoint ID'.",Contact,,
+perform_vies_validation,Perform Vies Validation,boolean,,Contact,,
+phone,Phone,char,,Contact,,
+phone_blacklisted,Blacklisted Phone is Phone,boolean,Indicates if a blacklisted sanitized phone number is a phone number. Helps distinguish which number is blacklisted             when there is both a mobile and phone field in a model.,Contact,,
+phone_mobile_search,Phone/Mobile,char,,Contact,,
+phone_sanitized,Sanitized Number,char,Field used to store sanitized phone number. Helps speeding up searches and comparisons.,Contact,,
+phone_sanitized_blacklisted,Phone Blacklisted,boolean,"If the sanitized phone number is on the blacklist, the contact won't receive mass mailing sms anymore, from any list",Contact,,
+picking_warn,Stock Picking,selection,"Selecting the ""Warning"" option will notify user with the message, Selecting ""Blocking Message"" will throw an exception with the message and block the flow. The Message has to be written in the next field.",Contact,,
+picking_warn_msg,Message for Stock Picking,text,,Contact,,
+property_account_payable_id,Account Payable,many2one,This account will be used instead of the default one as the payable account for the current partner,Contact,account.account,
+property_account_position_id,Fiscal Position,many2one,The fiscal position determines the taxes/accounts used for this contact.,Contact,account.fiscal.position,
+property_account_receivable_id,Account Receivable,many2one,This account will be used instead of the default one as the receivable account for the current partner,Contact,account.account,
+property_delivery_carrier_id,Delivery Method,many2one,Default delivery method used in sales orders.,Contact,delivery.carrier,
+property_inbound_payment_method_line_id,Property Inbound Payment Method Line,many2one,Preferred payment method when selling to this customer. This will be set by default on all incoming payments created for this customer,Contact,account.payment.method.line,
+property_outbound_payment_method_line_id,Property Outbound Payment Method Line,many2one,Preferred payment method when buying from this vendor. This will be set by default on all outgoing payments created for this vendor,Contact,account.payment.method.line,
+property_payment_term_id,Customer Payment Terms,many2one,This payment term will be used instead of the default one for sales orders and customer invoices,Contact,account.payment.term,
+property_product_pricelist,Pricelist,many2one,"This pricelist will be used, instead of the default one, for sales to the current partner",Contact,product.pricelist,
+property_purchase_currency_id,Supplier Currency,many2one,"This currency will be used, instead of the default one, for purchases from the current partner",Contact,res.currency,
+property_stock_customer,Customer Location,many2one,The stock location used as destination when sending goods to this contact.,Contact,stock.location,
+property_stock_supplier,Vendor Location,many2one,The stock location used as source when receiving goods from this contact.,Contact,stock.location,
+property_supplier_payment_term_id,Vendor Payment Terms,many2one,This payment term will be used instead of the default one for purchase orders and vendor bills,Contact,account.payment.term,
+purchase_line_ids,Purchase Lines,one2many,,Contact,purchase.order.line,
+purchase_order_count,Purchase Order Count,integer,,Contact,,
+purchase_warn,Purchase Order Warning,selection,"Selecting the ""Warning"" option will notify user with the message, Selecting ""Blocking Message"" will throw an exception with the message and block the flow. The Message has to be written in the next field.",Contact,,
+purchase_warn_msg,Message for Purchase Order,text,,Contact,,
+rating_ids,Ratings,one2many,,Contact,rating.rating,
+receipt_reminder_email,Receipt Reminder,boolean,"Automatically send a confirmation email to the vendor X days before the expected receipt date, asking him to confirm the exact date.",Contact,,
+ref,Reference,char,,Contact,,
+ref_company_ids,Companies that refers to partner,one2many,,Contact,res.company,
+reminder_date_before_receipt,Days Before Receipt,integer,Number of days to send reminder email before the promised receipt date,Contact,,
+sale_order_count,Sale Order Count,integer,,Contact,,
+sale_order_ids,Sales Order,one2many,,Contact,sale.order,
+sale_warn,Sales Warnings,selection,"Selecting the ""Warning"" option will notify user with the message, Selecting ""Blocking Message"" will throw an exception with the message and block the flow. The Message has to be written in the next field.",Contact,,
+sale_warn_msg,Message for Sales Order,text,,Contact,,
+same_company_registry_partner_id,Partner with same Company Registry,many2one,,Contact,res.partner,
+same_vat_partner_id,Partner with same Tax ID,many2one,,Contact,res.partner,
+self,Self,many2one,,Contact,res.partner,
+seo_name,Seo name,char,,Contact,,
+show_credit_limit,Show Credit Limit,boolean,,Contact,,
+signup_type,Signup Token Type,char,,Contact,,
+specific_property_product_pricelist,Specific Property Product Pricelist,many2one,,Contact,product.pricelist,
+starred_message_ids,Starred Message,many2many,,Contact,mail.message,
+state_id,State,many2one,,Contact,res.country.state,
+static_map_url,Static Map Url,char,,Contact,,
+static_map_url_is_valid,Static Map Url Is Valid,boolean,,Contact,,
+street,Street,char,,Contact,,
+street2,Street2,char,,Contact,,
+subscription_count,Subscriptions,integer,,Contact,,
+supplier_invoice_count,# Vendor Bills,integer,,Contact,,
+supplier_rank,Supplier Rank,integer,,Contact,,
+title,Title,many2one,,Contact,res.partner.title,
+total_all_due,Total All Due,monetary,,Contact,,
+total_all_overdue,Total All Overdue,monetary,,Contact,,
+total_due,Total Due,monetary,,Contact,,
+total_invoiced,Total Invoiced,monetary,,Contact,,
+total_overdue,Total Overdue,monetary,,Contact,,
+trust,Degree of trust you have in this debtor,selection,,Contact,,
+type,Address Type,selection,,Contact,,
+tz,Timezone,selection,"When printing documents and exporting/importing data, time values are computed according to this timezone.
 If the timezone is not set, UTC (Coordinated Universal Time) is used.
-Anywhere else, time values are computed according to the time offset of your web client.","Contact","",""
-"tz_offset","Timezone offset","char","","Contact","",""
-"unpaid_invoice_ids","Unpaid Invoice","one2many","","Contact","account.move",""
-"unpaid_invoices_count","Unpaid Invoices Count","integer","","Contact","",""
-"unreconciled_aml_ids","Unreconciled Aml","one2many","","Contact","account.move.line",""
-"upcoming_appointment_ids","Upcoming Appointments","many2many","","Contact","calendar.event",""
-"use_partner_credit_limit","Partner Limit","boolean","Set a value greater than 0.0 to activate a credit limit check","Contact","",""
-"user_id","Salesperson","many2one","The internal user in charge of this contact.","Contact","res.users",""
-"user_ids","Users","one2many","","Contact","res.users",""
-"vat","Tax ID","char","The Tax Identification Number. Values here will be validated based on the country format. You can use '/' to indicate that the partner is not subject to tax.","Contact","",""
-"vat_label","Tax ID Label","char","","Contact","",""
-"vies_valid","Intra-Community Valid","boolean","European VAT numbers are automatically checked on the VIES database.","Contact","",""
-"vies_vat_to_check","Vies Vat To Check","char","","Contact","",""
-"visitor_ids","Visitors","one2many","","Contact","website.visitor",""
-"website","Website Link","char","","Contact","",""
-"website_description","Website Partner Full Description","html","","Contact","",""
-"website_id","Website","many2one","Restrict to a specific website.","Contact","website",""
-"website_message_ids","Website Messages","one2many","Website communication history","Contact","mail.message",""
-"website_meta_description","Website meta description","text","","Contact","",""
-"website_meta_keywords","Website meta keywords","char","","Contact","",""
-"website_meta_og_img","Website opengraph image","char","","Contact","",""
-"website_meta_title","Website meta title","char","","Contact","",""
-"website_published","Visible on current website","boolean","","Contact","",""
-"website_short_description","Website Partner Short Description","text","","Contact","",""
-"website_url","Website URL","char","The full URL to access the document through the website.","Contact","",""
-"write_date","Last Updated on","datetime","","Contact","",""
-"write_uid","Last Updated by","many2one","","Contact","res.users",""
-"x_aa_res_partner_account","Exact account","char","","Contact","",""
-"x_aa_res_partner_accountmaincontract","Exact account main contract","char","","Contact","",""
-"x_aa_res_partner_allowmailing","Exact allow mailing","boolean","","Contact","",""
-"x_aa_res_partner_birth_place","Exact birth place","char","","Contact","",""
-"x_aa_res_partner_birthday","Exact birthday","date","","Contact","",""
-"x_aa_res_partner_businessfax","Exact business fax","char","","Contact","",""
-"x_aa_res_partner_businessphoneextension","Exact business phone extension","char","","Contact","",""
-"x_aa_res_partner_code","Exact code","integer","","Contact","",""
-"x_aa_res_partner_creator","Exact creator","char","","Contact","",""
-"x_aa_res_partner_creatorfullname","Exact creator full name","char","","Contact","",""
-"x_aa_res_partner_customfield","Exact custom field","char","","Contact","",""
-"x_aa_res_partner_division","Exact division","char","","Contact","",""
-"x_aa_res_partner_firstname","Exact first name","char","","Contact","",""
-"x_aa_res_partner_gender","Exact gender","char","","Contact","",""
-"x_aa_res_partner_hid","Exact hid","char","","Contact","",""
-"x_aa_res_partner_id","Exact id","char","","Contact","",""
-"x_aa_res_partner_identificationdate","Exact identification date","date","","Contact","",""
-"x_aa_res_partner_identificationducoment","Exact identification document","char","","Contact","",""
-"x_aa_res_partner_identificationuser","Exact identification user","char","","Contact","",""
-"x_aa_res_partner_initials","Exact initials","char","","Contact","",""
-"x_aa_res_partner_isanonymised","Exact is anonymised","boolean","","Contact","",""
-"x_aa_res_partner_ismailingexcluded","Exact is mailing excluded","boolean","","Contact","",""
-"x_aa_res_partner_ismaincontact","Exact is main contact","boolean","","Contact","",""
-"x_aa_res_partner_jobtitledescription","Exact job title description","char","","Contact","",""
-"x_aa_res_partner_lastname","Exact last name","char","","Contact","",""
-"x_aa_res_partner_leadpurpose","Exact lead purpose","char","","Contact","",""
-"x_aa_res_partner_leadsource","Exact lead source","char","","Contact","",""
-"x_aa_res_partner_marketingnotes","Exact marketing notes","char","","Contact","",""
-"x_aa_res_partner_middlename","Exact middle name","char","","Contact","",""
-"x_aa_res_partner_modifier","Exact modifier","char","","Contact","",""
-"x_aa_res_partner_modifierfullname","Exact modifier full name","char","","Contact","",""
-"x_aa_res_partner_partnername","Exact partner name","char","","Contact","",""
-"x_aa_res_partner_partnernameprefix","Exact partner name prefix","char","","Contact","",""
-"x_aa_res_partner_person","Exact person","char","","Contact","",""
-"x_aa_res_partner_phoneextention","Exact phone extension","char","","Contact","",""
-"x_aa_res_partner_picture","Exact picture","char","","Contact","",""
-"x_aa_res_partner_picturename","Exact picture name","char","","Contact","",""
-"x_aa_res_partner_picturethumbnailurl","Exact picture thumbnail url","char","","Contact","",""
-"x_aa_res_partner_pictureurl","Exact picture url","char","","Contact","",""
-"x_aa_res_partner_socialsecuritynumber","Exact social security number","char","","Contact","",""
-"x_aa_res_partner_startdate","Exact start date","date","","Contact","",""
-"x_aa_res_partner_state","Exact state","char","","Contact","",""
-"x_aa_res_partner_title","Exact title","char","","Contact","",""
-"x_aa_res_partner_titleabbreviation","Exact title abbreviation","char","","Contact","",""
-"x_aa_res_partner_titledescription","Exact title description","char","","Contact","",""
-"zip","Zip","char","","Contact","",""
+Anywhere else, time values are computed according to the time offset of your web client.",Contact,,
+tz_offset,Timezone offset,char,,Contact,,
+unpaid_invoice_ids,Unpaid Invoice,one2many,,Contact,account.move,
+unpaid_invoices_count,Unpaid Invoices Count,integer,,Contact,,
+unreconciled_aml_ids,Unreconciled Aml,one2many,,Contact,account.move.line,
+upcoming_appointment_ids,Upcoming Appointments,many2many,,Contact,calendar.event,
+use_partner_credit_limit,Partner Limit,boolean,Set a value greater than 0.0 to activate a credit limit check,Contact,,
+user_id,Salesperson,many2one,The internal user in charge of this contact.,Contact,res.users,
+user_ids,Users,one2many,,Contact,res.users,
+vat,Tax ID,char,The Tax Identification Number. Values here will be validated based on the country format. You can use '/' to indicate that the partner is not subject to tax.,Contact,,
+vat_label,Tax ID Label,char,,Contact,,
+vies_valid,Intra-Community Valid,boolean,European VAT numbers are automatically checked on the VIES database.,Contact,,
+vies_vat_to_check,Vies Vat To Check,char,,Contact,,
+visitor_ids,Visitors,one2many,,Contact,website.visitor,
+website,Website Link,char,,Contact,,
+website_description,Website Partner Full Description,html,,Contact,,
+website_id,Website,many2one,Restrict to a specific website.,Contact,website,
+website_message_ids,Website Messages,one2many,Website communication history,Contact,mail.message,
+website_meta_description,Website meta description,text,,Contact,,
+website_meta_keywords,Website meta keywords,char,,Contact,,
+website_meta_og_img,Website opengraph image,char,,Contact,,
+website_meta_title,Website meta title,char,,Contact,,
+website_published,Visible on current website,boolean,,Contact,,
+website_short_description,Website Partner Short Description,text,,Contact,,
+website_url,Website URL,char,The full URL to access the document through the website.,Contact,,
+write_date,Last Updated on,datetime,,Contact,,
+write_uid,Last Updated by,many2one,,Contact,res.users,

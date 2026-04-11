@@ -6,15 +6,15 @@ Usage:
     python generate_workbook.py --all           # all domains
 
 CSV convention:
-    mappings/data/<domain>/[ExactEntity]-[OdooModel].csv
-    Filename becomes the sheet title with " → " replacing "-":
-        [Items]-[product.template].csv  →  sheet "Items → product.template"
+    mappings/data/<domain>/ExactEntity-OdooModel.csv
+    Filename becomes the sheet title with " → " replacing the first "-":
+        Items-product.template.csv  →  sheet "Items → product.template"
 
     An optional numeric prefix controls sheet order:
-        01_[Subscriptions]-[sale.order].csv  (prefix stripped from title)
+        01_Subscriptions-sale.order.csv  (prefix stripped from title)
 
-Each CSV must have the standard 7-column header:
-    Exact Field, Exact Type, Category, Odoo Field, Odoo Type, Odoo Model, Notes
+Each CSV must have the standard 8-column header:
+    Exact Field, Exact Type, Category, Odoo Field, Odoo Type, Odoo Model, Related Model, Notes
 """
 
 import argparse
@@ -35,7 +35,7 @@ DATA_DIR = os.path.join(MAPPINGS_DIR, "data")
 
 HEADERS = [
     "Exact Field", "Exact Type", "Category",
-    "Odoo Field", "Odoo Type", "Odoo Model", "Notes"
+    "Odoo Field", "Odoo Type", "Odoo Model", "Related Model", "Notes"
 ]
 
 LEGEND_ROWS = [
@@ -46,17 +46,19 @@ LEGEND_ROWS = [
     ("Skip",       "Not migrated (denormalized, obsolete, or system-managed)."),
 ]
 
-# Pattern: optional "01_" prefix, then [Exact]-[Odoo].csv
+# Pattern: optional "01_" prefix, then ExactEntity-OdooModel.csv.
+# ExactEntity is matched non-greedily up to the first hyphen; the rest
+# (which may contain dots, e.g. "purchase.order.line") is the Odoo model.
 SHEET_NAME_RE = re.compile(
-    r"^(?:\d+_)?\[(.+?)\]-\[(.+?)\]\.csv$"
+    r"^(?:\d+_)?([^-]+)-(.+)\.csv$"
 )
 
 
 def csv_to_sheet_name(filename):
-    """Convert CSV filename to sheet title.  e.g. [Items]-[product.template].csv → Items → product.template"""
+    """Convert CSV filename to sheet title.  e.g. Items-product.template.csv → Items → product.template"""
     m = SHEET_NAME_RE.match(filename)
     if not m:
-        sys.exit(f"ERROR: filename '{filename}' does not match [Exact]-[Odoo].csv convention.")
+        sys.exit(f"ERROR: filename '{filename}' does not match ExactEntity-OdooModel.csv convention.")
     return f"{m.group(1)} \u2192 {m.group(2)}"
 
 

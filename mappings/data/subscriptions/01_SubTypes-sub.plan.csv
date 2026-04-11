@@ -1,35 +1,35 @@
-Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Notes
-ID,Edm.Guid,Custom,x_aa_exact_id,char,sale.subscription.plan,Always preserve Exact primary key.
-Code,Edm.String,Custom,x_aa_code,char,sale.subscription.plan,Exact type code. Odoo plan has 'name' but no separate code field. Useful for reference/lookups.
-Description,Edm.String,Direct,name,char,sale.subscription.plan,Direct mapping. Odoo plan name.
-Division,Edm.Int32,Relational,company_id,many2one → res.company,sale.subscription.plan,Division → Company mapping.
-Created,Edm.DateTime,Direct,create_date,datetime,sale.subscription.plan
-Creator,Edm.Guid,Relational,create_uid,many2one → res.users,sale.subscription.plan
-CreatorFullName,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from Creator → res.users.name.
-Modified,Edm.DateTime,Direct,write_date,datetime,sale.subscription.plan
-Modifier,Edm.Guid,Relational,write_uid,many2one → res.users,sale.subscription.plan
-ModifierFullName,Edm.String,Skip,—,—,—,Denormalized display field. Value derivable from Modifier → res.users.name.
-InvoicePeriod,Edm.Int16,Direct,billing_period_value,integer,sale.subscription.plan,Invoice period numeric value → Odoo billing period value.
-InvoicePeriodUnit,Edm.String,Direct,billing_period_unit,selection,sale.subscription.plan,"Requires value conversion: Exact wk→week, mm→month, qt→(3 months), hy→(6 months), yy→year. Quarter and half-year need decomposition (e.g., qt → 3 month, hy → 6 month)."
-CancellationPeriod,Edm.Int16,Custom,x_aa_cancellation_period,integer,sale.subscription.plan,Notice period for cancellation. Odoo auto_close_limit is about unpaid-invoice auto-closure (different concept).
-CancellationPeriodUnit,Edm.String,Custom,x_aa_cancellation_period_unit,char,sale.subscription.plan,Unit of cancellation notice period.
-RenewalPeriod,Edm.Int16,Custom,x_aa_renewal_period,integer,sale.subscription.plan,No direct Odoo equivalent. Odoo handles renewal via user_extend (boolean) and the renewal workflow.
-RenewalPeriodUnit,Edm.String,Custom,x_aa_renewal_period_unit,char,sale.subscription.plan
-RenewalCancellationPeriod,Edm.Int16,Custom,x_aa_renewal_cancellation_period,integer,sale.subscription.plan
-RenewalCancellationPeriodUnit,Edm.String,Custom,x_aa_renewal_cancellation_period_unit,char,sale.subscription.plan
-ManualRenewalMethod,Edm.Int16,Custom,x_aa_manual_renewal_method,selection,sale.subscription.plan,"1=Use item prices, 2=Use current subscription prices. No Odoo equivalent."
-SubscriptionPeriod,Edm.Int16,Custom,x_aa_subscription_period,integer,sale.subscription.plan,Total subscription contract period. Distinct from billing period.
-SubscriptionPeriodUnit,Edm.String,Custom,x_aa_subscription_period_unit,char,sale.subscription.plan
-ProlongationType,Edm.Byte,Custom,x_aa_prolongation_type,selection,sale.subscription.plan,"0=No, 1=Manual, 2=Automatic. Odoo has user_extend (boolean) which is a loose analog."
-AutomaticGenerateInvoiceDays,Edm.Int16,Custom,x_aa_auto_gen_invoice_days,integer,sale.subscription.plan,Days before/after period to generate invoice. No Odoo plan equivalent.
-AutomaticGenerateInvoiceType,Edm.Int16,Custom,x_aa_auto_gen_invoice_type,selection,sale.subscription.plan,"1=Never, 2=Before period, 3=After period."
-AutomaticGenerateInvoiceDescription,Edm.String,Custom,x_aa_auto_gen_invoice_desc,char,sale.subscription.plan
-AutomaticSendInvoiceDays,Edm.Int16,Custom,x_aa_auto_send_invoice_days,integer,sale.subscription.plan
-AutomaticSendInvoiceType,Edm.Int16,Custom,x_aa_auto_send_invoice_type,selection,sale.subscription.plan,"1=Never, 2=When available."
-AutomaticSendInvoiceMethod,Edm.Int16,Custom,x_aa_auto_send_invoice_method,selection,sale.subscription.plan,"1=Based on account, 2=Email, 3=Documents, 4=Digital postbox, 5=Send and track, 6=Peppol."
-AutomaticSendInvoiceSender,Edm.Int16,Custom,x_aa_auto_send_invoice_sender,selection,sale.subscription.plan,"1=Company email, 2=Main user email."
-AutomaticSendInvoiceSenderMailbox,Edm.Guid,Custom,x_aa_auto_send_invoice_sender_mailbox,char,sale.subscription.plan
-InvoiceCorrectionMethod,Edm.Int16,Custom,x_aa_invoice_correction_method,selection,sale.subscription.plan,"1=Ratio based, 2=Zero Invoice, 3=Never invoiced."
-EnablePaymentLink,Edm.Int16,Custom,x_aa_enable_payment_link,selection,sale.subscription.plan,"0=Never, 1=Always, 2=Based on account."
-Notes,Edm.String,Custom,x_aa_notes,text,sale.subscription.plan,Additional notes. No notes field on Odoo plan.
-CustomField,Edm.String,Skip,—,—,—,Exact Premium-only custom field endpoint. Not a data field — skip.
+Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Related Model,Notes
+ID,Edm.Guid,Custom,x_aa_exact_id,char,sale.subscription.plan,,Always preserve Exact primary key.
+Code,Edm.String,Custom,x_aa_code,char,sale.subscription.plan,,Exact type code. Odoo plan has 'name' but no separate code field. Useful for reference/lookups.
+Description,Edm.String,Direct,name,char,sale.subscription.plan,,Direct mapping. Odoo plan name.
+Division,Edm.Int32,Relational,company_id,many2one,sale.subscription.plan,res.company,Division → Company mapping.
+Created,Edm.DateTime,Direct,create_date,datetime,sale.subscription.plan,,
+Creator,Edm.Guid,Relational,create_uid,many2one,sale.subscription.plan,res.users,
+CreatorFullName,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from Creator → res.users.name.
+Modified,Edm.DateTime,Direct,write_date,datetime,sale.subscription.plan,,
+Modifier,Edm.Guid,Relational,write_uid,many2one,sale.subscription.plan,res.users,
+ModifierFullName,Edm.String,Skip,—,—,—,—,Denormalized display field. Value derivable from Modifier → res.users.name.
+InvoicePeriod,Edm.Int16,Direct,billing_period_value,integer,sale.subscription.plan,,Invoice period numeric value → Odoo billing period value.
+InvoicePeriodUnit,Edm.String,Direct,billing_period_unit,selection,sale.subscription.plan,,"Requires value conversion: Exact wk→week, mm→month, qt→(3 months), hy→(6 months), yy→year. Quarter and half-year need decomposition (e.g., qt → 3 month, hy → 6 month)."
+CancellationPeriod,Edm.Int16,Custom,x_aa_cancellation_period,integer,sale.subscription.plan,,Notice period for cancellation. Odoo auto_close_limit is about unpaid-invoice auto-closure (different concept).
+CancellationPeriodUnit,Edm.String,Custom,x_aa_cancellation_period_unit,char,sale.subscription.plan,,Unit of cancellation notice period.
+RenewalPeriod,Edm.Int16,Custom,x_aa_renewal_period,integer,sale.subscription.plan,,No direct Odoo equivalent. Odoo handles renewal via user_extend (boolean) and the renewal workflow.
+RenewalPeriodUnit,Edm.String,Custom,x_aa_renewal_period_unit,char,sale.subscription.plan,,
+RenewalCancellationPeriod,Edm.Int16,Custom,x_aa_renewal_cancellation_period,integer,sale.subscription.plan,,
+RenewalCancellationPeriodUnit,Edm.String,Custom,x_aa_renewal_cancellation_period_unit,char,sale.subscription.plan,,
+ManualRenewalMethod,Edm.Int16,Custom,x_aa_manual_renewal_method,selection,sale.subscription.plan,,"1=Use item prices, 2=Use current subscription prices. No Odoo equivalent."
+SubscriptionPeriod,Edm.Int16,Custom,x_aa_subscription_period,integer,sale.subscription.plan,,Total subscription contract period. Distinct from billing period.
+SubscriptionPeriodUnit,Edm.String,Custom,x_aa_subscription_period_unit,char,sale.subscription.plan,,
+ProlongationType,Edm.Byte,Custom,x_aa_prolongation_type,selection,sale.subscription.plan,,"0=No, 1=Manual, 2=Automatic. Odoo has user_extend (boolean) which is a loose analog."
+AutomaticGenerateInvoiceDays,Edm.Int16,Custom,x_aa_auto_gen_invoice_days,integer,sale.subscription.plan,,Days before/after period to generate invoice. No Odoo plan equivalent.
+AutomaticGenerateInvoiceType,Edm.Int16,Custom,x_aa_auto_gen_invoice_type,selection,sale.subscription.plan,,"1=Never, 2=Before period, 3=After period."
+AutomaticGenerateInvoiceDescription,Edm.String,Custom,x_aa_auto_gen_invoice_desc,char,sale.subscription.plan,,
+AutomaticSendInvoiceDays,Edm.Int16,Custom,x_aa_auto_send_invoice_days,integer,sale.subscription.plan,,
+AutomaticSendInvoiceType,Edm.Int16,Custom,x_aa_auto_send_invoice_type,selection,sale.subscription.plan,,"1=Never, 2=When available."
+AutomaticSendInvoiceMethod,Edm.Int16,Custom,x_aa_auto_send_invoice_method,selection,sale.subscription.plan,,"1=Based on account, 2=Email, 3=Documents, 4=Digital postbox, 5=Send and track, 6=Peppol."
+AutomaticSendInvoiceSender,Edm.Int16,Custom,x_aa_auto_send_invoice_sender,selection,sale.subscription.plan,,"1=Company email, 2=Main user email."
+AutomaticSendInvoiceSenderMailbox,Edm.Guid,Custom,x_aa_auto_send_invoice_sender_mailbox,char,sale.subscription.plan,,
+InvoiceCorrectionMethod,Edm.Int16,Custom,x_aa_invoice_correction_method,selection,sale.subscription.plan,,"1=Ratio based, 2=Zero Invoice, 3=Never invoiced."
+EnablePaymentLink,Edm.Int16,Custom,x_aa_enable_payment_link,selection,sale.subscription.plan,,"0=Never, 1=Always, 2=Based on account."
+Notes,Edm.String,Custom,x_aa_notes,text,sale.subscription.plan,,Additional notes. No notes field on Odoo plan.
+CustomField,Edm.String,Skip,—,—,—,—,Exact Premium-only custom field endpoint. Not a data field — skip.

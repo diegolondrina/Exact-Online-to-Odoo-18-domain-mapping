@@ -1,16 +1,16 @@
-"Field Name","Field Label","Field Type","Field Help","Model","Related Model","Dependencies"
-"active","Active","boolean","","Pricing rule of subscription products","",""
-"company_id","Company","many2one","","Pricing rule of subscription products","res.company",""
-"create_date","Created on","datetime","","Pricing rule of subscription products","",""
-"create_uid","Created by","many2one","","Pricing rule of subscription products","res.users",""
-"currency_id","Currency","many2one","","Pricing rule of subscription products","res.currency",""
-"display_name","Display Name","char","","Pricing rule of subscription products","",""
-"id","ID","integer","","Pricing rule of subscription products","",""
-"name","Billing Period","char","","Pricing rule of subscription products","",""
-"plan_id","Recurring Plan","many2one","","Pricing rule of subscription products","sale.subscription.plan",""
-"price","Recurring Price","monetary","","Pricing rule of subscription products","",""
-"pricelist_id","Pricelist","many2one","","Pricing rule of subscription products","product.pricelist",""
-"product_template_id","Products","many2one","Select products on which this pricing will be applied.","Pricing rule of subscription products","product.template",""
-"product_variant_ids","Product Variants","many2many","Select Variants of the Product for which this rule applies. Leave empty if this rule applies for any variant of this template.","Pricing rule of subscription products","product.product",""
-"write_date","Last Updated on","datetime","","Pricing rule of subscription products","",""
-"write_uid","Last Updated by","many2one","","Pricing rule of subscription products","res.users",""
+Field Name,Field Label,Field Type,Field Help,Model,Related Model,Required
+active,Active,boolean,,Pricing rule of subscription products,,
+company_id,Company,many2one,,Pricing rule of subscription products,res.company,
+create_date,Created on,datetime,,Pricing rule of subscription products,,
+create_uid,Created by,many2one,,Pricing rule of subscription products,res.users,
+currency_id,Currency,many2one,,Pricing rule of subscription products,res.currency,
+display_name,Display Name,char,,Pricing rule of subscription products,,
+id,ID,integer,,Pricing rule of subscription products,,
+name,Billing Period,char,,Pricing rule of subscription products,,
+plan_id,Recurring Plan,many2one,,Pricing rule of subscription products,sale.subscription.plan,True
+price,Recurring Price,monetary,,Pricing rule of subscription products,,True
+pricelist_id,Pricelist,many2one,,Pricing rule of subscription products,product.pricelist,
+product_template_id,Products,many2one,Select products on which this pricing will be applied.,Pricing rule of subscription products,product.template,
+product_variant_ids,Product Variants,many2many,Select Variants of the Product for which this rule applies. Leave empty if this rule applies for any variant of this template.,Pricing rule of subscription products,product.product,
+write_date,Last Updated on,datetime,,Pricing rule of subscription products,,
+write_uid,Last Updated by,many2one,,Pricing rule of subscription products,res.users,

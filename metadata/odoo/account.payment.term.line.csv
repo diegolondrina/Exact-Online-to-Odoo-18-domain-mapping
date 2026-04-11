@@ -1,14 +1,14 @@
-"Field Name","Field Label","Field Type","Field Help","Model","Related Model","Dependencies"
-"create_date","Created on","datetime","","Payment Terms Line","",""
-"create_uid","Created by","many2one","","Payment Terms Line","res.users",""
-"days_next_month","Days on the next month","char","","Payment Terms Line","",""
-"delay_type","Delay Type","selection","","Payment Terms Line","",""
-"display_days_next_month","Display Days Next Month","boolean","","Payment Terms Line","",""
-"display_name","Display Name","char","","Payment Terms Line","",""
-"id","ID","integer","","Payment Terms Line","",""
-"nb_days","Days","integer","","Payment Terms Line","",""
-"payment_id","Payment Terms","many2one","","Payment Terms Line","account.payment.term",""
-"value","Value","selection","Select here the kind of valuation related to this payment terms line.","Payment Terms Line","",""
-"value_amount","Due","float","For percent enter a ratio between 0-100.","Payment Terms Line","",""
-"write_date","Last Updated on","datetime","","Payment Terms Line","",""
-"write_uid","Last Updated by","many2one","","Payment Terms Line","res.users",""
+Field Name,Field Label,Field Type,Field Help,Model,Related Model,Required
+create_date,Created on,datetime,,Payment Terms Line,,
+create_uid,Created by,many2one,,Payment Terms Line,res.users,
+days_next_month,Days on the next month,char,,Payment Terms Line,,
+delay_type,Delay Type,selection,,Payment Terms Line,,True
+display_days_next_month,Display Days Next Month,boolean,,Payment Terms Line,,
+display_name,Display Name,char,,Payment Terms Line,,
+id,ID,integer,,Payment Terms Line,,
+nb_days,Days,integer,,Payment Terms Line,,
+payment_id,Payment Terms,many2one,,Payment Terms Line,account.payment.term,True
+value,Value,selection,Select here the kind of valuation related to this payment terms line.,Payment Terms Line,,True
+value_amount,Due,float,For percent enter a ratio between 0-100.,Payment Terms Line,,
+write_date,Last Updated on,datetime,,Payment Terms Line,,
+write_uid,Last Updated by,many2one,,Payment Terms Line,res.users,

@@ -1,76 +1,76 @@
-Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Notes
-ID,Edm.Guid,Direct,x_aa_exact_contact_id,char,res.partner,Primary key. Named x_aa_exact_contact_id to distinguish from x_aa_exact_account_id (Accounts sheet). A person partner has this field populated; a company partner does not.
-HID,Edm.Int32,Custom,x_aa_contact_hid,integer,res.partner,Numeric contact ID in Exact.
-Code,Edm.String,Custom,x_aa_contact_code,char,res.partner,Code of the parent account (denormalized). The authoritative account code is on the parent partner's ref field.
-Account,Edm.Guid,Relational,parent_id,many2one → res.partner,res.partner,The account this contact belongs to. Resolve via x_aa_exact_account_id lookup on company partners. PREREQUISITE: Accounts must be migrated first.
-AccountName,Edm.String,Skip,—,—,—,Denormalized. Derivable from parent_id.name.
-AccountIsCustomer,Edm.Boolean,Skip,—,—,—,Denormalized. Already on parent partner via customer_rank.
-AccountIsSupplier,Edm.Boolean,Skip,—,—,—,Denormalized. Already on parent partner via supplier_rank.
-AccountMainContact,Edm.Guid,Skip,—,—,—,Account-level concept. Already on parent partner as x_aa_main_contact_id.
-FirstName,Edm.String,Custom,x_aa_first_name,char,res.partner,First name. Preserved to retain name parts. Also used to derive name (see Derived).
-MiddleName,Edm.String,Custom,x_aa_middle_name,char,res.partner,Middle name / tussenvoegsel.
-LastName,Edm.String,Custom,x_aa_last_name,char,res.partner,Last name. Also used to derive name.
-Initials,Edm.String,Custom,x_aa_initials,char,res.partner,Initials.
-FullName,Edm.String,Skip,—,—,—,Denormalized composite. We derive name from the individual parts instead.
-PartnerName,Edm.String,Custom,x_aa_partner_name,char,res.partner,Last name of spouse/partner.
-PartnerNamePrefix,Edm.String,Custom,x_aa_partner_name_prefix,char,res.partner,Middle name of spouse/partner.
-Title,Edm.String,Custom,x_aa_title_code,char,res.partner,"Title code (e.g., Mr, Mrs). Odoo has title (many2one → res.partner.title) but code sets may differ. Preserve raw; optionally resolve to res.partner.title."
-TitleAbbreviation,Edm.String,Custom,x_aa_title_abbreviation,char,res.partner,Title abbreviation.
-TitleDescription,Edm.String,Custom,x_aa_title_description,char,res.partner,Title description. Could map to res.partner.title.name if a clean mapping exists.
-JobTitleDescription,Edm.String,Direct,function,char,res.partner,Job title → Odoo function. Direct match.
-Gender,Edm.String,Custom,x_aa_gender,char,res.partner,Gender code.
-BirthDate,Edm.DateTime,Custom,x_aa_birth_date,date,res.partner,Date of birth. Strip time.
-BirthPlace,Edm.String,Custom,x_aa_birth_place,char,res.partner,Place of birth.
-Nationality,Edm.String,Custom,x_aa_nationality,char,res.partner,Nationality code.
-SocialSecurityNumber,Edm.String,Custom,x_aa_social_security_number,char,res.partner,SSN. Sensitive PII.
-Person,Edm.Guid,Custom,x_aa_person_id,char,res.partner,Reference to Exact personal information entity. Store GUID.
-IdentificationDate,Edm.DateTime,Custom,x_aa_identification_date,date,res.partner,Identity verification date. Strip time.
-IdentificationDocument,Edm.Guid,Custom,x_aa_identification_document,char,res.partner,Identification document GUID.
-IdentificationUser,Edm.Guid,Custom,x_aa_identification_user,char,res.partner,User who performed identification. Store GUID.
-AddressStreet,Edm.String,Direct,street,char,res.partner,"Street name. Concatenate: ""{AddressStreet} {AddressStreetNumber}{AddressStreetNumberSuffix}"" → street. Only set if contact has own address; otherwise leave empty so Odoo inherits from parent_id."
-AddressStreetNumber,Edm.String,Custom,x_aa_street_number,char,res.partner,Street number. Preserved for fidelity. Used in street concatenation.
-AddressStreetNumberSuffix,Edm.String,Custom,x_aa_street_number_suffix,char,res.partner,Street number suffix. Used in street concatenation.
-AddressLine2,Edm.String,Direct,street2,char,res.partner,Second address line. Only set if contact has own address.
-City,Edm.String,Direct,city,char,res.partner,Only set if contact has own address.
-Postcode,Edm.String,Direct,zip,char,res.partner,Only set if contact has own address.
-Country,Edm.String,Relational,country_id,many2one → res.country,res.partner,Country code → res.country.code lookup. Only set if contact has own address.
-State,Edm.String,Relational,state_id,many2one → res.country.state,res.partner,State/Province code. Only set if contact has own address.
-BusinessEmail,Edm.String,Direct,email,char,res.partner,"Business email → Odoo email (primary). If empty, fall back to Email field."
-Email,Edm.String,Custom,x_aa_personal_email,char,res.partner,Personal/secondary email. Used as fallback for Odoo email if BusinessEmail is empty.
-BusinessPhone,Edm.String,Direct,phone,char,res.partner,Business phone → Odoo phone.
-BusinessPhoneExtension,Edm.String,Custom,x_aa_phone_extension,char,res.partner,Phone extension. Shared field name with Accounts sheet.
-BusinessFax,Edm.String,Custom,x_aa_fax,char,res.partner,Fax. Shared field name with Accounts sheet.
-BusinessMobile,Edm.String,Direct,mobile,char,res.partner,"Business mobile → Odoo mobile. If empty, fall back to Mobile field."
-Phone,Edm.String,Custom,x_aa_personal_phone,char,res.partner,Personal phone.
-PhoneExtension,Edm.String,Custom,x_aa_personal_phone_extension,char,res.partner,Personal phone extension.
-Mobile,Edm.String,Custom,x_aa_personal_mobile,char,res.partner,Personal mobile. Used as fallback for Odoo mobile if BusinessMobile is empty.
-IsMainContact,Edm.Boolean,Custom,x_aa_is_main_contact,boolean,res.partner,Main contact flag. Cross-ref: parent account has x_aa_main_contact_id storing this contact's GUID.
-LeadPurpose,Edm.Guid,Custom,x_aa_lead_purpose,char,res.partner,Lead purpose GUID. Shared field name with Accounts sheet.
-LeadSource,Edm.Guid,Custom,x_aa_lead_source,char,res.partner,Lead source GUID. Shared field name with Accounts sheet.
-MarketingNotes,Edm.String,Custom,x_aa_marketing_notes,text,res.partner,Free-text marketing notes.
-IsMailingExcluded,Edm.Boolean,Custom,x_aa_is_mailing_excluded,boolean,res.partner,Excluded from mailings. Consider also setting is_blacklisted=True.
-Notes,Edm.String,Direct,comment,html,res.partner,Remarks/notes. Wrap in <p> tags. Same target field as Accounts (Remarks → comment).
-StartDate,Edm.DateTime,Custom,x_aa_start_date,date,res.partner,Contact start date. Shared field name with Accounts sheet. Strip time.
-EndDate,Edm.DateTime,Custom,x_aa_end_date,date,res.partner,Contact end date. Used in Derived: active. Shared field name with Accounts sheet.
-Picture,Edm.Binary,Direct,image_1920,binary,res.partner,Contact photo. Write-only in Exact; fetch via PictureUrl during extraction.
-PictureName,Edm.String,Custom,x_aa_picture_name,char,res.partner,Original filename.
-PictureThumbnailUrl,Edm.String,Skip,—,—,—,Exact-hosted URL. Not meaningful post-migration.
-PictureUrl,Edm.String,Skip,—,—,—,Exact-hosted URL. Used during extraction only.
-Language,Edm.String,Relational,lang,selection,res.partner,Language code. Same ISO → locale logic as Accounts sheet.
-IsAnonymised,Edm.Byte,Custom,x_aa_is_anonymised,boolean,res.partner,Anonymisation flag. Shared field name with Accounts sheet.
-Created,Edm.DateTime,Direct,create_date,datetime,res.partner,Creation timestamp.
-Creator,Edm.Guid,Relational,create_uid,many2one → res.users,res.partner,Creator. Default to admin if not mapped.
-CreatorFullName,Edm.String,Skip,—,—,—,Denormalized display field.
-Modified,Edm.DateTime,Direct,write_date,datetime,res.partner,Last modification timestamp.
-Modifier,Edm.Guid,Relational,write_uid,many2one → res.users,res.partner,Modifier. Default to admin.
-ModifierFullName,Edm.String,Skip,—,—,—,Denormalized display field.
-Division,Edm.Int32,Relational,company_id,many2one → res.company,res.partner,Exact division → res.company.
-AllowMailing,Edm.Int32,Skip,—,—,—,Obsolete.
-BirthName,Edm.String,Skip,—,—,—,Obsolete. May overwrite LastName.
-BirthNamePrefix,Edm.String,Skip,—,—,—,Obsolete. May overwrite MiddleName.
-CustomField,Edm.String,Skip,—,—,—,Premium endpoint reference. Always skip.
-—,—,Derived,is_company,boolean,res.partner,Always False for Contacts. (Accounts sheet sets True.)
-—,—,Derived,company_type,selection,res.partner,"Always ""person"". (Accounts sheet sets ""company"".)"
-—,—,Derived,name,char,res.partner,"Concatenated: ""{FirstName} {MiddleName} {LastName}"".strip(), skipping empty parts. Fall back to FullName if both FirstName and LastName are empty."
-—,—,Derived,active,boolean,res.partner,"False if EndDate < migration date, else True. Same logic as Accounts sheet."
-—,—,Derived,type,selection,res.partner,"Set to ""contact"" (default address type for person contacts)."
+Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Related Model,Notes
+ID,Edm.Guid,Direct,x_aa_exact_contact_id,char,res.partner,,Primary key. Named x_aa_exact_contact_id to distinguish from x_aa_exact_account_id (Accounts sheet). A person partner has this field populated; a company partner does not.
+HID,Edm.Int32,Custom,x_aa_contact_hid,integer,res.partner,,Numeric contact ID in Exact.
+Code,Edm.String,Custom,x_aa_contact_code,char,res.partner,,Code of the parent account (denormalized). The authoritative account code is on the parent partner's ref field.
+Account,Edm.Guid,Relational,parent_id,many2one,res.partner,res.partner,The account this contact belongs to. Resolve via x_aa_exact_account_id lookup on company partners. PREREQUISITE: Accounts must be migrated first.
+AccountName,Edm.String,Skip,—,—,—,—,Denormalized. Derivable from parent_id.name.
+AccountIsCustomer,Edm.Boolean,Skip,—,—,—,—,Denormalized. Already on parent partner via customer_rank.
+AccountIsSupplier,Edm.Boolean,Skip,—,—,—,—,Denormalized. Already on parent partner via supplier_rank.
+AccountMainContact,Edm.Guid,Skip,—,—,—,—,Account-level concept. Already on parent partner as x_aa_main_contact_id.
+FirstName,Edm.String,Custom,x_aa_first_name,char,res.partner,,First name. Preserved to retain name parts. Also used to derive name (see Derived).
+MiddleName,Edm.String,Custom,x_aa_middle_name,char,res.partner,,Middle name / tussenvoegsel.
+LastName,Edm.String,Custom,x_aa_last_name,char,res.partner,,Last name. Also used to derive name.
+Initials,Edm.String,Custom,x_aa_initials,char,res.partner,,Initials.
+FullName,Edm.String,Skip,—,—,—,—,Denormalized composite. We derive name from the individual parts instead.
+PartnerName,Edm.String,Custom,x_aa_partner_name,char,res.partner,,Last name of spouse/partner.
+PartnerNamePrefix,Edm.String,Custom,x_aa_partner_name_prefix,char,res.partner,,Middle name of spouse/partner.
+Title,Edm.String,Custom,x_aa_title_code,char,res.partner,,"Title code (e.g., Mr, Mrs). Odoo has title (many2one → res.partner.title) but code sets may differ. Preserve raw; optionally resolve to res.partner.title."
+TitleAbbreviation,Edm.String,Custom,x_aa_title_abbreviation,char,res.partner,,Title abbreviation.
+TitleDescription,Edm.String,Custom,x_aa_title_description,char,res.partner,,Title description. Could map to res.partner.title.name if a clean mapping exists.
+JobTitleDescription,Edm.String,Direct,function,char,res.partner,,Job title → Odoo function. Direct match.
+Gender,Edm.String,Custom,x_aa_gender,char,res.partner,,Gender code.
+BirthDate,Edm.DateTime,Custom,x_aa_birth_date,date,res.partner,,Date of birth. Strip time.
+BirthPlace,Edm.String,Custom,x_aa_birth_place,char,res.partner,,Place of birth.
+Nationality,Edm.String,Custom,x_aa_nationality,char,res.partner,,Nationality code.
+SocialSecurityNumber,Edm.String,Custom,x_aa_social_security_number,char,res.partner,,SSN. Sensitive PII.
+Person,Edm.Guid,Custom,x_aa_person_id,char,res.partner,,Reference to Exact personal information entity. Store GUID.
+IdentificationDate,Edm.DateTime,Custom,x_aa_identification_date,date,res.partner,,Identity verification date. Strip time.
+IdentificationDocument,Edm.Guid,Custom,x_aa_identification_document,char,res.partner,,Identification document GUID.
+IdentificationUser,Edm.Guid,Custom,x_aa_identification_user,char,res.partner,,User who performed identification. Store GUID.
+AddressStreet,Edm.String,Direct,street,char,res.partner,,"Street name. Concatenate: ""{AddressStreet} {AddressStreetNumber}{AddressStreetNumberSuffix}"" → street. Only set if contact has own address; otherwise leave empty so Odoo inherits from parent_id."
+AddressStreetNumber,Edm.String,Custom,x_aa_street_number,char,res.partner,,Street number. Preserved for fidelity. Used in street concatenation.
+AddressStreetNumberSuffix,Edm.String,Custom,x_aa_street_number_suffix,char,res.partner,,Street number suffix. Used in street concatenation.
+AddressLine2,Edm.String,Direct,street2,char,res.partner,,Second address line. Only set if contact has own address.
+City,Edm.String,Direct,city,char,res.partner,,Only set if contact has own address.
+Postcode,Edm.String,Direct,zip,char,res.partner,,Only set if contact has own address.
+Country,Edm.String,Relational,country_id,many2one,res.partner,res.country,Country code → res.country.code lookup. Only set if contact has own address.
+State,Edm.String,Relational,state_id,many2one,res.partner,res.country.state,State/Province code. Only set if contact has own address.
+BusinessEmail,Edm.String,Direct,email,char,res.partner,,"Business email → Odoo email (primary). If empty, fall back to Email field."
+Email,Edm.String,Custom,x_aa_personal_email,char,res.partner,,Personal/secondary email. Used as fallback for Odoo email if BusinessEmail is empty.
+BusinessPhone,Edm.String,Direct,phone,char,res.partner,,Business phone → Odoo phone.
+BusinessPhoneExtension,Edm.String,Custom,x_aa_phone_extension,char,res.partner,,Phone extension. Shared field name with Accounts sheet.
+BusinessFax,Edm.String,Custom,x_aa_fax,char,res.partner,,Fax. Shared field name with Accounts sheet.
+BusinessMobile,Edm.String,Direct,mobile,char,res.partner,,"Business mobile → Odoo mobile. If empty, fall back to Mobile field."
+Phone,Edm.String,Custom,x_aa_personal_phone,char,res.partner,,Personal phone.
+PhoneExtension,Edm.String,Custom,x_aa_personal_phone_extension,char,res.partner,,Personal phone extension.
+Mobile,Edm.String,Custom,x_aa_personal_mobile,char,res.partner,,Personal mobile. Used as fallback for Odoo mobile if BusinessMobile is empty.
+IsMainContact,Edm.Boolean,Custom,x_aa_is_main_contact,boolean,res.partner,,Main contact flag. Cross-ref: parent account has x_aa_main_contact_id storing this contact's GUID.
+LeadPurpose,Edm.Guid,Custom,x_aa_lead_purpose,char,res.partner,,Lead purpose GUID. Shared field name with Accounts sheet.
+LeadSource,Edm.Guid,Custom,x_aa_lead_source,char,res.partner,,Lead source GUID. Shared field name with Accounts sheet.
+MarketingNotes,Edm.String,Custom,x_aa_marketing_notes,text,res.partner,,Free-text marketing notes.
+IsMailingExcluded,Edm.Boolean,Custom,x_aa_is_mailing_excluded,boolean,res.partner,,Excluded from mailings. Consider also setting is_blacklisted=True.
+Notes,Edm.String,Direct,comment,html,res.partner,,Remarks/notes. Wrap in <p> tags. Same target field as Accounts (Remarks → comment).
+StartDate,Edm.DateTime,Custom,x_aa_start_date,date,res.partner,,Contact start date. Shared field name with Accounts sheet. Strip time.
+EndDate,Edm.DateTime,Custom,x_aa_end_date,date,res.partner,,Contact end date. Used in Derived: active. Shared field name with Accounts sheet.
+Picture,Edm.Binary,Direct,image_1920,binary,res.partner,,Contact photo. Write-only in Exact; fetch via PictureUrl during extraction.
+PictureName,Edm.String,Custom,x_aa_picture_name,char,res.partner,,Original filename.
+PictureThumbnailUrl,Edm.String,Skip,—,—,—,—,Exact-hosted URL. Not meaningful post-migration.
+PictureUrl,Edm.String,Skip,—,—,—,—,Exact-hosted URL. Used during extraction only.
+Language,Edm.String,Relational,lang,selection,res.partner,,Language code. Same ISO → locale logic as Accounts sheet.
+IsAnonymised,Edm.Byte,Custom,x_aa_is_anonymised,boolean,res.partner,,Anonymisation flag. Shared field name with Accounts sheet.
+Created,Edm.DateTime,Direct,create_date,datetime,res.partner,,Creation timestamp.
+Creator,Edm.Guid,Relational,create_uid,many2one,res.partner,res.users,Creator. Default to admin if not mapped.
+CreatorFullName,Edm.String,Skip,—,—,—,—,Denormalized display field.
+Modified,Edm.DateTime,Direct,write_date,datetime,res.partner,,Last modification timestamp.
+Modifier,Edm.Guid,Relational,write_uid,many2one,res.partner,res.users,Modifier. Default to admin.
+ModifierFullName,Edm.String,Skip,—,—,—,—,Denormalized display field.
+Division,Edm.Int32,Relational,company_id,many2one,res.partner,res.company,Exact division → res.company.
+AllowMailing,Edm.Int32,Skip,—,—,—,—,Obsolete.
+BirthName,Edm.String,Skip,—,—,—,—,Obsolete. May overwrite LastName.
+BirthNamePrefix,Edm.String,Skip,—,—,—,—,Obsolete. May overwrite MiddleName.
+CustomField,Edm.String,Skip,—,—,—,—,Premium endpoint reference. Always skip.
+—,—,Derived,is_company,boolean,res.partner,,Always False for Contacts. (Accounts sheet sets True.)
+—,—,Derived,company_type,selection,res.partner,,"Always ""person"". (Accounts sheet sets ""company"".)"
+—,—,Derived,name,char,res.partner,,"Concatenated: ""{FirstName} {MiddleName} {LastName}"".strip(), skipping empty parts. Fall back to FullName if both FirstName and LastName are empty."
+—,—,Derived,active,boolean,res.partner,,"False if EndDate < migration date, else True. Same logic as Accounts sheet."
+—,—,Derived,type,selection,res.partner,,"Set to ""contact"" (default address type for person contacts)."

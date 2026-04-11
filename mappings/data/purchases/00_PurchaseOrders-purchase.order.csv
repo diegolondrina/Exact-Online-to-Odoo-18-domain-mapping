@@ -1,69 +1,69 @@
-Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Notes
-PurchaseOrderID,Edm.Guid,Direct,x_aa_exact_id,char,purchase.order,"Primary key preservation. Non-negotiable — needed for reconciliation, dedup, and line linkage."
-OrderNumber,Edm.Int32,Direct,x_aa_order_number,integer,purchase.order,"Exact's human-readable PO number. Cannot map to name — Odoo auto-generates name as a sequence (e.g., PO00001). Stored for reference/traceability."
-Supplier,Edm.Guid,Relational,partner_id,many2one → res.partner,purchase.order,Vendor account. Lookup: Exact Account GUID → res.partner via x_aa_exact_id. Already mapped in Contacts domain.
-SupplierContact,Edm.Guid,Relational,x_aa_supplier_contact_id,many2one → res.partner,purchase.order,Contact person at supplier. Lookup via x_aa_exact_id on res.partner. No native Odoo PO field for supplier contact — custom field needed.
-PaymentCondition,Edm.String,Relational,payment_term_id,many2one → account.payment.term,purchase.order,Lookup: Exact PaymentCondition code → account.payment.term via x_aa_code. Already mapped in Contacts domain.
-Currency,Edm.String,Relational,currency_id,many2one → res.currency,purchase.order,Lookup by ISO currency code → res.currency.name. Foundational data — assumed pre-existing in Odoo.
-DeliveryAccount,Edm.Guid,Relational,dest_address_id,many2one → res.partner,purchase.order,Delivery/drop-ship address. Odoo has native dest_address_id for this. Lookup via x_aa_exact_id on res.partner.
-DeliveryContact,Edm.Guid,Relational,x_aa_delivery_contact_id,many2one → res.partner,purchase.order,Contact person at delivery address. No native equivalent — custom field.
-PurchaseAgent,Edm.Guid,Relational,user_id,many2one → res.users,purchase.order,Buyer/purchase agent. Maps to Odoo's native user_id (Buyer). Lookup: Exact employee/user GUID → res.users. Dependency: requires user mapping (not yet mapped).
-Warehouse,Edm.Guid,Relational,picking_type_id,many2one → stock.picking.type,purchase.order,Odoo uses picking_type_id to determine incoming operation type (and hence warehouse). Lookup requires warehouse mapping. Dependency: not yet mapped.
-IncotermCode,Edm.String,Relational,incoterm_id,many2one → account.incoterms,purchase.order,Incoterm. Lookup by code → account.incoterms. Odoo has native support.
-Creator,Edm.Guid,Relational,create_uid,many2one → res.users,purchase.order,Audit field. Lookup user GUID → res.users. Default to admin if unmapped.
-Modifier,Edm.Guid,Relational,write_uid,many2one → res.users,purchase.order,Audit field. Lookup user GUID → res.users. Default to admin if unmapped.
-Division,Edm.Int32,Relational,company_id,many2one → res.company,purchase.order,Maps to company. Single-division migration → hardcode to target company.
-OrderDate,Edm.DateTime,Direct,date_order,datetime,purchase.order,Order date. Direct mapping.
-ReceiptDate,Edm.DateTime,Direct,date_planned,datetime,purchase.order,Expected goods receipt date → Odoo's date_planned (Expected Arrival).
-Approved,Edm.DateTime,Direct,date_approve,datetime,purchase.order,Approval/confirmation datetime. Maps to Odoo's date_approve (Confirmation Date).
-Created,Edm.DateTime,Direct,create_date,datetime,purchase.order,Audit: creation timestamp.
-Modified,Edm.DateTime,Direct,write_date,datetime,purchase.order,Audit: last modification timestamp.
-Description,Edm.String,Direct,x_aa_description,char,purchase.order,PO description. Odoo's name is auto-generated sequence — cannot repurpose. No other native description field on purchase.order. Custom field.
-YourRef,Edm.String,Direct,partner_ref,char,purchase.order,Vendor/supplier reference number. Direct match to Odoo's partner_ref.
-Remarks,Edm.String,Direct,notes,html,purchase.order,Remarks → Odoo's notes (Terms and Conditions). Type conversion: plain text → HTML.
-ExchangeRate,Edm.Double,Direct,currency_rate,float,purchase.order,Exchange rate. Maps to Odoo's native currency_rate.
-IncotermAddress,Edm.String,Direct,incoterm_location,char,purchase.order,Incoterm location/address. Direct match to Odoo's incoterm_location.
-DropShipment,Edm.Boolean,Custom,x_aa_drop_shipment,boolean,purchase.order,"Drop-ship flag. Odoo handles drop-shipping via routes, not a flag on PO. Custom field for reference."
-Source,Edm.Int16,Custom,x_aa_source,integer,purchase.order,"How PO was created (1=Manual, 2=Import, 3=Other, 4=PO, 5=SO, 6=Supplier items, 7=Subcontract, 8=PO advice, 9=Shop order, 10=MRP, 11=REST API, 12=Merge). No Odoo equivalent. Custom field for audit trail."
-IncotermVersion,Edm.Int16,Custom,x_aa_incoterm_version,integer,purchase.order,Incoterm year version (2010/2020). Odoo doesn't track the version. Custom field.
-OrderStatus,Edm.Int32,Custom,x_aa_order_status,integer,purchase.order,"Exact status (10=Open, 20=Partial, 30=Complete, 40=Canceled). Stored as-is for reference. State derivation uses this — see Derived rows."
-ReceiptStatus,Edm.Int32,Custom,x_aa_receipt_status,integer,purchase.order,"Receipt status (10=Open, 20=Partial, 30=Complete, 40=Canceled). No single Odoo equivalent — Odoo computes receipt status from stock.picking. Stored for reference."
-InvoiceStatus,Edm.Int32,Custom,x_aa_invoice_status,integer,purchase.order,"Invoice status (10=Open, 20=Partial, 30=Complete, 40=Canceled). Odoo computes invoice_status dynamically from bill lines. Stored for reference."
-ApprovalStatus,Edm.Int16,Custom,x_aa_approval_status,integer,purchase.order,"Approval status (0=Awaiting, 1=Auto, 2=Approved). Odoo has optional purchase approval workflow but status is embedded in state. Custom field."
-SalesOrder,Edm.Guid,Custom,x_aa_sales_order_id,char,purchase.order,Back-to-back SO reference. Stored as char (GUID) for traceability. Cross-linking to sale.order can be done post-migration if SO domain is mapped.
-Document,Edm.Guid,Custom,x_aa_document_id,char,purchase.order,Manually linked document GUID. No Odoo equivalent. Stored for reference.
-SelectionCode,Edm.Guid,Custom,x_aa_selection_code_id,char,purchase.order,Selection code (Exact Premium feature). No Odoo equivalent. Stored as char for reference.
-ShippingMethod,Edm.Guid,Custom,x_aa_shipping_method_id,char,purchase.order,Shipping method. Odoo has delivery carriers (delivery.carrier) but the mapping is not straightforward without a carrier mapping. Store GUID for reference.
-AmountDC,Edm.Double,Skip,—,—,—,Total in company currency. Odoo computes amount_total_cc from lines. Skip — computed field.
-AmountFC,Edm.Double,Skip,—,—,—,Total in transaction currency. Odoo computes amount_total from lines. Skip.
-AmountFCExclVat,Edm.Double,Skip,—,—,—,Untaxed total. Odoo computes amount_untaxed from lines. Skip.
-AmountDiscount,Edm.Double,Skip,—,—,—,Discount amount in company currency. Computed from line discounts in Odoo. Skip.
-AmountDiscountExclVat,Edm.Double,Skip,—,—,—,Discount amount excl VAT. Computed. Skip.
-VATAmount,Edm.Double,Skip,—,—,—,VAT total. Odoo computes amount_tax from lines. Skip.
-Discount,Edm.Double,Skip,—,—,—,Header-level discount percentage. Actual discounts applied at line level in both Exact and Odoo. Skip.
-DeliveryAddress,Edm.Guid,Skip,—,—,—,Exact stores address as separate GUID. Odoo resolves address from the partner record on dest_address_id. Skip.
-CreatorFullName,Edm.String,Skip,—,—,—,Denormalized display field for Creator.
-ModifierFullName,Edm.String,Skip,—,—,—,Denormalized display field for Modifier.
-ApproverFullName,Edm.String,Skip,—,—,—,Denormalized display field for Approver.
-Approver,Edm.Guid,Skip,—,—,—,Approval user. Skip — approval workflow state captured in x_aa_approval_status. Odoo manages its own approval users.
-PurchaseAgentFullName,Edm.String,Skip,—,—,—,Denormalized display field for PurchaseAgent.
-SupplierCode,Edm.String,Skip,—,—,—,Denormalized display copy of supplier code. Derivable from partner_id.
-SupplierName,Edm.String,Skip,—,—,—,Denormalized display copy of supplier name. Derivable from partner_id.
-SupplierContactPersonFullName,Edm.String,Skip,—,—,—,Denormalized display copy of supplier contact name.
-DeliveryAccountCode,Edm.String,Skip,—,—,—,Denormalized display copy of delivery account code.
-DeliveryAccountName,Edm.String,Skip,—,—,—,Denormalized display copy of delivery account name.
-DeliveryContactPersonFullName,Edm.String,Skip,—,—,—,Denormalized display copy of delivery contact name.
-PaymentConditionDescription,Edm.String,Skip,—,—,—,Denormalized display copy of payment condition.
-DocumentSubject,Edm.String,Skip,—,—,—,Denormalized display copy of document subject.
-SelectionCodeCode,Edm.String,Skip,—,—,—,Denormalized display copy of selection code.
-SelectionCodeDescription,Edm.String,Skip,—,—,—,Denormalized display copy of selection code description.
-ShippingMethodCode,Edm.String,Skip,—,—,—,Denormalized display copy of shipping method code.
-ShippingMethodDescription,Edm.String,Skip,—,—,—,Denormalized display copy of shipping method description.
-WarehouseCode,Edm.String,Skip,—,—,—,Denormalized display copy of warehouse code.
-WarehouseDescription,Edm.String,Skip,—,—,—,Denormalized display copy of warehouse description.
-PurchaseOrderLineCount,Edm.Int32,Skip,—,—,—,Computed count. Odoo derives from order_line.
-PurchaseOrderLines,PurchaseOrderLines,Skip,—,—,—,Embedded collection — mapped separately in PurchaseOrderLines sheet.
-SalesOrderNumber,Edm.Int32,Skip,—,—,—,Denormalized display copy of linked SO number. GUID stored in x_aa_sales_order_id.
-ApprovalStatusDescription,Edm.String,Skip,—,—,—,Denormalized display copy of ApprovalStatus.
-—,—,Derived,state,selection,purchase.order,"Derive from OrderStatus: 10(Open)→'purchase', 30(Complete)→'done', 40(Canceled)→'cancel'. Draft POs (if any) may need ApprovalStatus check."
-—,—,Derived,name,char,purchase.order,"Auto-generated by Odoo sequence (e.g., PO00001). Let Odoo assign on create. Original Exact number preserved in x_aa_order_number."
+Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Related Model,Notes
+PurchaseOrderID,Edm.Guid,Direct,x_aa_exact_id,char,purchase.order,,"Primary key preservation. Non-negotiable — needed for reconciliation, dedup, and line linkage."
+OrderNumber,Edm.Int32,Direct,x_aa_order_number,integer,purchase.order,,"Exact's human-readable PO number. Cannot map to name — Odoo auto-generates name as a sequence (e.g., PO00001). Stored for reference/traceability."
+Supplier,Edm.Guid,Relational,partner_id,many2one,purchase.order,res.partner,Vendor account. Lookup: Exact Account GUID → res.partner via x_aa_exact_id. Already mapped in Contacts domain.
+SupplierContact,Edm.Guid,Relational,x_aa_supplier_contact_id,many2one,purchase.order,res.partner,Contact person at supplier. Lookup via x_aa_exact_id on res.partner. No native Odoo PO field for supplier contact — custom field needed.
+PaymentCondition,Edm.String,Relational,payment_term_id,many2one,purchase.order,account.payment.term,Lookup: Exact PaymentCondition code → account.payment.term via x_aa_code. Already mapped in Contacts domain.
+Currency,Edm.String,Relational,currency_id,many2one,purchase.order,res.currency,Lookup by ISO currency code → res.currency.name. Foundational data — assumed pre-existing in Odoo.
+DeliveryAccount,Edm.Guid,Relational,dest_address_id,many2one,purchase.order,res.partner,Delivery/drop-ship address. Odoo has native dest_address_id for this. Lookup via x_aa_exact_id on res.partner.
+DeliveryContact,Edm.Guid,Relational,x_aa_delivery_contact_id,many2one,purchase.order,res.partner,Contact person at delivery address. No native equivalent — custom field.
+PurchaseAgent,Edm.Guid,Relational,user_id,many2one,purchase.order,res.users,Buyer/purchase agent. Maps to Odoo's native user_id (Buyer). Lookup: Exact employee/user GUID → res.users. Dependency: requires user mapping (not yet mapped).
+Warehouse,Edm.Guid,Relational,picking_type_id,many2one,purchase.order,stock.picking.type,Odoo uses picking_type_id to determine incoming operation type (and hence warehouse). Lookup requires warehouse mapping. Dependency: not yet mapped.
+IncotermCode,Edm.String,Relational,incoterm_id,many2one,purchase.order,account.incoterms,Incoterm. Lookup by code → account.incoterms. Odoo has native support.
+Creator,Edm.Guid,Relational,create_uid,many2one,purchase.order,res.users,Audit field. Lookup user GUID → res.users. Default to admin if unmapped.
+Modifier,Edm.Guid,Relational,write_uid,many2one,purchase.order,res.users,Audit field. Lookup user GUID → res.users. Default to admin if unmapped.
+Division,Edm.Int32,Relational,company_id,many2one,purchase.order,res.company,Maps to company. Single-division migration → hardcode to target company.
+OrderDate,Edm.DateTime,Direct,date_order,datetime,purchase.order,,Order date. Direct mapping.
+ReceiptDate,Edm.DateTime,Direct,date_planned,datetime,purchase.order,,Expected goods receipt date → Odoo's date_planned (Expected Arrival).
+Approved,Edm.DateTime,Direct,date_approve,datetime,purchase.order,,Approval/confirmation datetime. Maps to Odoo's date_approve (Confirmation Date).
+Created,Edm.DateTime,Direct,create_date,datetime,purchase.order,,Audit: creation timestamp.
+Modified,Edm.DateTime,Direct,write_date,datetime,purchase.order,,Audit: last modification timestamp.
+Description,Edm.String,Direct,x_aa_description,char,purchase.order,,PO description. Odoo's name is auto-generated sequence — cannot repurpose. No other native description field on purchase.order. Custom field.
+YourRef,Edm.String,Direct,partner_ref,char,purchase.order,,Vendor/supplier reference number. Direct match to Odoo's partner_ref.
+Remarks,Edm.String,Direct,notes,html,purchase.order,,Remarks → Odoo's notes (Terms and Conditions). Type conversion: plain text → HTML.
+ExchangeRate,Edm.Double,Direct,currency_rate,float,purchase.order,,Exchange rate. Maps to Odoo's native currency_rate.
+IncotermAddress,Edm.String,Direct,incoterm_location,char,purchase.order,,Incoterm location/address. Direct match to Odoo's incoterm_location.
+DropShipment,Edm.Boolean,Custom,x_aa_drop_shipment,boolean,purchase.order,,"Drop-ship flag. Odoo handles drop-shipping via routes, not a flag on PO. Custom field for reference."
+Source,Edm.Int16,Custom,x_aa_source,integer,purchase.order,,"How PO was created (1=Manual, 2=Import, 3=Other, 4=PO, 5=SO, 6=Supplier items, 7=Subcontract, 8=PO advice, 9=Shop order, 10=MRP, 11=REST API, 12=Merge). No Odoo equivalent. Custom field for audit trail."
+IncotermVersion,Edm.Int16,Custom,x_aa_incoterm_version,integer,purchase.order,,Incoterm year version (2010/2020). Odoo doesn't track the version. Custom field.
+OrderStatus,Edm.Int32,Custom,x_aa_order_status,integer,purchase.order,,"Exact status (10=Open, 20=Partial, 30=Complete, 40=Canceled). Stored as-is for reference. State derivation uses this — see Derived rows."
+ReceiptStatus,Edm.Int32,Custom,x_aa_receipt_status,integer,purchase.order,,"Receipt status (10=Open, 20=Partial, 30=Complete, 40=Canceled). No single Odoo equivalent — Odoo computes receipt status from stock.picking. Stored for reference."
+InvoiceStatus,Edm.Int32,Custom,x_aa_invoice_status,integer,purchase.order,,"Invoice status (10=Open, 20=Partial, 30=Complete, 40=Canceled). Odoo computes invoice_status dynamically from bill lines. Stored for reference."
+ApprovalStatus,Edm.Int16,Custom,x_aa_approval_status,integer,purchase.order,,"Approval status (0=Awaiting, 1=Auto, 2=Approved). Odoo has optional purchase approval workflow but status is embedded in state. Custom field."
+SalesOrder,Edm.Guid,Custom,x_aa_sales_order_id,char,purchase.order,,Back-to-back SO reference. Stored as char (GUID) for traceability. Cross-linking to sale.order can be done post-migration if SO domain is mapped.
+Document,Edm.Guid,Custom,x_aa_document_id,char,purchase.order,,Manually linked document GUID. No Odoo equivalent. Stored for reference.
+SelectionCode,Edm.Guid,Custom,x_aa_selection_code_id,char,purchase.order,,Selection code (Exact Premium feature). No Odoo equivalent. Stored as char for reference.
+ShippingMethod,Edm.Guid,Custom,x_aa_shipping_method_id,char,purchase.order,,Shipping method. Odoo has delivery carriers (delivery.carrier) but the mapping is not straightforward without a carrier mapping. Store GUID for reference.
+AmountDC,Edm.Double,Skip,—,—,—,—,Total in company currency. Odoo computes amount_total_cc from lines. Skip — computed field.
+AmountFC,Edm.Double,Skip,—,—,—,—,Total in transaction currency. Odoo computes amount_total from lines. Skip.
+AmountFCExclVat,Edm.Double,Skip,—,—,—,—,Untaxed total. Odoo computes amount_untaxed from lines. Skip.
+AmountDiscount,Edm.Double,Skip,—,—,—,—,Discount amount in company currency. Computed from line discounts in Odoo. Skip.
+AmountDiscountExclVat,Edm.Double,Skip,—,—,—,—,Discount amount excl VAT. Computed. Skip.
+VATAmount,Edm.Double,Skip,—,—,—,—,VAT total. Odoo computes amount_tax from lines. Skip.
+Discount,Edm.Double,Skip,—,—,—,—,Header-level discount percentage. Actual discounts applied at line level in both Exact and Odoo. Skip.
+DeliveryAddress,Edm.Guid,Skip,—,—,—,—,Exact stores address as separate GUID. Odoo resolves address from the partner record on dest_address_id. Skip.
+CreatorFullName,Edm.String,Skip,—,—,—,—,Denormalized display field for Creator.
+ModifierFullName,Edm.String,Skip,—,—,—,—,Denormalized display field for Modifier.
+ApproverFullName,Edm.String,Skip,—,—,—,—,Denormalized display field for Approver.
+Approver,Edm.Guid,Skip,—,—,—,—,Approval user. Skip — approval workflow state captured in x_aa_approval_status. Odoo manages its own approval users.
+PurchaseAgentFullName,Edm.String,Skip,—,—,—,—,Denormalized display field for PurchaseAgent.
+SupplierCode,Edm.String,Skip,—,—,—,—,Denormalized display copy of supplier code. Derivable from partner_id.
+SupplierName,Edm.String,Skip,—,—,—,—,Denormalized display copy of supplier name. Derivable from partner_id.
+SupplierContactPersonFullName,Edm.String,Skip,—,—,—,—,Denormalized display copy of supplier contact name.
+DeliveryAccountCode,Edm.String,Skip,—,—,—,—,Denormalized display copy of delivery account code.
+DeliveryAccountName,Edm.String,Skip,—,—,—,—,Denormalized display copy of delivery account name.
+DeliveryContactPersonFullName,Edm.String,Skip,—,—,—,—,Denormalized display copy of delivery contact name.
+PaymentConditionDescription,Edm.String,Skip,—,—,—,—,Denormalized display copy of payment condition.
+DocumentSubject,Edm.String,Skip,—,—,—,—,Denormalized display copy of document subject.
+SelectionCodeCode,Edm.String,Skip,—,—,—,—,Denormalized display copy of selection code.
+SelectionCodeDescription,Edm.String,Skip,—,—,—,—,Denormalized display copy of selection code description.
+ShippingMethodCode,Edm.String,Skip,—,—,—,—,Denormalized display copy of shipping method code.
+ShippingMethodDescription,Edm.String,Skip,—,—,—,—,Denormalized display copy of shipping method description.
+WarehouseCode,Edm.String,Skip,—,—,—,—,Denormalized display copy of warehouse code.
+WarehouseDescription,Edm.String,Skip,—,—,—,—,Denormalized display copy of warehouse description.
+PurchaseOrderLineCount,Edm.Int32,Skip,—,—,—,—,Computed count. Odoo derives from order_line.
+PurchaseOrderLines,PurchaseOrderLines,Skip,—,—,—,—,Embedded collection — mapped separately in PurchaseOrderLines sheet.
+SalesOrderNumber,Edm.Int32,Skip,—,—,—,—,Denormalized display copy of linked SO number. GUID stored in x_aa_sales_order_id.
+ApprovalStatusDescription,Edm.String,Skip,—,—,—,—,Denormalized display copy of ApprovalStatus.
+—,—,Derived,state,selection,purchase.order,,"Derive from OrderStatus: 10(Open)→'purchase', 30(Complete)→'done', 40(Canceled)→'cancel'. Draft POs (if any) may need ApprovalStatus check."
+—,—,Derived,name,char,purchase.order,,"Auto-generated by Odoo sequence (e.g., PO00001). Let Odoo assign on create. Original Exact number preserved in x_aa_order_number."
