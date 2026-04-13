@@ -1,5 +1,5 @@
 Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Related Model,Notes
-ID,Edm.Guid,Custom,x_aa_exact_id,char,sale.order.line,,Always preserve Exact primary key.
+ID,Edm.Guid,Direct,x_aa_exact_id,char,sale.order.line,,Always preserve Exact primary key.
 EntryID,Edm.Guid,Relational,order_id,many2one,sale.order.line,sale.order,Link to parent subscription → sale.order. Resolve via x_aa_exact_id on sale.order.
 LineNumber,Edm.Int32,Direct,sequence,integer,sale.order.line,,Line ordering. Odoo uses 'sequence' for display order.
 Description,Edm.String,Direct,name,text,sale.order.line,,Line description → Odoo 'name' (Description field on order line).

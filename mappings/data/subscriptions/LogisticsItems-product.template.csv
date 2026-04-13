@@ -1,5 +1,5 @@
 Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Related Model,Notes
-ID,Edm.Guid,Custom,x_aa_exact_id,char,product.template,,Always preserve Exact primary key. Critical for resolving SubscriptionLines.Item → product.product (via template's product_variant_id).
+ID,Edm.Guid,Direct,x_aa_exact_id,char,product.template,,Always preserve Exact primary key. Critical for resolving SubscriptionLines.Item → product.product (via template's product_variant_id).
 Code,Edm.String,Direct,default_code,char,product.template,,Direct mapping. Exact item code → Odoo Internal Reference. Both serve as the business-facing product code.
 SearchCode,Edm.String,Custom,x_aa_search_code,char,product.template,,Exact search code. Odoo has no separate search code field (search is full-text on name/default_code/barcode).
 Barcode,Edm.String,Direct,barcode,char,product.template,,Direct mapping.

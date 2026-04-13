@@ -1,5 +1,5 @@
 Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Related Model,Notes
-ID,Edm.Guid,Custom,x_aa_exact_id,char,sale.subscription.plan,,Always preserve Exact primary key.
+ID,Edm.Guid,Direct,x_aa_exact_id,char,sale.subscription.plan,,Always preserve Exact primary key.
 Code,Edm.String,Custom,x_aa_code,char,sale.subscription.plan,,Exact type code. Odoo plan has 'name' but no separate code field. Useful for reference/lookups.
 Description,Edm.String,Direct,name,char,sale.subscription.plan,,Direct mapping. Odoo plan name.
 Division,Edm.Int32,Relational,company_id,many2one,sale.subscription.plan,res.company,Division → Company mapping.

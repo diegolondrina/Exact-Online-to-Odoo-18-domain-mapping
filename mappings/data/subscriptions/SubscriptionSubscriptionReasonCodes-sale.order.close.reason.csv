@@ -1,5 +1,5 @@
 Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Related Model,Notes
-ID,Edm.Guid,Custom,x_aa_exact_id,char,sale.order.close.reason,,Always preserve Exact primary key.
+ID,Edm.Guid,Direct,x_aa_exact_id,char,sale.order.close.reason,,Always preserve Exact primary key.
 Code,Edm.String,Custom,x_aa_code,char,sale.order.close.reason,,Exact reason code. Odoo close reason has no code field.
 Description,Edm.String,Direct,name,char,sale.order.close.reason,,Direct mapping. Description → Odoo 'Reason' field.
 Active,Edm.Boolean,Custom,x_aa_active,boolean,sale.order.close.reason,,Exact active flag. Odoo close reason has no 'active' field (no archive toggle).

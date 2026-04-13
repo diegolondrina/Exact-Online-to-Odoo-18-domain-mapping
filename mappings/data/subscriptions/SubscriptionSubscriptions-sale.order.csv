@@ -1,5 +1,5 @@
 Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Related Model,Notes
-EntryID,Edm.Guid,Custom,x_aa_exact_id,char,sale.order,,Always preserve Exact primary key for reconciliation and re-run safety.
+EntryID,Edm.Guid,Direct,x_aa_exact_id,char,sale.order,,Always preserve Exact primary key for reconciliation and re-run safety.
 Number,Edm.Int32,Custom,x_aa_subscription_number,integer,sale.order,,"Exact's business-facing subscription number. Odoo auto-generates 'name' (Order Reference), so this goes to a custom field."
 Description,Edm.String,Custom,x_aa_description,char,sale.order,,"Subscription description. Odoo sale.order has no 'description' field — 'name' is the auto-generated order reference, 'note' is terms & conditions, 'internal_note' is internal. Safest as custom."
 OrderedBy,Edm.Guid,Relational,partner_id,many2one,sale.order,res.partner,Subscriber account. Requires lookup: Exact Account GUID → Odoo res.partner.
@@ -40,7 +40,7 @@ Notes,Edm.String,Direct,internal_note,html,sale.order,,Best fit for additional s
 BlockEntry,Edm.Boolean,Custom,x_aa_block_entry,boolean,sale.order,,Exact-specific: blocks time cost entry. No Odoo equivalent.
 Printed,Edm.Boolean,Custom,x_aa_printed,boolean,sale.order,,Exact-specific: indicates if subscription was printed. No Odoo equivalent.
 Project,Edm.Guid,Custom,x_aa_project_id,char,sale.order,,"Reference to Exact Project. Odoo sale.order does not have a native project link in the subscription context. If project module is installed, a custom many2one → project.project could be used instead."
-SubscriptionLines,Collection,Relational,order_line,one2many,sale.order,sale.order.line,Structural: lines are migrated separately per the SubLines sheet.
+SubscriptionLines,Collection,Skip,—,—,—,—,Structural: lines are migrated separately per the SubLines sheet. Not a real FK — handled by embedding in step 8 of load.py.
 SubscriptionRestrictionEmployees,Collection,Custom,x_aa_restriction_employees,text/json,sale.order,,Structural reference. No Odoo equivalent. Could become a separate custom model or JSON blob if needed.
 SubscriptionRestrictionItems,Collection,Custom,x_aa_restriction_items,text/json,sale.order,,Structural reference. No Odoo equivalent. Same approach as above.
 —,—,Derived,is_subscription,boolean,sale.order,,Always set to True for migrated subscription records.

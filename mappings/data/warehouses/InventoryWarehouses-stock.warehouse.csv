@@ -1,5 +1,5 @@
 Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Related Model,Notes
-ID,Edm.Guid,Custom,x_aa_exact_id,char,stock.warehouse,,"Primary key preservation. Non-negotiable — needed for reconciliation, re-runs, and resolving Warehouse references from other domains (e.g., StorageLocations.Warehouse, PurchaseOrders.Warehouse)."
+ID,Edm.Guid,Direct,x_aa_exact_id,char,stock.warehouse,,"Primary key preservation. Non-negotiable — needed for reconciliation, re-runs, and resolving Warehouse references from other domains (e.g., StorageLocations.Warehouse, PurchaseOrders.Warehouse)."
 Code,Edm.String,Direct,code,char,stock.warehouse,,"Short warehouse code (e.g., ""MAIN"", ""WH01""). Odoo's code field is the ""Short Name"" used to identify the warehouse — direct semantic match. Caveat: Odoo convention favors short codes (historically ≤5 chars); verify Exact codes fit or plan a truncation strategy during migration."
 Description,Edm.String,Direct,name,char,stock.warehouse,,Human-readable warehouse name → Odoo's main display name for stock.warehouse. Direct semantic match.
 Division,Edm.Int32,Relational,company_id,many2one,stock.warehouse,res.company,Maps to company. Single-division migration → hardcode to target company.

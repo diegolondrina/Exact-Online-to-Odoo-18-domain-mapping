@@ -1,3 +1,8 @@
+## Primary Key (present on every table)
+- ID / EntryID / {Entity}ID → `x_aa_exact_id` (char) — **always Direct**.
+  The Exact source is a GUID, but the key is stored as a char for
+  reconciliation, not resolved as a relation. Never classify as Relational.
+
 ## Audit Fields (present on nearly every table)
 - Created → create_date (Direct)
 - Creator → create_uid (Relational, default to admin)

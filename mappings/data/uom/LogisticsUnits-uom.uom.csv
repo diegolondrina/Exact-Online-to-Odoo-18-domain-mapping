@@ -1,5 +1,5 @@
 Exact Field,Exact Type,Category,Odoo Field,Odoo Type,Odoo Model,Related Model,Notes
-ID,Edm.Guid,Custom,x_aa_exact_id,char,uom.uom,,Always preserve Exact primary key. Needed for resolving Items.Unit → uom.uom during product migration.
+ID,Edm.Guid,Direct,x_aa_exact_id,char,uom.uom,,Always preserve Exact primary key. Needed for resolving Items.Unit → uom.uom during product migration.
 Active,Edm.Boolean,Direct,active,boolean,uom.uom,,Direct mapping. Both control visibility/archival of the unit.
 Code,Edm.String,Custom,x_aa_code,char,uom.uom,,"Short unit code (e.g. ""PC"", ""KG""). Odoo has no separate code field on uom.uom. Preserve for lookup resolution — Items.Unit references this code to resolve the UoM relationship."
 Description,Edm.String,Direct,name,char,uom.uom,,"Human-readable unit name → Odoo UoM display name (e.g. ""Piece"", ""Kilogram"", ""Hour"")."

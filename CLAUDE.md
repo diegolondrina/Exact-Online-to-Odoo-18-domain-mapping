@@ -15,7 +15,7 @@ Every Exact field gets exactly one category:
 - **Skip** — Denormalized display copy, obsolete field, or system metadata not needed in Odoo. Not migrated, but noted for reference.
 
 ## Non-Negotiable Rules
-1. **Always preserve the Exact primary key.** Every Exact table's ID/EntryID maps to `x_aa_exact_id` (char) on the target Odoo model. Non-negotiable — needed for reconciliation, re-runs, deduplication, and relationship resolution.
+1. **Always preserve the Exact primary key.** Every Exact table's ID/EntryID maps to `x_aa_exact_id` (char) on the target Odoo model, and is **always classified as Direct** (never Relational, even though it's a GUID). Non-negotiable — needed for reconciliation, re-runs, deduplication, and relationship resolution.
 2. **Never override standard Odoo semantics.** If an Odoo field has a well-defined meaning (e.g., `name` on sale.order is an auto-generated order reference), do not repurpose it. Create a custom field instead.
 3. **Prefer native Odoo fields when the semantic match is clear.** Only create `x_aa_` custom fields when there is no clean equivalent. The bar for "clear" is: the field descriptions on both sides describe the same business concept, not merely similar-sounding names.
 4. **Custom field naming:** `x_aa_` prefix, then `snake_case` preserving the semantic meaning. Example: `InvoicingStartDate` → `x_aa_invoicing_start_date`.
