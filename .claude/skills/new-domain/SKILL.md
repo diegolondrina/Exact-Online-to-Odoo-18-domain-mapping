@@ -25,8 +25,9 @@ Determine:
    - Exact denormalizes; Odoo uses relational lookups
    - Odoo distributes across models without shared keyword
 
-Use your knowledge + web search of official docs when uncertain. 
-Ask the user for clarification or documentation excerpts as needed.
+Use your knowledge, but **always use web search** of official docs 
+for domain understanding. Ask the user for additional clarification 
+or documentation excerpts as needed.
 
 ## Phase 2: Identify Tables and Models
 Classify relevance:

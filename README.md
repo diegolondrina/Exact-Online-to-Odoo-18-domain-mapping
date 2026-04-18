@@ -69,7 +69,7 @@ Claude will match that intent to the `/new-domain` skill and begin the scoping p
 
 ## 1. Purpose
 
-This project produces field-level mapping specifications between Exact Online and Odoo 18 — the blueprint a migration engineer follows when actually moving data between the two systems. The deliverable for each batch is an Excel workbook: one sheet per Exact-to-Odoo table pair, with every source field classified, every target field identified, and every decision explained in the Notes.
+This project produces field-level mapping specifications between Exact Online and Odoo 18 — the blueprint a migration engineer follows when actually moving data between the two systems. The primary output for each batch is a set of **mapping CSVs** in `mappings/data/{domain}/`: one CSV per Exact-to-Odoo table pair, with every source field classified, every target field identified, and every decision explained in the Notes column. These CSVs are the source of truth — plain text, human-editable, diffable, and version-controllable. An Excel workbook can be generated from them for human review, but the CSVs are the authoritative artifact.
 
 The workflow is **domain-agnostic**. Subscriptions, Accounts, Purchases, Invoicing — the process is the same; only the input data (the source and target metadata) changes per domain. Work proceeds one domain at a time in reviewable batches.
 
@@ -130,7 +130,7 @@ Mapping data flows through three artifact stages:
  Metadata CSVs          Mapping CSVs                 Mapping workbook
  ─────────────          ────────────                 ────────────────
  /metadata/exact/   ►   /mappings/data/{domain}/ ►   /mappings/{domain}_mapping.xlsx
- /metadata/odoo/        NN_Exact-Odoo.csv
+ /metadata/odoo/        ExactEntity-OdooModel.csv
  (you provide)          (LLM writes)                 (scripts generate + format)
 ```
 
@@ -220,7 +220,7 @@ You do not need every metadata file upfront. Start with the primary tables for t
 
 ### 7.1 Exact Online — source metadata
 
-Each file lives at `/metadata/exact/{Service}{Endpoint}.csv` (camelCase service + endpoint concatenated, e.g. `CRMAccounts.csv`, `SubscriptionLines.csv`, `PurchaseOrderPurchaseOrderLines.csv`) and contains three columns:
+Each file lives at `/metadata/exact/{Service}{Endpoint}.csv` and contains three columns. The filename mirrors the `name` parameter from the Exact REST API endpoint URL, which concatenates the service name and the endpoint name — e.g., the Accounts endpoint under the CRM service becomes `CRMAccounts.csv`, and PurchaseOrderLines under the PurchaseOrder service becomes `PurchaseOrderPurchaseOrderLines.csv`. This can look redundant when the service and endpoint share a root (e.g., `SubscriptionSubscriptionLines.csv` for the SubscriptionLines endpoint under the Subscription service), but it matches Exact's own naming and is what the scraper produces automatically.
 
 | Column | Content |
 |---|---|
@@ -304,7 +304,7 @@ Each skill is a phase-specific procedure the LLM follows when invoked. You can i
    - Adds Derived rows for Odoo fields that have no Exact source but must be set for the target model to function.
    - Flags cross-domain dependencies (references to unmapped tables).
 3. Applies the standing patterns in the skill's `reference/` folder (audit fields, denormalized display fields, free fields, type conversion defaults, Odoo skip patterns).
-4. Writes one CSV per table pair to `mappings/data/{domain}/` using the naming convention `NN_ExactEntity-OdooModel.csv`. The `NN_` prefix controls sheet order in the final workbook.
+4. Writes one CSV per table pair to `mappings/data/{domain}/` using the naming convention `ExactEntity-OdooModel.csv` (e.g., `CRMAccounts-res.partner.csv`). `ExactEntity` is the `{Service}{Endpoint}` name from the Exact metadata filename. Sheet order in the final workbook is alphabetical by filename.
 5. Updates `references/dependency-tracker.md` with new pending dependencies or newly resolved ones.
 
 **You provide:** review and feedback as mappings are produced. This is the single most important point to challenge individual decisions, ask about alternatives, or redirect the approach.
@@ -362,10 +362,10 @@ Based on this, the LLM proposes a scope:
 You confirm, push back, or defer parts to a later batch. Once scope is agreed, the LLM tells you which metadata files it needs and where to put them:
 
 > Please extract and place the following:
-> - `metadata/exact/Subscriptions.csv`
-> - `metadata/exact/SubscriptionTypes.csv`
-> - `metadata/exact/SubscriptionLines.csv`
-> - `metadata/exact/SubscriptionReasonCodes.csv`
+> - `metadata/exact/SubscriptionsSubscriptions.csv`
+> - `metadata/exact/SubscriptionsSubscriptionTypes.csv`
+> - `metadata/exact/SubscriptionsSubscriptionLines.csv`
+> - `metadata/exact/SubscriptionsSubscriptionReasonCodes.csv`
 > - `metadata/odoo/sale.order.csv`
 > - `metadata/odoo/sale.subscription.plan.csv`
 > - `metadata/odoo/sale.order.line.csv`
@@ -503,7 +503,7 @@ The general principles for handling pending dependencies across batches:
 `/quality-gate` automates this, but the full list is worth knowing:
 
 **Structural**
-- [ ] CSVs exist in `mappings/data/{domain}/` with correct naming (`NN_ExactEntity-OdooModel.csv`).
+- [ ] CSVs exist in `mappings/data/{domain}/` with correct naming (`ExactEntity-OdooModel.csv`).
 - [ ] Each CSV has the standard 8-column header: Exact Field, Exact Type, Category, Odoo Field, Odoo Type, Odoo Model, Related Model, Notes.
 - [ ] Every Exact field in every in-scope metadata table has a row.
 
@@ -524,9 +524,9 @@ The general principles for handling pending dependencies across batches:
 
 ## 13. Output specification
 
-The deliverable for each domain is an Excel workbook at `mappings/{domain}_mapping.xlsx` with:
+The source of truth for each domain is the set of mapping CSVs in `mappings/data/{domain}/`. The Excel workbook at `mappings/{domain}_mapping.xlsx` is generated from those CSVs for human review and handoff. Its structure:
 
-1. **One sheet per Exact-to-Odoo table mapping**, titled `ExactEntity → OdooModel` (derived from the CSV filename; the `NN_` prefix controls sheet order and is stripped from the title).
+1. **One sheet per Exact-to-Odoo table mapping**, titled `ExactEntity → OdooModel` (derived from the CSV filename by replacing the first hyphen with ` → `). Sheet order is alphabetical by filename.
 2. **Eight columns per sheet:**
 
    | Column | Content |

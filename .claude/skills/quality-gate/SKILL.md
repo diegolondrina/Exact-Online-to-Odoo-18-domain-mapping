@@ -12,7 +12,7 @@ against all criteria:
 
 ## Structural checks
 - [ ] CSVs exist in `mappings/data/{domain}/` with correct naming
-      (`NN_ExactEntity-OdooModel.csv`)
+      (`ExactEntity-OdooModel.csv`)
 - [ ] Each CSV has the standard 8-column header:
       Exact Field, Exact Type, Category, Odoo Field, Odoo Type, Odoo Model, Related Model, Notes
 - [ ] Every Exact field in every in-scope metadata table has a row

@@ -18,12 +18,12 @@ general pipeline.
 Each table-pair mapping is one CSV file:
 
 - **Location:** `mappings/data/{domain}/`
-- **Filename:** `NN_ExactEntity-OdooModel.csv`
-  - `NN` = two-digit sequence controlling sheet order (00, 01, ...)
+- **Filename:** `ExactEntity-OdooModel.csv`
   - The first hyphen separates the Exact entity from the Odoo model
     (Odoo model names may contain dots, e.g. `purchase.order.line`)
   - `generate_workbook.py` converts this to sheet title `ExactEntity → OdooModel`
-- **Example:** `00_Subscriptions-sale.order.csv` → sheet "Subscriptions → sale.order"
+  - Sheet order is alphabetical by filename
+- **Example:** `SubscriptionSubscriptions-sale.order.csv` → sheet "SubscriptionSubscriptions → sale.order"
 
 ## Workbook Structure
 
